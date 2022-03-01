@@ -5,7 +5,4 @@ import './components/Logic';
 
 const app = document.querySelector('#app');
 
-const header = createHeader();
-
-app.append(header);
 

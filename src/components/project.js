@@ -12,7 +12,7 @@ export class Project {
         return this.todos.find((todo) => todo.title === title);
     }
 
-    deleteTodo(title){
-        this.todos.splice(this.todos.indexOf(this.findTodo(title)), 1);
+    deleteTodo(todo){
+        this.todos.splice(this.todos.indexOf(todo), 1);
     }
 }
