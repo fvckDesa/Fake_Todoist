@@ -29,6 +29,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "eventlistenerwithname": "^0.1.0"
+    "eventlistenerwithname": "^0.1.0",
+    "style-loader": "^3.3.1"
   }
 }

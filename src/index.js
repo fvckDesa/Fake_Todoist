@@ -1,8 +1,7 @@
 import './style.css';
 import 'eventlistenerwithname';
 import { createHeader } from './components/header';
-import './components/Logic';
+import TodoList from './module/TodoList';
+import UserInterface from './module/UserInterface';
 
-const app = document.querySelector('#app');
-
-
+UserInterface.page();
