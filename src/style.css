@@ -1,6 +1,7 @@
 :root {
     --red: #DB4C3F;
     --hover-color: hsla(0,0%,100%,.2); 
+    --sidebar-width: 22.5vw;
 }
 
 *,
@@ -61,7 +62,7 @@ header button {
     background-color: transparent;
 }
 
-svg * {
+svg path {
     fill: #ffffff;
     fill-rule: evenodd;
 }
@@ -99,8 +100,110 @@ input[type="search"] {
     transition: background 0.3s ease-in-out;
 }
 
+input[type="search"]::placeholder {
+    color: #fff;
+}
+
 input[type="search"]:hover,
 input[type="search"]:focus {
     color: #000;
     background-color: #fff;
+    outline: none;
+}
+
+input[type="search"]:hover::placeholder,
+input[type="search"]:focus::placeholder {
+    color: #757575;
+}
+
+/* sidebar */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100%;
+    padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+    background-color: #FAFAFA;
+    transition: left 0.25s ease-in;
+}
+
+.sidebar.hide {
+    left: calc(-1 * var(--sidebar-width));
+}
+
+.standard-container,
+.standard-project,
+.standard-icon,
+.standard-text-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.standard-container {
+    flex-direction: column;
+    width: 100%;
+    height: 12rem;
+    list-style-type: none;
+}
+
+.standard-project {
+    width: 100%;
+    height: 22%;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    font-weight: 400;
+}
+
+.standard-project.current-project,
+.standard-project:hover {
+    background-color: #ececec;
+}
+
+.inbox-icon path {
+    fill: #246fe0;
+}
+
+.today-icon * {
+    fill: #058527;
+}
+
+.upcoming-icon path {
+    fill: #692fc2;
+}
+
+.filters-labels-icon path {
+    fill: #eb8909;
+}
+
+.standard-text-container {
+    width: 85%;
+}
+
+.standard-text-container .number {
+    color: #B9B9B9;
+}
+
+.user-projects,
+.controller {
+    display: flex;
+    width: 100%;
+}
+
+.arrow-icon path {
+    fill: #000;
+}
+
+/* main */
+
+main {
+    flex-grow: 1;
+    padding: 2rem;
+    margin-left: var(--sidebar-width);
+    transition: margin-left  0.25s ease-in;
+}
+
+main.translate {
+    margin-left: 0;
 }
