@@ -1,0 +1,133 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100%;
+    padding: 1.5rem 0.7rem 1.5rem 1.5rem;
+    background-color: var(--gray98);
+    transition: left 0.25s ease-in;
+}
+
+.sidebar.hide {
+    left: calc(-1 * var(--sidebar-width));
+}
+
+.default-container,
+.sidebar-item,
+.sidebar-item-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.default-container,
+.user-projects {
+    flex-direction: column;
+    width: 100%;
+    height: 12rem;
+    list-style-type: none;
+}
+
+.sidebar-item {
+    width: 100%;
+    height: 22%;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    font-weight: 400;
+}
+
+.sidebar-item-icon,
+.sidebar-item-icon svg {
+    height: 100%;
+}
+
+.sidebar-item-text {
+    width: 85%;
+    height: 100%;
+}
+
+.sidebar-item-text-number {
+    color: var(--gray73);
+}
+
+.current-project,
+.sidebar-item:hover:not(#user-projects) {
+    background-color: var(--gray93);
+}
+
+/* user project */
+
+.user-projects {
+    margin-top: 2rem;
+}
+
+.user-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 20rem;
+    padding-right: 0.01rem;
+    overflow-y: scroll;
+}
+
+.user-container::-webkit-scrollbar {
+    width: 0.2rem;
+    background-color: var(--gray98);
+}
+
+.user-container::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: var(--grey46);
+}
+
+/* icon */
+
+.inbox-icon path {
+    fill: var(--inbox-icon-color);
+}
+
+.today-icon * {
+    fill: var(--today-icon-color);
+}
+
+.upcoming-icon path {
+    fill: var(--upcoming-icon-color);
+}
+
+.filters-labels-icon path {
+    fill: var(--filters-labels-icon-color);
+}
+
+.arrow-icon path {
+    fill: var(--gray47);
+}
+
+.add-project path {
+    fill: var(--gray47);
+}
+
+.add-project:hover path {
+    fill: var(--black);
+}
+
+.controller {
+    font-weight: 700;
+    margin-top: 2rem;
+}
+
+.arrow-icon {
+    transform: rotate(-90deg);
+    transition: transform 0.25s ease-in;
+}
+
+.sidebar:hover .add-project {
+    visibility: visible;
+}
+
+.add-project {
+    visibility: hidden;
+}
+
+.add-project:hover {
+    background-color: var(--gray93);
+}

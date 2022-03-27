@@ -1,0 +1,10 @@
+main {
+    flex-grow: 1;
+    padding: 2rem;
+    margin-left: var(--sidebar-width);
+    transition: margin-left  0.25s ease-in;
+}
+
+main.translate {
+    margin-left: 0;
+}

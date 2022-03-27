@@ -65,9 +65,9 @@
       </div>
     </header>
     <div class="sidebar">
-      <ul class="standard-container">
-        <li class="standard-project current-project">
-          <span class="standard-icon">
+      <ul class="default-container">
+        <li class="sidebar-item current-project">
+          <span class="sidebar-item-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" class="inbox-icon">
               <g fill="currentColor" fill-rule="nonzero">
                 <path
@@ -80,13 +80,13 @@
               </g>
             </svg>
           </span>
-          <div class="standard-text-container">
-            <span>Inbox</span>
-            <span class="number">0</span>
+          <div class="sidebar-item-text">
+            <span class="sidebar-item-text-name">Inbox</span>
+            <span class="sidebar-item-text-number">0</span>
           </div>
         </li>
-        <li class="standard-project">
-          <span class="standard-icon">
+        <li class="sidebar-item">
+          <span class="sidebar-item-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" class="today-icon">
               <g fill="currentColor" fill-rule="evenodd">
                 <path
@@ -109,13 +109,13 @@
               </g>
             </svg>
           </span>
-          <div class="standard-text-container">
-            <span>Today</span>
-            <span class="number">0</span>
+          <div class="sidebar-item-text">
+            <span class="sidebar-item-text-name">Today</span>
+            <span class="sidebar-item-text-number">0</span>
           </div>
         </li>
-        <li class="standard-project">
-          <span class="standard-icon">
+        <li class="sidebar-item">
+          <span class="sidebar-item-icon">
             <svg
               width="24"
               height="24"
@@ -134,13 +134,12 @@
               </g>
             </svg>
           </span>
-          <div class="standard-text-container">
-            <span>Upcoming</span>
-            <span class="number">0</span>
+          <div class="sidebar-item-text">
+            <span class="sidebar-item-text-name">Upcoming</span>
           </div>
         </li>
-        <li class="standard-project">
-          <span class="standard-icon">
+        <li class="sidebar-item">
+          <span class="sidebar-item-icon">
             <svg
               width="24"
               height="24"
@@ -163,16 +162,20 @@
               ></path>
             </svg>
           </span>
-          <div class="standard-text-container">
-            <span>Filters & Labels</span>
-            <span class="number">0</span>
+          <div class="sidebar-item-text">
+            <span class="sidebar-item-text-name">Filters & Labels</span>
           </div>
         </li>
       </ul>
       <div class="user-projects">
-        <div class="controller">
-          <span class="controller-icon">
-            <svg class="arrow-icon" width="16px" height="16px" viewBox="0 0 16 16">
+        <div class="sidebar-item" id="user-projects">
+          <span class="sidebar-item-icon">
+            <svg
+              class="arrow-icon"
+              width="16px"
+              height="16px"
+              viewBox="0 0 16 16"
+            >
               <g transform="translate(-266, -17)" fill="#777777">
                 <path
                   d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"
@@ -180,8 +183,8 @@
               </g>
             </svg>
           </span>
-          <div class="standard-text-container">
-            <span>Projects</span>
+          <div class="sidebar-item-text">
+            <span class="sidebar-item-text-name">Projects</span>
             <button class="add-project">
               <svg width="13" height="13">
                 <path
@@ -198,4 +201,24 @@
     </div>
     <main></main>
   </body>
+
+  <template>
+    <li class="sidebar-item">
+      <span class="sidebar-item-icon">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          class="project_icon"
+          style="color: rgb(184, 184, 184)"
+        >
+          <path d="M12 7a5 5 0 110 10 5 5 0 010-10z" fill="currentColor"></path>
+        </svg>
+      </span>
+      <div class="sidebar-item-text">
+        <span class="sidebar-item-text-name"></span>
+        <span class="sidebar-item-text-number"></span>
+      </div>
+    </li>
+  </template>
 </html>
