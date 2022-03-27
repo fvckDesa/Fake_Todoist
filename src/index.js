@@ -17,7 +17,7 @@ function moveSideBar() {
 }
 
 //#region test for user projects
-const template = document.querySelector("template").content;
+const template = document.querySelector("[user-project-template]").content;
 const container = document.querySelector(".user-container");
 
 for(let i = 0; i < 10; i++){
