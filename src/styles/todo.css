@@ -1,0 +1,124 @@
+.todo-container,
+.todo-text-container,
+.complete-todo-btn,
+.todo-title,
+.todo-due-date,
+.todo-action-container {
+    display: flex;
+}
+
+.todo-container {
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: min-content;
+    border-bottom: solid 0.05rem var(--gray93);
+}
+
+.complete-todo-btn {
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.circle-btn {
+    width: 100%;
+    height: 100%;
+    border: solid 1px var(--gray46);
+    border-radius: 50%;
+}
+
+.tick {
+    display: none;
+    width: 50%;
+    height: 100%;
+    transform: rotate(5deg);
+    fill: var(--gray46);
+}
+
+.complete-todo-btn:hover .tick {
+    display: inline;
+}
+
+.todo-text-container {
+    flex-direction: column;
+    gap: 0.3rem;
+    width: 100%;
+    height: 100%;
+}
+
+.todo-title {
+    justify-content: stretch;
+    align-items: center;
+    font-size: 1rem;
+    line-height: 1.05rem;
+}
+
+.todo-description,
+.todo-due-date {
+    font-size: 0.9rem;
+    line-height: 0.95rem;
+}
+
+.todo-description {
+    color: var(--gray47);
+}
+
+.todo-due-date {
+    align-items: center;
+    gap: 0.2rem;
+    padding-block: 0.3rem;
+}
+
+.todo-action-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    justify-content: space-between;
+    align-items: center;
+    width: 15%;
+    height: 50%;
+    visibility: hidden;
+}
+
+/* .todo-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 1rem;
+} */
+
+.todo-action.edit .line,
+.todo-action.set-due-date path,
+.todo-action.delete path {
+    fill: var(--gray47);
+}
+
+.todo-action.edit .pen {
+    fill: var(--white);
+    stroke: var(--gray47);
+}
+
+.todo-action:hover {
+    background-color: var(--gray93);
+}
+
+.todo-action:hover .line,
+.todo-action:hover.set-due-date path,
+.todo-action:hover.delete path {
+    fill: var(--black);
+}
+
+.todo-action:hover .pen {
+    stroke: var(--black);
+}
+
+.todo-container:hover .todo-action-container {
+    visibility: visible;
+}

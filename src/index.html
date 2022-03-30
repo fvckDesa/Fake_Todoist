@@ -7,7 +7,7 @@
     <title>ToDo</title>
   </head>
   <body>
-    <header>
+    <header class="topbar">
       <div class="header-left">
         <button class="menu-icon">
           <svg width="24" height="24" viewBox="0 0 24 24">
@@ -200,9 +200,13 @@
       </div>
     </div>
     <main>
-      <div class="main-header"></div>
-      <ul class="todo-container"></ul>
-      <div class="main-footer"></div>
+      <div class="content">
+        <header>
+          <span class="main-title">Inbox</span>
+        </header>
+        <ul class="todos"></ul>
+        <div class="main-footer"></div>
+      </div>
     </main>
   </body>
 
@@ -226,11 +230,78 @@
     </li>
   </template>
 
-  <template todo-sidebar-template>
-
-  </template>
-
-  <template todo-main-template>
-
+  <template todo-template>
+    <li class="todo-container">
+      <button class="complete-todo-btn">
+        <div class="circle-btn">
+          <svg x="0px" y="0px" viewBox="0 0 490 490" class="tick">
+            <polygon
+              points="452.253,28.326 197.831,394.674 29.044,256.875 0,292.469 207.253,461.674 490,54.528 "
+            />
+          </svg>
+        </div>
+      </button>
+      <div class="todo-text-container">
+        <div class="todo-title">Title</div>
+        <div class="todo-description">description</div>
+        <div class="todo-due-date">
+          <span class="todo-due-date-icon">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              class="calendar_icon"
+            >
+              <path
+                fill="currentColor"
+                fill-rule="nonzero"
+                d="M9.5 1A1.5 1.5 0 0 1 11 2.5v7A1.5 1.5 0 0 1 9.5 11h-7A1.5 1.5 0 0 1 1 9.5v-7A1.5 1.5 0 0 1 2.5 1h7zm0 1h-7a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5zM8 7.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zM8.5 4a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5z"
+              ></path>
+            </svg>
+          </span>
+          <span class="todo-due-date-text">Today</span>
+        </div>
+      </div>
+      <div class="todo-action-container">
+        <button class="todo-action edit">
+          <svg width="24" height="24">
+            <path
+              class="line"
+              d="M9.5 19h10a.5.5 0 110 1h-10a.5.5 0 110-1z"
+            ></path>
+            <path
+              class="pen"
+              d="M4.42 16.03a1.5 1.5 0 00-.43.9l-.22 2.02a.5.5 0 00.55.55l2.02-.21a1.5 1.5 0 00.9-.44L18.7 7.4a1.5 1.5 0 000-2.12l-.7-.7a1.5 1.5 0 00-2.13 0L4.42 16.02z"
+            ></path>
+          </svg>
+        </button>
+        <button class="todo-action set-due-date">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H6zm10 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM7 8h10a.5.5 0 1 1 0 1H7a.5.5 0 0 1 0-1z"
+            ></path>
+          </svg>
+        </button>
+        <button class="todo-action delete">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            width="24"
+            height="24"
+            viewBox="0 0 48 48"
+          >
+            <path
+              d="M 24 4 C 20.491685 4 17.570396 6.6214322 17.080078 10 L 10.238281 10 A 1.50015 1.50015 0 0 0 9.9804688 9.9785156 A 1.50015 1.50015 0 0 0 9.7578125 10 L 6.5 10 A 1.50015 1.50015 0 1 0 6.5 13 L 8.6386719 13 L 11.15625 39.029297 C 11.427329 41.835926 13.811782 44 16.630859 44 L 31.367188 44 C 34.186411 44 36.570826 41.836168 36.841797 39.029297 L 39.361328 13 L 41.5 13 A 1.50015 1.50015 0 1 0 41.5 10 L 38.244141 10 A 1.50015 1.50015 0 0 0 37.763672 10 L 30.919922 10 C 30.429604 6.6214322 27.508315 4 24 4 z M 24 7 C 25.879156 7 27.420767 8.2681608 27.861328 10 L 20.138672 10 C 20.579233 8.2681608 22.120844 7 24 7 z M 11.650391 13 L 36.347656 13 L 33.855469 38.740234 C 33.730439 40.035363 32.667963 41 31.367188 41 L 16.630859 41 C 15.331937 41 14.267499 40.033606 14.142578 38.740234 L 11.650391 13 z M 20.476562 17.978516 A 1.50015 1.50015 0 0 0 19 19.5 L 19 34.5 A 1.50015 1.50015 0 1 0 22 34.5 L 22 19.5 A 1.50015 1.50015 0 0 0 20.476562 17.978516 z M 27.476562 17.978516 A 1.50015 1.50015 0 0 0 26 19.5 L 26 34.5 A 1.50015 1.50015 0 1 0 29 34.5 L 29 19.5 A 1.50015 1.50015 0 0 0 27.476562 17.978516 z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </li>
   </template>
 </html>

@@ -1,7 +1,8 @@
 import './style.css';
-import './styles/header.css';
+import './styles/topbar.css';
 import './styles/sidebar.css';
 import './styles/main.css';
+import './styles/todo.css';
 
 
 const menu = document.querySelector(".menu-icon");
@@ -28,3 +29,12 @@ for(let i = 0; i < 10; i++){
 }
 
 //#endregion
+
+const temp = document.querySelector("[todo-template]").content;
+const contTemp = document.querySelector(".todos");
+
+contTemp.appendChild(temp.cloneNode(true));
+
+for(let i = 0; i < 10; i++){
+    contTemp.appendChild(temp.cloneNode(true));
+}

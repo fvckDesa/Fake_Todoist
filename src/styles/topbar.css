@@ -1,4 +1,4 @@
-header,
+.topbar,
 .header-left,
 .header-right,
 .search-bar {
@@ -7,14 +7,14 @@ header,
     align-items: center;
 }
 
-header {
+.topbar {
     width: 100%;
     height: 3rem;
     padding-inline: 4rem;
     background-color: var(--red);
 }
 
-header path {
+.topbar path {
     fill: var(--white);
 }
 
@@ -73,5 +73,5 @@ input[type="search"]:focus {
 
 input[type="search"]:hover::placeholder,
 input[type="search"]:focus::placeholder {
-    color: var(--grey46);
+    color: var(--gray46);
 }

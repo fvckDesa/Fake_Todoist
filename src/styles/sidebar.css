@@ -76,7 +76,7 @@
 
 .user-container::-webkit-scrollbar-thumb {
     border-radius: 1rem;
-    background-color: var(--grey46);
+    background-color: var(--gray46);
 }
 
 /* icon */
