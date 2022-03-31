@@ -31,10 +31,14 @@ for(let i = 0; i < 10; i++){
 //#endregion
 
 const temp = document.querySelector("[todo-template]").content;
-const contTemp = document.querySelector(".todos");
+const contTemp = document.querySelector(".task");
 
 contTemp.appendChild(temp.cloneNode(true));
 
 for(let i = 0; i < 10; i++){
     contTemp.appendChild(temp.cloneNode(true));
+}
+
+for(let i = 0; i < 10; i++){
+    document.querySelector(".complete-task").appendChild(temp.cloneNode(true));
 }

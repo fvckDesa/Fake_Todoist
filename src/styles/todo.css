@@ -47,7 +47,7 @@
 .todo-text-container {
     flex-direction: column;
     gap: 0.3rem;
-    width: 100%;
+    width: 95%;
     height: 100%;
 }
 
@@ -121,4 +121,28 @@
 
 .todo-container:hover .todo-action-container {
     visibility: visible;
+}
+
+.complete-task .circle-btn {
+    border-color: var(--red);
+    background-color: var(--red);
+}
+
+.complete-task .tick {
+    display: inline;
+    fill: var(--white);
+}
+
+.complete-task .todo-title {
+    color: var(--gray47);
+    text-decoration: line-through;
+    text-decoration-thickness: 0.05rem;
+}
+
+.complete-task .todo-action-container {
+    justify-content: flex-end;
+}
+
+.complete-task .todo-action-container > *:not(:last-child) {
+    display: none;
 }
