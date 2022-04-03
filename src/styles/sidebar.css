@@ -79,6 +79,10 @@
     background-color: var(--gray46);
 }
 
+.user-container > .sidebar-item {
+    height: calc(12rem * 22 / 100);
+}
+
 /* icon */
 
 .inbox-icon path {

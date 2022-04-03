@@ -3,7 +3,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: {
+        index: "./src/index.js",
+        "project-form": "./src/module/project-form.js"
+    },
     plugins: [
         new HtmlWebpackPlugin({
             title: "ToDo",
