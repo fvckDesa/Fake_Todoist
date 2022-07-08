@@ -181,14 +181,36 @@ body {
   visibility: visible;
 }
 
-.user-project {
+.user-project-container {
   width: 100%;
 }
 
+#arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+#arrow-icon.rotate {
+  transform: rotate(-90deg);
+}
+
 .project-container {
-  gap: 5px;
+  gap: 10px;
   width: 100%;
+  overflow-y: auto;
   list-style: none;
+}
+
+.project-container::-webkit-scrollbar {
+  width: 0;
+}
+
+#user-projects {
+  height: 300px;
+  transition: height 0.3s ease;
+}
+
+#user-projects.close {
+  height: 0;
 }
 
 .project,
@@ -223,3 +245,4 @@ body {
 .project-header > .add-btn:hover {
   background-color: var(--current-gray);
 }
+

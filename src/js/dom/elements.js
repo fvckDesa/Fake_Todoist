@@ -17,3 +17,4 @@ export const searchBar = document.querySelector('.search-bar');
 export const searchInput = document.querySelector('#search-input');
 //Side Bar elements
 export const sidebar = document.querySelector('.side-bar');
+export const userProjects = document.querySelector('#user-projects');
