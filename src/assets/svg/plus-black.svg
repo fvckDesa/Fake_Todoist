@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg style="color: #000" width="13" height="13" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <path d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"
+        fill="currentColor" fill-rule="evenodd"></path>
+</svg>
