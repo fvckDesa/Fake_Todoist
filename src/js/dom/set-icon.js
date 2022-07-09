@@ -1,4 +1,4 @@
-import Icons from "../../assets";
+import Icons from "../../assets/svg";
 import {
   sidebarIcon,
   homeIcon,
@@ -9,7 +9,8 @@ import {
   upcomingIcon,
   filtersLabelsIcon,
   arrowIcon,
-  addBlackIcon
+  addBlackIcon,
+  helpIcon
 } from "./elements";
 
 function setIcons() {
@@ -18,11 +19,13 @@ function setIcons() {
   searchIcon.src = Icons.Search;
   addIcon.src = Icons.Plus;
   inboxIcon.src = Icons.Inbox;
-  todayIcon.src = Icons.Today;
+  //add svg directly to the img for change day in svg
+  todayIcon.parentElement.replaceChild(Icons.Today, todayIcon);
   upcomingIcon.src = Icons.Upcoming;
   filtersLabelsIcon.src = Icons.FiltersLabels;
   arrowIcon.src = Icons.Arrow;
   addBlackIcon.src = Icons.PlusBlack;
+  helpIcon.src = Icons.Help;
 }
 
 export default setIcons;

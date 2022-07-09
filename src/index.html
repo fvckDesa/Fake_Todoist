@@ -7,9 +7,6 @@
     <title>ToDo</title>
 </head>
 <body>
-    <!-- for today icon (run the script) -->
-    <!-- <object data="${IMG}" type="image/svg+xml">
-    </object> -->
     <header class="top-bar">
         <div class="left-side">
             <button class="sidebar-btn third-btn">
@@ -34,14 +31,14 @@
             <li class="project current">
                 <img id="inbox-icon" class="project-icon" src="" alt="inbox icon">
                 <h3 class="project-name">Inbox</h3>
-                <h4 class="project-num">0</h4>
+                <h4 class="project-num" data-num="0">0</h4>
             </li>
             <li class="project">
                 <!-- load icon how object for run its js -->
                 <!-- <object id="today-icon" data="" type="image/svg+xml"></object> -->
                 <img id="today-icon" class="project-icon" src="" alt="today icon">
                 <h3 class="project-name">Today</h3>
-                <h4 class="project-num">0</h4>
+                <h4 class="project-num" data-num="0">0</h4>
             </li>
             <li class="project">
                 <img id="upcoming-icon" class="project-icon" src="" alt="upcoming icon">
@@ -56,12 +53,52 @@
             <header class="project-header">
                 <img id="arrow-icon" src="" alt="arrow icon">
                 <h3>Projects</h3>
-                <button class="add-btn third-btn" id="add-project">
+                <button class="add-btn third-btn" id="open-project-form">
                     <img id="add-black-icon" src="" alt="add button icon">
                 </button>
             </header>
             <ul class="project-container" id="user-projects"></ul>
         </div>
+    </div>
+    <main class="main-content">
+        <header class="content-header">
+            <h1 class="title">Inbox</h1>
+        </header>
+        <div class="todo-container"></div>
+        <div class="add-task">
+            <div class="icon-container" id="add-task-icon">
+            </div>
+            <h3 class="add-task-text">Add task</h3>
+        </div>
+        <div class="todo-container complited"></div>
+    </main>
+    <div class="project-form-container hidden">
+        <form action="#" class="project-form">
+            <header class="form-header">
+                <h1>Add project</h1>
+                <a href="https://todoist.com/help/articles/how-to-best-use-projects" target="_blank">
+                    <img id="help-icon" src="" alt="help icon">
+                </a>
+            </header>
+            <div class="field-container">
+                <div class="form-field">
+                    <label for="name-project-input">Name</label>
+                    <input type="text" class="form-input" id="name-project-input" autocomplete="off">
+                </div>
+                <div class="form-field">
+                    <label for="">Color</label>
+                    <button class="form-input color" id="color-selector">
+                        <div class="color-icon" style="--color: #808080"></div>
+                        <div class="color-name">Gray</div>
+                    </button>
+                    <ul class="color-list hidden"></ul>
+                </div>
+            </div>
+            <footer class="form-footer">
+                <button type="reset" class="secondary-btn" id="cancel-project-btn">Cancel</button>
+                <button disabled type="submit" class="primary-btn" id="add-project-btn">Add</button>
+            </footer>
+        </form>
     </div>
 </body>
 </html>

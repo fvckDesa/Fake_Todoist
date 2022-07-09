@@ -1,20 +1,27 @@
 :root {
+  /* general color */
   --primary-red: #db4c3f;
   --secondary-red: #b03d32;
-  --white-text: #fff;
-  --gray-text: #969696;
-  --black-text: #202020;
   --primary-gray: #f5f5f5;
   --secondary-gray: #e5e5e5;
   --border-color: #999;
+  --form-border-color: #ddd;
   --hover-gray: hsla(0, 0%, 100%, 0.2);
   --current-gray: #eee;
   --sidebar-bg: #fafafa;
+  --opaque-bg: rgba(0, 0, 0, 0.5);
+  --white: #fff;
+  /* text color */
+  --white-text: #fff;
+  --gray-text: #969696;
+  --black-text: #202020;
   --num-text: #aaa;
-
+  /* size */
   --radius: 5px;
+  --radius-xl: 10px;
   --topbar-height: 44px;
   --sidebar-width: 285px;
+  --project-form-header-height: 55px;
 }
 
 *,
@@ -24,9 +31,6 @@
   padding: 0;
   margin: 0;
   outline: none;
-  font-size: 14px;
-  line-height: 32px;
-  font-weight: 400;
   font-family: -apple-system, system-ui, "Segoe UI", Roboto, Noto, Oxygen-Sans,
     Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
@@ -35,6 +39,30 @@
 body {
   width: 100vw;
   height: 100vh;
+}
+
+/* Text */
+h1 {
+  font-size: 20px;
+  line-height: 25px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 400;
+}
+
+h4 {
+  font-size: 12px;
+  line-height: 17px;
+  font-weight: 400;
+}
+
+/* hidden */
+.hidden {
+  display: none !important;
 }
 
 /* Buttons */
@@ -53,8 +81,12 @@ body {
   background-color: var(--primary-red);
 }
 
-.primary-btn:hover {
+.primary-btn:not([disabled]):hover {
   background-color: var(--secondary-red);
+}
+
+.primary-btn[disabled] {
+  opacity: 0.3;
 }
 
 .secondary-btn {
@@ -177,7 +209,7 @@ body {
   left: 0;
 }
 
-.side-bar:hover #add-project {
+.side-bar:hover #open-project-form {
   visibility: visible;
 }
 
@@ -196,6 +228,7 @@ body {
 .project-container {
   gap: 10px;
   width: 100%;
+  max-height: 250px;
   overflow-y: auto;
   list-style: none;
 }
@@ -205,7 +238,7 @@ body {
 }
 
 #user-projects {
-  height: 300px;
+  height: 250px;
   transition: height 0.3s ease;
 }
 
@@ -233,8 +266,11 @@ body {
 }
 
 .project-num {
-  font-size: 12px;
   color: var(--num-text);
+}
+
+.project-num[data-num="0"] {
+  visibility: hidden;
 }
 
 .project-header > .add-btn {
@@ -246,3 +282,218 @@ body {
   background-color: var(--current-gray);
 }
 
+/* Main content */
+.main-content,
+.todo-container,
+.add-task {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-content {
+  flex-grow: 1;
+  min-height: calc(100vh - var(--topbar-height));
+  padding: 35px 55px;
+  overflow: auto;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.reduced {
+  margin-left: var(--sidebar-width);
+}
+
+.content-header,
+.add-task {
+  width: min(100%, 70vw);
+  margin-bottom: 20px;
+}
+
+.add-task {
+  flex-direction: row;
+  color: var(--gray-text);
+}
+
+.add-task:hover {
+  color: var(--primary-red);
+}
+
+.icon-container {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.add-task:hover .icon-container {
+  background-color: var(--primary-red);
+}
+
+#add-task-icon::before,
+#add-task-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1px;
+  height: 11px;
+  background-color: var(--primary-red);
+}
+
+#add-task-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.add-task:hover #add-task-icon::before,
+.add-task:hover #add-task-icon::after {
+  background-color: var(--white-text);
+}
+
+/* Form project */
+.project-form-container,
+.form-header,
+.form-header > a,
+.form-footer {
+  display: flex;
+  align-items: center;
+}
+
+.project-form-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 35px;
+  background-color: var(--opaque-bg)
+}
+
+.project-form {
+  width: 400px;
+  height: 100%;
+  border-radius: var(--radius-xl);
+  background-color: var(--white);
+}
+
+.project-form h1 {
+  font-size: 16px;
+}
+
+.project-form label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.form-header,
+.form-footer {
+  height: var(--project-form-header-height);
+  padding: 14px 24px;
+}
+
+.form-header {
+  justify-content: space-between;
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  border-bottom: solid 1px var(--form-border-color);
+  background-color: var(--sidebar-bg);
+}
+
+.form-footer {
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: solid 1px var(--form-border-color);
+}
+
+
+.field-container,
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-container {
+  gap: 20px;
+  height: calc(100% - var(--project-form-header-height) * 2);
+  padding: 20px 24px;
+}
+
+.form-field {
+  position: relative;
+  gap: 10px;
+}
+
+.form-input {
+  height: 30px;
+  padding: 5px;
+  border-radius: var(--radius);
+  border: solid 1px var(--form-border-color);
+  background-color: var(--white);
+}
+
+.write {
+  box-shadow: 0 0 0 1px #1f60c2, 0 0 0 4px #dceaff;
+  border-color: transparent;
+}
+
+.form-input:focus {
+  border-color: var(--border-color);
+}
+
+#color-selector {
+  cursor: pointer;
+}
+
+.color {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+}
+
+.color img {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+}
+
+.color.current-color img {
+  visibility: visible;
+}
+
+.color-icon {
+  --color: #000;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color);
+}
+
+.color-list {
+  --height: 300px;
+  position: absolute;
+  bottom: calc((var(--height) + 5px) * -1);
+  width: 100%;
+  height: var(--height);
+  border-radius: var(--radius-xl);
+  border: solid 1px var(--form-border-color);
+  overflow-y: scroll;
+}
+
+.color-list .color:hover {
+  background-color: var(--current-gray);
+}
+
+.color-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.color-list::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-xl);
+  background-color: var(--border-color);
+}

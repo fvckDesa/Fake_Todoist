@@ -1,4 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+import { format } from 'date-fns';
+
+const Today = document.createElement("span");
+
+const day = format(new Date(), "dd");
+
+Today.innerHTML = `
 <svg style="color: #058527;" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g fill="currentColor" fill-rule="evenodd">
         <path fill-rule="nonzero" d="M6 4.5h12A1.5 1.5 0 0 1 19.5 6v2.5h-15V6A1.5 1.5 0 0 1 6 4.5z" opacity=".1"></path>
@@ -7,15 +13,10 @@
         </path><text
             font-family="-apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'"
             font-size="9" transform="translate(4 2)" font-weight="500">
-            <tspan x="8" y="15" text-anchor="middle"></tspan>
+            <tspan x="8" y="15" text-anchor="middle">${day}</tspan>
         </text>
     </g>
-    <script>
-        //<![CDATA[
-        window.addEventListener('DOMContentLoaded', () => {
-            const day = document.querySelector('tspan');
-            day.textContent = new Date().getDate().toString().padStart(2, '0');
-        });
-        //]]>
-    </script>
 </svg>
+`;
+
+export default Today;
