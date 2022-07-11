@@ -23,6 +23,16 @@ export const userProjects = document.querySelector('#user-projects');
 export const openProjectForm = document.querySelector('#open-project-form');
 //Main Content elements
 export const mainContent = document.querySelector('.main-content');
+export const todoContainer = document.querySelector('#todo-container');
+export const addTask = document.querySelector('.add-task');
+//Task Editor elements
+export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstChild;
+export const taskName = taskEditor.querySelector('#task-name');
+export const taskDescription = taskEditor.querySelector('#task-description');
+export const taskDueDate = taskEditor.querySelector('#task-due-date');
+export const taskProject = taskEditor.querySelector('#task-project');
+export const taskEditorCancel = taskEditor.querySelector('#cancel-btn');
+export const taskEditorSubmit = taskEditor.querySelector('#submit-btn');
 //Project form elements
 export const projectFormContainer = document.querySelector('.project-form-container');
 export const projectForm = document.querySelector('.project-form');

@@ -12,6 +12,7 @@ import PlusBlack from "./plus-black.svg";
 import Arrow from "./arrow.svg";
 import Help from "./help.svg";
 import Tic from "./tic.svg";
+import DueDate from "./due-date.svg";
 
 export default {
     Inbox,
@@ -27,5 +28,6 @@ export default {
     PlusBlack,
     Arrow,
     Help,
-    Tic
+    Tic,
+    DueDate
 };

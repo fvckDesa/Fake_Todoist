@@ -26,7 +26,7 @@
             </button>
         </div>
     </header>
-    <div class="side-bar">
+    <div class="side-bar open">
         <ul class="project-container" id="default-projects">
             <li class="project current">
                 <img id="inbox-icon" class="project-icon" src="" alt="inbox icon">
@@ -60,16 +60,17 @@
             <ul class="project-container" id="user-projects"></ul>
         </div>
     </div>
-    <main class="main-content">
+    <main class="main-content reduced">
         <header class="content-header">
             <h1 class="title">Inbox</h1>
         </header>
-        <div class="todo-container"></div>
-        <div class="add-task">
-            <div class="icon-container" id="add-task-icon">
+        <ul class="todo-container" id="todo-container">
+            <div class="add-task">
+                <div class="icon-container" id="add-task-icon">
+                </div>
+                <h3 class="add-task-text">Add task</h3>
             </div>
-            <h3 class="add-task-text">Add task</h3>
-        </div>
+        </ul>
         <div class="todo-container complited"></div>
     </main>
     <div class="project-form-container hidden">
@@ -100,5 +101,32 @@
             </footer>
         </form>
     </div>
+
+    <template id="task-editor-template">
+        <form class="task-editor">
+            <div class="task-container">
+                <input type="text" class="task-editor-field" placeholder="Task name" id="task-name" autocomplete="off"/>
+                <textarea type="text" class="task-editor-field" placeholder="Description" id="task-description"></textarea>
+                <!-- <div role="textbox" contenteditable="true" aria-multiline="true" aria-placeholder="Description" class="task-editor-field"></div> -->
+                <div class="task-editor-extra-field">
+                    <div class="task-editor-extra-field-btn-container">
+                        <button class="task-btn" id="task-due-date">
+                            <img class="task-btn-icon" src="" alt="task button icon" />
+                            <h4 class="task-btn-text">Due Date</h4>
+                        </button>
+                        <button class="task-btn" id="task-project">
+                            <img class="task-btn-icon" src="" alt="task button icon" />
+                            <h4 class="task-btn-text">Inbox</h4>
+                        </button>
+                    </div>
+                    <div class="item-action-container"></div>
+                </div>
+            </div>
+            <div class="task-editor-footer">
+                <button type="reset" class="secondary-btn" id="cancel-btn">Cancel</button>
+                <button type="submit" disabled class="primary-btn" id="submit-btn">Add task</button>
+            </div>
+        </form>
+    </template>
 </body>
 </html>

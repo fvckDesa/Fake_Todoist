@@ -4,10 +4,15 @@ import setIcons from "./js/dom/set-icon";
 import activeSidebar from "./js/dom/sidebar";
 import activeTopbar from "./js/dom/topbar";
 import activeProjectForm from "./js/dom/project-form";
-import { userProjects } from "./js/dom/elements";
+import { setTaskEditor } from "./js/dom/task-editor";
+import { userProjects, addTask } from "./js/dom/elements";
 
 setIcons();
 activeProjectForm();
+
+addTask.addEventListener("click", () => {
+    setTaskEditor(addTask);
+});
 
 for(let i = 0; i < 13; i++) {
     userProjects.innerHTML += `

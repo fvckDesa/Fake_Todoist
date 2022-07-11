@@ -10,11 +10,13 @@ import {
   filtersLabelsIcon,
   arrowIcon,
   addBlackIcon,
-  helpIcon
+  helpIcon,
+  taskDueDate,
+  taskProject
 } from "./elements";
 
 function setIcons() {
-  sidebarIcon.src = Icons.HamburgerMenu;
+  sidebarIcon.src = Icons.CloseMenu;
   homeIcon.src = Icons.Home;
   searchIcon.src = Icons.Search;
   addIcon.src = Icons.Plus;
@@ -26,6 +28,8 @@ function setIcons() {
   arrowIcon.src = Icons.Arrow;
   addBlackIcon.src = Icons.PlusBlack;
   helpIcon.src = Icons.Help;
+  taskDueDate.querySelector(".task-btn-icon").src = Icons.DueDate;
+  taskProject.querySelector(".task-btn-icon").src = Icons.Inbox;
 }
 
 export default setIcons;
