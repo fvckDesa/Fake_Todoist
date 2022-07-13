@@ -5,17 +5,26 @@ import activeSidebar from "./js/dom/sidebar";
 import activeTopbar from "./js/dom/topbar";
 import activeProjectForm from "./js/dom/project-form";
 import { setTaskEditor } from "./js/dom/task-editor";
-import { userProjects, addTask } from "./js/dom/elements";
+import {
+  userProjects,
+  addTask,
+  todoTemplate,
+  todoContainer,
+} from "./js/dom/elements";
+
+import { temp } from "./lib/svg-loader/svg-loader";
 
 setIcons();
 activeProjectForm();
 
 addTask.addEventListener("click", () => {
-    setTaskEditor(addTask);
+  setTaskEditor(addTask);
 });
 
-for(let i = 0; i < 13; i++) {
-    userProjects.innerHTML += `
+for (let i = 0; i < 13; i++) {
+  todoContainer.insertBefore(todoTemplate.cloneNode(true), addTask);
+
+  userProjects.innerHTML += `
     <li class="project">
                 <svg class="project-icon" style="color: #246fe0;" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g fill="currentColor" fill-rule="nonzero">
@@ -28,5 +37,5 @@ for(let i = 0; i < 13; i++) {
                 <h3 class="project-name">Inbox</h3>
                 <h4 class="project-num" data-num="0">0</h4>
             </li>
-    `
+    `;
 }

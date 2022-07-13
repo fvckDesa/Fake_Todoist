@@ -39,6 +39,7 @@
 body {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 /* Text */
@@ -50,7 +51,7 @@ h1 {
 
 h3 {
   font-size: 14px;
-  line-height: 19px;
+  line-height: 21px;
   font-weight: 400;
 }
 
@@ -63,6 +64,11 @@ h4 {
 /* hidden */
 .hidden {
   display: none !important;
+}
+
+/* list */
+ul {
+  list-style: none;
 }
 
 /* Buttons */
@@ -231,7 +237,6 @@ h4 {
   width: 100%;
   max-height: 250px;
   overflow-y: auto;
-  list-style: none;
 }
 
 .project-container::-webkit-scrollbar {
@@ -294,9 +299,9 @@ h4 {
 
 .main-content {
   flex-grow: 1;
-  min-height: calc(100vh - var(--topbar-height));
+  height: calc(100vh - var(--topbar-height));
   padding: 35px 55px;
-  overflow: auto;
+  overflow: hidden auto;
   transition: margin-left 0.3s ease;
 }
 
@@ -313,6 +318,7 @@ h4 {
 .add-task {
   flex-direction: row;
   width: 100%;
+  padding: 8px 0;
   color: var(--gray-text);
 }
 
@@ -515,6 +521,7 @@ h4 {
 .task-editor {
   flex-direction: column;
   width: min(100%, 800px);
+  padding-top: 4px;
 }
 
 .task-editor > *,
@@ -591,4 +598,69 @@ h4 {
 
 .task-editor-footer {
   justify-content: flex-end;
+}
+
+/* Todo */
+.todo,
+.todo-due-date {
+  display: flex;
+  align-items: center;
+}
+
+.todo {
+  position: relative;
+  align-items: stretch;
+  width: 100%;
+  border-bottom: solid 1px #f0f0f0;
+}
+
+.todo-checkbox,
+.todo-checkbox-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-checkbox-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  margin: 8px 6px 0 -3px;
+  background-color: transparent;
+  overflow: hidden;
+}
+
+#tic-icon {
+  visibility: hidden;
+}
+
+.todo-checkbox-btn:hover #tic-icon {
+  visibility: visible;
+}
+
+.todo-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: solid 1px grey;
+}
+
+.todo-content {
+  flex-grow: 1;
+  padding-block: 8px;
+  margin-right: 30px;
+}
+
+.todo-description {
+  margin-bottom: 3px;
+  color: #808080;
+}
+
+.todo-due-date {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.todo-due-date > svg {
+  margin: 0 2px 0 0;
 }

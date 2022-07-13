@@ -41,3 +41,6 @@ export const colorList = document.querySelector('.color-list');
 export const nameProjectInput = document.querySelector('#name-project-input');
 export const cancelProjectBtn = document.querySelector('#cancel-project-btn');
 export const addProjectBtn = document.querySelector('#add-project-btn');
+//Templates
+export const projectTemplate = document.querySelector('#project-template').content;
+export const todoTemplate = document.querySelector('#todo-template').content;
