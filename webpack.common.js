@@ -4,6 +4,7 @@ const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 module.exports = {
   entry: {
+    svgLoader: "./src/lib/svg-loader.js",
     index: "./src/index.js",
   },
   plugins: [
