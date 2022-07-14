@@ -29,12 +29,13 @@ class SvgLoader extends HTMLElement {
       // add attributes to svg
       for (const { name, value } of this.attributes) {
         if(name.match(/^svg:/)) this.svg.setAttribute(name.slice(4), value);
+        if(name === "width" || name === "height") this.svg.setAttribute(name, value);
       }
     });
   }
 
   static get observedAttributes() {
-    return ["src", "svg:class", "svg:id"];
+    return ["src", "svg:class", "svg:id", "width", "height"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -48,11 +49,27 @@ class SvgLoader extends HTMLElement {
       case "svg:id":
         this.svg.setAttribute("id", newValue);
         break;
+      case "width":
+        this.style.width = newValue;
+        this.svg.setAttribute("width", newValue);
+        break;
+      case "height":
+        this.style.height = newValue;
+        this.svg.setAttribute("height", newValue);
+        break;
     }
   }
 
   set src(newSrc) {
     this.setAttribute("src", newSrc);
+  }
+
+  set width(newWidth) {
+    this.setAttribute("width", newWidth);
+  }
+  
+  set height(newHeight) {
+    this.setAttribute("height", newHeight);
   }
 }
 
