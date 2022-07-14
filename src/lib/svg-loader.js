@@ -3,33 +3,56 @@ class SvgLoader extends HTMLElement {
     super();
     // create shadow root
     this.attachShadow({ mode: "open" });
+    // display: flex on svg-element to give it the same width and height as the internal svg 
+    this.style.display = "flex";
+    // default empty svg
+    this.svg = document.createElement("svg");
     // render svg
-    this.render();
+    this.render(this.getAttribute("src"));
   }
 
-  render() {
-    getSVG(this.getAttribute("src")).then((svg) => {
-      this.shadowRoot.innerHTML = svg;
+  render(src) {
+    if(!src) return;
+    getSVG(src).then((svg) => {
+      const scriptRegex = /<script>(.|\n|\r)*<\/script>/g;
+      // add svg to shadow root (not script)
+      this.shadowRoot.innerHTML = svg.replace(scriptRegex, "");
+      // set svg property to svg in shadow root
       this.svg = this.shadowRoot.querySelector("svg");
+      // get script in svg file
+      let svgScript = svg.match(scriptRegex);
+      if(svgScript) {
+        // run the script
+        svgScript = svgScript[0].replace(/<\/?script>/g, "");
+        eval(`const shadowRoot = document.querySelector("#today-icon").shadowRoot;\n ${svgScript}`);
+      }
+      // add attributes to svg
       for (const { name, value } of this.attributes) {
-        this.svg.setAttribute(name, value);
+        if(name.match(/^svg:/)) this.svg.setAttribute(name.slice(4), value);
       }
     });
   }
 
   static get observedAttributes() {
-    return ["src", "width", "height", "class", "id"];
+    return ["src", "svg:class", "svg:id"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
       case "src":
-        this.render();
+        this.render(newValue);
         break;
-      default:
-        if (this.svg) this.svg.setAttribute(name, newValue);
+      case "svg:class":
+        this.svg.setAttribute("class", newValue);
+        break;
+      case "svg:id":
+        this.svg.setAttribute("id", newValue);
         break;
     }
+  }
+
+  set src(newSrc) {
+    this.setAttribute("src", newSrc);
   }
 }
 
