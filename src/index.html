@@ -10,51 +10,49 @@
     <header class="top-bar">
         <div class="left-side">
             <button class="sidebar-btn third-btn">
-                <img id="sidebar-icon" src="" alt="sidebar button icon">
+                <svg-loader id="sidebar-icon" script="script.js" src=""></svg-loader>
             </button>
             <button class="home-btn third-btn">
-                <img id="home-icon" src="" alt="home button icon">
+                <svg-loader id="home-icon" src=""></svg-loader>
             </button>
             <div class="search-bar">
-                <img class="search-icon" id="search-icon" src="" alt="search icon">
+                <svg-loader class="search-icon" id="search-icon" src=""></svg-loader>
                 <input type="text" id="search-input" placeholder="Search" autocomplete="off">
             </div>
         </div>
         <div class="right-side">
             <button class="add-btn third-btn">
-                <img id="add-icon" src="" alt="add button icon">
+                <svg-loader id="add-icon" src=""></svg-loader>
             </button>
         </div>
     </header>
     <div class="side-bar open">
         <ul class="project-container" id="default-projects">
             <li class="project current">
-                <img id="inbox-icon" class="project-icon" src="" alt="inbox icon">
+                <svg-loader id="inbox-icon" class="project-icon" src=""></svg-loader>
                 <h3 class="project-name">Inbox</h3>
                 <h4 class="project-num" data-num="0">0</h4>
             </li>
             <li class="project">
-                <!-- load icon how object for run its js -->
-                <!-- <object id="today-icon" data="" type="image/svg+xml"></object> -->
-                <img id="today-icon" class="project-icon" src="" alt="today icon">
+                <svg-loader id="today-icon" class="project-icon" src=""></svg-loader>
                 <h3 class="project-name">Today</h3>
                 <h4 class="project-num" data-num="0">0</h4>
             </li>
             <li class="project">
-                <img id="upcoming-icon" class="project-icon" src="" alt="upcoming icon">
+                <svg-loader id="upcoming-icon" class="project-icon" src=""></svg-loader>
                 <h3 class="project-name">Upcoming</h3>
             </li>
             <li class="project">
-                <img id="filters-labels-icon" class="project-icon" src="" alt="filters & labels icon">
+                <svg-loader id="filters-labels-icon" class="project-icon" src="" ></svg-loader>
                 <h3 class="project-name">Filters & Labels</h3>
             </li>
         </ul>
         <div class="user-project-container">
             <header class="project-header">
-                <img id="arrow-icon" src="" alt="arrow icon">
+                <svg-loader id="arrow-icon" src=""></svg-loader>
                 <h3>Projects</h3>
                 <button class="add-btn third-btn" id="open-project-form">
-                    <img id="add-black-icon" src="" alt="add button icon">
+                    <svg-loader id="add-black-icon" src=""></svg-loader>
                 </button>
             </header>
             <ul class="project-container" id="user-projects"></ul>
@@ -78,7 +76,7 @@
             <header class="form-header">
                 <h1>Add project</h1>
                 <a href="https://todoist.com/help/articles/how-to-best-use-projects" target="_blank">
-                    <img id="help-icon" src="" alt="help icon">
+                    <svg-loader id="help-icon" src=""></svg-loader>
                 </a>
             </header>
             <div class="field-container">
@@ -107,7 +105,6 @@
             <div class="task-container">
                 <input type="text" class="task-editor-field" placeholder="Task name" id="task-name" autocomplete="off"/>
                 <textarea type="text" class="task-editor-field" placeholder="Description" id="task-description"></textarea>
-                <!-- <div role="textbox" contenteditable="true" aria-multiline="true" aria-placeholder="Description" class="task-editor-field"></div> -->
                 <div class="task-editor-extra-field">
                     <div class="task-editor-extra-field-btn-container">
                         <button class="task-btn" id="task-due-date">
@@ -141,15 +138,14 @@
         <li class="todo">
             <button class="todo-checkbox-btn">
                 <div class="todo-checkbox">
-                    <!-- <img id="tic-icon" src="" alt="tic icon"> -->
+                    <svg-loader src="./imgs/tic.svg" id="tic-icon"></svg-loader>
                 </div>
             </button>
             <div class="todo-content">
                 <h3 class="todo-name">Todo name</h3>
                 <h4 class="todo-description">Todo description</h4>
                 <h4 class="todo-due-date">
-                    <!-- <img id="due-date-icon" src="" alt="due date icon"> -->
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="calendar_icon"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 1h-7A1.5 1.5 0 001 2.5v7A1.5 1.5 0 002.5 11h7A1.5 1.5 0 0011 9.5v-7A1.5 1.5 0 009.5 1zM2 2.5a.5.5 0 01.5-.5h7a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7zM8.75 8a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM3.5 4a.5.5 0 000 1h5a.5.5 0 000-1h-5z" fill="currentColor"></path></svg>
+                    <svg-loader src="./imgs/due-date-xs.svg" id="due-date-icon"></svg-loader>
                     <span id="due-date">Tomorrow</span>
                 </h4>
             </div>

@@ -9,7 +9,6 @@ export const todayIcon = document.querySelector('#today-icon');
 export const upcomingIcon = document.querySelector('#upcoming-icon'); 
 export const filtersLabelsIcon = document.querySelector('#filters-labels-icon');
 export const arrowIcon = document.querySelector('#arrow-icon');
-export const addBlackIcon = document.querySelector('#add-black-icon');
 //Project form icons
 export const helpIcon = document.querySelector('#help-icon');
 //Top Bar elements

@@ -12,8 +12,6 @@ import {
   todoContainer,
 } from "./js/dom/elements";
 
-import { temp } from "./lib/svg-loader/svg-loader";
-
 setIcons();
 activeProjectForm();
 
