@@ -260,16 +260,28 @@ ul {
 }
 
 .project-container::-webkit-scrollbar {
-  width: 0;
+  width: 5px;
+}
+
+.project-container::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-xl);
+  background-color: var(--border-color);
 }
 
 #user-projects {
+  padding-right: 5px;
+  width: calc(100% + 10px);
   height: 250px;
   transition: height 0.3s ease;
 }
 
 #user-projects.close {
+  overflow: hidden;
   height: 0;
+}
+
+#user-projects .project {
+  max-width: 205px;
 }
 
 .project,
