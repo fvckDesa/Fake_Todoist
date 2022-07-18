@@ -7,9 +7,11 @@ import HamburgerMenu from "./hamburger-menu.svg";
 import Search from "./search.svg";
 import Home from "./home.svg";
 import Plus from "./plus.svg";
+import PlusBold from "./plus-bold.svg";
 import Arrow from "./arrow.svg";
 import Help from "./help.svg";
-import Tic from "./tic.svg";
+import ColorTic from "./color-tic.svg";
+import TaskTic from "./task-tic.svg";
 import DueDate from "./due-date.svg";
 import DueDateXs from "./due-date-xs.svg";
 
@@ -23,9 +25,11 @@ export default {
     Search,
     Home,
     Plus,
+    PlusBold,
     Arrow,
     Help,
-    Tic,
+    ColorTic,
+    TaskTic,
     DueDate,
     DueDateXs
 };

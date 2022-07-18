@@ -5,6 +5,7 @@
   --primary-gray: #f5f5f5;
   --secondary-gray: #e5e5e5;
   --border-color: #999;
+  --task-border-color: #f0f0f0;
   --form-border-color: #ddd;
   --hover-gray: hsla(0, 0%, 100%, 0.2);
   --current-gray: #eee;
@@ -146,44 +147,55 @@ ul {
   position: relative;
   display: flex;
   align-items: center;
-  width: 400px;
+  width: 200px;
   height: 28px;
+  transition: width 0.3s ease;
+  color: var(--white-text);
 }
 
 .search-bar > #search-input {
-  width: 50%;
+  width: 100%;
   height: 100%;
   padding: 5px 0 5px 34px;
   background-color: var(--hover-gray);
   border: none;
   border-radius: var(--radius);
   outline: none;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 
-.search-bar > #search-input:hover,
+.search-bar:hover > #search-input,
 .search-bar > #search-input:focus {
   background-color: var(--white-text);
 }
 
-.search-bar > #search-input:focus {
-  width: 100%;
+.search-bar:focus-within {
+  width: 400px;
+}
+
+.search-bar:focus-within,
+.search-bar:hover {
+  color: #000;
 }
 
 .search-bar > #search-input::placeholder {
   color: var(--white-text);
 }
 
-.search-bar > #search-input:hover::placeholder,
+.search-bar:hover > #search-input::placeholder,
 .search-bar > #search-input:focus::placeholder {
   color: var(--gray-text);
 }
 
-.search-bar > .search-icon {
+.search-bar > #search-icon {
   position: absolute;
   top: 50%;
   left: 5px;
   transform: translateY(-50%);
+}
+
+.top-bar-add-btn {
+  color: var(--white-text);
 }
 
 /* Side Bar */
@@ -230,6 +242,14 @@ ul {
 
 #arrow-icon.rotate {
   transform: rotate(-90deg);
+}
+
+#open-project-form {
+  color: #666;
+}
+
+#open-project-form:hover {
+  color: #1a1a1a;
 }
 
 .project-container {
@@ -279,18 +299,18 @@ ul {
   visibility: hidden;
 }
 
-.project-header > .add-btn {
+.project-header > #open-project-form {
   visibility: hidden;
   cursor: pointer;
 }
 
-.project-header > .add-btn:hover {
+.project-header > #open-project-form:hover {
   background-color: var(--current-gray);
 }
 
 /* Main content */
 .main-content,
-.todo-container,
+.task-container,
 .add-task {
   display: flex;
   flex-direction: column;
@@ -298,9 +318,10 @@ ul {
 }
 
 .main-content {
+  position: relative;
   flex-grow: 1;
-  height: calc(100vh - var(--topbar-height));
-  padding: 35px 55px;
+  min-height: 380px;
+  max-height: calc(100vh - var(--topbar-height));
   overflow: hidden auto;
   transition: margin-left 0.3s ease;
 }
@@ -309,15 +330,40 @@ ul {
   margin-left: var(--sidebar-width);
 }
 
-.content-header,
-.todo-container {
-  width: min(100%, 800px);
+.task-container {
+  width: 100%;
+  padding-inline: 55px;
   margin-bottom: 20px;
+}
+
+.task-container > * {
+  width: min(100%, 800px);
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-inline: 55px;
+  padding-top: 35px;
+  background-color: var(--white);
+  z-index: 1;
+}
+
+.main-header .title {
+  width: min(100%, 800px);
+  padding-bottom: 8px;
+  margin: auto;
+}
+
+.main-header.scrolled .title {
+  border-bottom: solid 1px var(--task-border-color);
 }
 
 .add-task {
   flex-direction: row;
-  width: 100%;
+  width: min(100%, 800px);
   padding: 8px 0;
   color: var(--gray-text);
 }
@@ -327,36 +373,19 @@ ul {
 }
 
 .icon-container {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 18px;
   height: 18px;
   border-radius: 50%;
   margin-right: 10px;
+  color: var(--primary-red);
 }
 
 .add-task:hover .icon-container {
   background-color: var(--primary-red);
-}
-
-#add-task-icon::before,
-#add-task-icon::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1px;
-  height: 11px;
-  background-color: var(--primary-red);
-}
-
-#add-task-icon::after {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.add-task:hover #add-task-icon::before,
-.add-task:hover #add-task-icon::after {
-  background-color: var(--white-text);
+  color: var(--white-text);
 }
 
 /* Form project */
@@ -376,7 +405,8 @@ ul {
   width: 100vw;
   height: 100vh;
   padding: 35px;
-  background-color: var(--opaque-bg)
+  background-color: var(--opaque-bg);
+  z-index: 2;
 }
 
 .project-form {
@@ -462,7 +492,7 @@ ul {
   padding: 5px 10px;
 }
 
-.color img {
+.color .color-tic-icon {
   position: absolute;
   top: 50%;
   right: 0;
@@ -470,7 +500,7 @@ ul {
   visibility: hidden;
 }
 
-.color.current-color img {
+.color.current-color .color-tic-icon {
   visibility: visible;
 }
 
@@ -506,12 +536,79 @@ ul {
   background-color: var(--border-color);
 }
 
+/* Task */
+.task,
+.task-due-date {
+  display: flex;
+  align-items: center;
+}
+
+.task {
+  position: relative;
+  align-items: stretch;
+  width: min(100%, 800px);
+  border-bottom: solid 1px var(--task-border-color);
+}
+
+.task-checkbox,
+.task-checkbox-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-checkbox-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  margin: 8px 6px 0 -3px;
+  background-color: transparent;
+  overflow: hidden;
+  color: grey;
+}
+
+#tic-icon {
+  opacity: 0;
+  transition: opacity 0.15s cubic-bezier(.4,0,1,1);
+}
+
+.task-checkbox-btn:hover #tic-icon {
+  opacity: 1;
+}
+
+.task-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: solid 1px grey;
+}
+
+.task-content {
+  flex-grow: 1;
+  padding-block: 8px;
+  margin-right: 30px;
+}
+
+.task-description {
+  margin-bottom: 3px;
+  color: #808080;
+}
+
+.task-due-date {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.task-due-date > #due-date-icon {
+  margin: 0 2px 0 0;
+}
+
 /* Task Editor */
 .task-editor,
-.task-container,
+.task-editor-container,
 .task-editor-extra-field,
 .task-editor-extra-field-btn-container,
-.task-btn,
+.task-editor-btn,
 .task-editor-footer {
   display: flex;
   align-items: center;
@@ -520,16 +617,16 @@ ul {
 
 .task-editor {
   flex-direction: column;
-  width: min(100%, 800px);
+  width: 100%;
   padding-top: 4px;
 }
 
 .task-editor > *,
-.task-container > * {
-  width: 100%;
+.task-editor-container > * {
+  width: min(100%, 800px);
 }
 
-.task-container {
+.task-editor-container {
   flex-direction: column;
   gap: 8px;
   padding: 10px;
@@ -537,7 +634,7 @@ ul {
   border: solid 1px var(--secondary-gray);
 }
 
-.task-container:focus-within {
+.task-editor-container:focus-within {
   border-color: #ccc;
 }
 
@@ -545,13 +642,13 @@ ul {
   border: none;
 }
 
-#task-name {
+#task-name-input {
   font-size: 14px;
   line-height: 21px;
   font-weight: 500;
 }
 
-#task-description {
+#task-description-input {
   --height: 36px;
   resize: none;
   line-height: 18px;
@@ -571,7 +668,7 @@ ul {
   gap: 8px;
 }
 
-.task-btn {
+.task-editor-btn {
   align-items: center;
   gap: 4px;
   height: 28px;
@@ -580,87 +677,23 @@ ul {
   border: solid 1px #ccc;
   background-color: transparent;
   cursor: pointer;
+  color: #555;
 }
 
-.task-btn:hover {
-  background-color: var(--current-gray);
-}
-
-.task-btn-icon {
+.task-editor-btn-icon {
   width: 16px;
   height: 16px;
 }
 
-.task-btn-text {
+.task-editor-btn:hover {
+  background-color: var(--current-gray);
+}
+
+.task-editor-btn-text {
   font-size: 13px;
   color: #555;
 }
 
 .task-editor-footer {
   justify-content: flex-end;
-}
-
-/* Todo */
-.todo,
-.todo-due-date {
-  display: flex;
-  align-items: center;
-}
-
-.todo {
-  position: relative;
-  align-items: stretch;
-  width: 100%;
-  border-bottom: solid 1px #f0f0f0;
-}
-
-.todo-checkbox,
-.todo-checkbox-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.todo-checkbox-btn {
-  width: 24px;
-  height: 24px;
-  border: none;
-  margin: 8px 6px 0 -3px;
-  background-color: transparent;
-  overflow: hidden;
-}
-
-#tic-icon {
-  visibility: hidden;
-}
-
-.todo-checkbox-btn:hover #tic-icon {
-  visibility: visible;
-}
-
-.todo-checkbox {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: solid 1px grey;
-}
-
-.todo-content {
-  flex-grow: 1;
-  padding-block: 8px;
-  margin-right: 30px;
-}
-
-.todo-description {
-  margin-bottom: 3px;
-  color: #808080;
-}
-
-.todo-due-date {
-  font-size: 12px;
-  line-height: 12px;
-}
-
-.todo-due-date > svg {
-  margin: 0 2px 0 0;
 }

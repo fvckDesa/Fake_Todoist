@@ -2,7 +2,7 @@
 export const sidebarIcon = document.querySelector('#sidebar-icon');
 export const homeIcon = document.querySelector('#home-icon');
 export const searchIcon = document.querySelector('#search-icon');
-export const addIcon = document.querySelector('#add-icon');
+export const topBarAddIcon = document.querySelector('#top-bar-add-icon');
 //Side Bar icons
 export const inboxIcon = document.querySelector('#inbox-icon');
 export const todayIcon = document.querySelector('#today-icon'); 
@@ -22,12 +22,13 @@ export const userProjects = document.querySelector('#user-projects');
 export const openProjectForm = document.querySelector('#open-project-form');
 //Main Content elements
 export const mainContent = document.querySelector('.main-content');
-export const todoContainer = document.querySelector('#todo-container');
+export const mainHeader = document.querySelector('.main-header');
+export const taskContainer = document.querySelector('#task-container');
 export const addTask = document.querySelector('.add-task');
 //Task Editor elements
-export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstChild;
-export const taskName = taskEditor.querySelector('#task-name');
-export const taskDescription = taskEditor.querySelector('#task-description');
+export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
+export const taskNameInput = taskEditor.querySelector('#task-name-input');
+export const taskDescriptionInput = taskEditor.querySelector('#task-description-input');
 export const taskDueDate = taskEditor.querySelector('#task-due-date');
 export const taskProject = taskEditor.querySelector('#task-project');
 export const taskEditorCancel = taskEditor.querySelector('#cancel-btn');
@@ -42,4 +43,4 @@ export const cancelProjectBtn = document.querySelector('#cancel-project-btn');
 export const addProjectBtn = document.querySelector('#add-project-btn');
 //Templates
 export const projectTemplate = document.querySelector('#project-template').content;
-export const todoTemplate = document.querySelector('#todo-template').content;
+export const taskTemplate = document.querySelector('#task-template').content;

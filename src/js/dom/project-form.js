@@ -47,11 +47,11 @@ function setColorList() {
   for (const [hex, name] of Object.entries(Colors)) {
     const color = document.createElement("li");
     color.classList.add("color");
-
+    
     color.innerHTML = `
       <div class="color-icon" style="--color: ${hex}"></div>
       <h3 class="color-name">${name}</h3>
-      <img src="${Icons.Tic}">
+      <svg-loader class="color-tic-icon" src="${Icons.ColorTic}"></svg-loader>
     `;
 
     color.addEventListener("click", () => {

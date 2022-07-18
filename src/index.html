@@ -10,19 +10,19 @@
     <header class="top-bar">
         <div class="left-side">
             <button class="sidebar-btn third-btn">
-                <svg-loader id="sidebar-icon" script="script.js" src=""></svg-loader>
+                <svg-loader id="sidebar-icon" src=""></svg-loader>
             </button>
             <button class="home-btn third-btn">
                 <svg-loader id="home-icon" src=""></svg-loader>
             </button>
             <div class="search-bar">
-                <svg-loader class="search-icon" id="search-icon" src=""></svg-loader>
+                <svg-loader id="search-icon" src=""></svg-loader>
                 <input type="text" id="search-input" placeholder="Search" autocomplete="off">
             </div>
         </div>
         <div class="right-side">
-            <button class="add-btn third-btn">
-                <svg-loader id="add-icon" src=""></svg-loader>
+            <button class="top-bar-add-btn third-btn">
+                <svg-loader id="top-bar-add-icon" src=""></svg-loader>
             </button>
         </div>
     </header>
@@ -51,31 +51,31 @@
             <header class="project-header">
                 <svg-loader id="arrow-icon" src=""></svg-loader>
                 <h3>Projects</h3>
-                <button class="add-btn third-btn" id="open-project-form">
-                    <svg-loader id="add-black-icon" src=""></svg-loader>
+                <button class="third-btn" id="open-project-form">
+                    <svg-loader id="add-icon" src="./imgs/plus-bold.svg"></svg-loader>
                 </button>
             </header>
             <ul class="project-container" id="user-projects"></ul>
         </div>
     </div>
     <main class="main-content reduced">
-        <header class="content-header">
+        <header class="main-header">
             <h1 class="title">Inbox</h1>
         </header>
-        <ul class="todo-container" id="todo-container">
+        <ul class="task-container" id="task-container">
             <div class="add-task">
-                <div class="icon-container" id="add-task-icon">
-                </div>
+                <svg-loader src="./imgs/plus-bold.svg" class="icon-container" id="add-task-icon">
+                </svg-loader>
                 <h3 class="add-task-text">Add task</h3>
             </div>
         </ul>
-        <div class="todo-container complited"></div>
+        <ul class="task-container complited"></ul>
     </main>
     <div class="project-form-container hidden">
         <form action="#" class="project-form">
             <header class="form-header">
                 <h1>Add project</h1>
-                <a href="https://todoist.com/help/articles/how-to-best-use-projects" target="_blank">
+                <a href="https://taskist.com/help/articles/how-to-best-use-projects" target="_blank">
                     <svg-loader id="help-icon" src=""></svg-loader>
                 </a>
             </header>
@@ -102,18 +102,18 @@
 
     <template id="task-editor-template">
         <form class="task-editor">
-            <div class="task-container">
-                <input type="text" class="task-editor-field" placeholder="Task name" id="task-name" autocomplete="off"/>
-                <textarea type="text" class="task-editor-field" placeholder="Description" id="task-description"></textarea>
+            <div class="task-editor-container">
+                <input type="text" class="task-editor-field" placeholder="Task name" id="task-name-input" autocomplete="off"/>
+                <textarea type="text" class="task-editor-field" placeholder="Description" id="task-description-input"></textarea>
                 <div class="task-editor-extra-field">
                     <div class="task-editor-extra-field-btn-container">
-                        <button class="task-btn" id="task-due-date">
-                            <img class="task-btn-icon" src="" alt="task button icon" />
-                            <h4 class="task-btn-text">Due Date</h4>
+                        <button class="task-editor-btn" id="task-due-date">
+                            <svg-loader class="task-editor-btn-icon" src=""></svg-loader>
+                            <h4 class="task-editor-btn-text">Due Date</h4>
                         </button>
-                        <button class="task-btn" id="task-project">
-                            <img class="task-btn-icon" src="" alt="task button icon" />
-                            <h4 class="task-btn-text">Inbox</h4>
+                        <button class="task-editor-btn" id="task-project">
+                            <svg-loader class="task-editor-btn-icon" src="" alt="task button icon"></svg-loader>
+                            <h4 class="task-editor-btn-text">Inbox</h4>
                         </button>
                     </div>
                     <div class="item-action-container"></div>
@@ -134,17 +134,17 @@
         </li>
     </template>
 
-    <template id="todo-template">
-        <li class="todo">
-            <button class="todo-checkbox-btn">
-                <div class="todo-checkbox">
-                    <svg-loader src="./imgs/tic.svg" id="tic-icon"></svg-loader>
+    <template id="task-template">
+        <li class="task">
+            <button class="task-checkbox-btn">
+                <div class="task-checkbox">
+                    <svg-loader src="" id="tic-icon"></svg-loader>
                 </div>
             </button>
-            <div class="todo-content">
-                <h3 class="todo-name">Todo name</h3>
-                <h4 class="todo-description">Todo description</h4>
-                <h4 class="todo-due-date">
+            <div class="task-content">
+                <h3 class="task-name">task name</h3>
+                <h4 class="task-description">task description</h4>
+                <h4 class="task-due-date">
                     <svg-loader src="./imgs/due-date-xs.svg" id="due-date-icon"></svg-loader>
                     <span id="due-date">Tomorrow</span>
                 </h4>
