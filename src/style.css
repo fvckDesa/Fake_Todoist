@@ -334,6 +334,7 @@ ul {
   flex-grow: 1;
   min-height: 380px;
   max-height: calc(100vh - var(--topbar-height));
+  padding-bottom: 120px;
   overflow: hidden auto;
   transition: margin-left 0.3s ease;
 }
@@ -345,7 +346,28 @@ ul {
 .task-container {
   width: 100%;
   padding-inline: 55px;
-  margin-bottom: 20px;
+}
+
+.task-container.completed  .task-checkbox{
+  background-color: gray;
+  color: var(--white-text);
+}
+
+.task-container.completed #tic-icon {
+  opacity: 1;
+}
+
+.task-container.completed .task-name {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.task-container.completed .task-action {
+  opacity: 0;
+}
+
+.task-container.completed .task-action:last-child {
+  opacity: 1;
 }
 
 .task-container > * {

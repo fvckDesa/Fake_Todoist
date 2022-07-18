@@ -24,6 +24,7 @@ export const openProjectForm = document.querySelector('#open-project-form');
 export const mainContent = document.querySelector('.main-content');
 export const mainHeader = document.querySelector('.main-header');
 export const taskContainer = document.querySelector('#task-container');
+export const completedTaskContainer = document.querySelector('#completed-task-container');
 export const addTask = document.querySelector('.add-task');
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
