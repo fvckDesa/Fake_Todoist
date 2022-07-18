@@ -14,6 +14,10 @@ import ColorTic from "./color-tic.svg";
 import TaskTic from "./task-tic.svg";
 import DueDate from "./due-date.svg";
 import DueDateXs from "./due-date-xs.svg";
+import DueDateXl from "./due-date-xl.svg";
+import Comment from "./comment.svg";
+import EditTask from "./edit-task.svg";
+import GarbageContainer from "./garbage-container.svg";
 
 export default {
     Inbox,
@@ -31,5 +35,9 @@ export default {
     ColorTic,
     TaskTic,
     DueDate,
-    DueDateXs
+    DueDateXs,
+    DueDateXl,
+    Comment,
+    EditTask,
+    GarbageContainer
 };
