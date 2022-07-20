@@ -58,7 +58,7 @@ class SvgLoader extends HTMLElement {
   connectedCallback() {
     this.render(this.#src);
     // display: flex on svg-element to give it the same width and height as the internal svg
-    this.style.cssText = `
+    this.style.cssText += `
       display: flex;
       justify-content: center;
       align-items: center;

@@ -18,11 +18,13 @@ export const searchBar = document.querySelector('.search-bar');
 export const searchInput = document.querySelector('#search-input');
 //Side Bar elements
 export const sidebar = document.querySelector('.side-bar');
+export const inboxProject = document.querySelector("#inbox-project");
 export const userProjects = document.querySelector('#user-projects');
 export const openProjectForm = document.querySelector('#open-project-form');
 //Main Content elements
 export const mainContent = document.querySelector('.main-content');
 export const mainHeader = document.querySelector('.main-header');
+export const mainTitle = document.querySelector(".main-header .title");
 export const taskContainer = document.querySelector('#task-container');
 export const completedTaskContainer = document.querySelector('#completed-task-container');
 export const addTask = document.querySelector('.add-task');

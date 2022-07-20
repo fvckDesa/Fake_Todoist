@@ -6,9 +6,10 @@ import {
   arrowIcon,
   mainContent,
   openProjectForm,
+  nameProjectInput,
   projectFormContainer,
 } from "./elements";
-import Icons from "../../assets/svg";
+import Icons from "../assets/svg";
 import { formatTaskDescription } from "./task-editor";
 
 sidebarBtn.addEventListener("click", () => {
@@ -27,7 +28,8 @@ arrowIcon.addEventListener("click", () => {
 });
 
 openProjectForm.addEventListener("click", () => {
-    projectFormContainer.classList.remove("hidden");
+  projectFormContainer.classList.remove("hidden");
+  nameProjectInput.focus();
 });
 
 function activeSidebar() {}
