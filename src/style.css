@@ -554,6 +554,8 @@ ul {
   height: var(--height);
   border-radius: var(--radius-xl);
   border: solid 1px var(--form-border-color);
+  background-color: var(--white);
+  z-index: 3;
   overflow-y: scroll;
 }
 
