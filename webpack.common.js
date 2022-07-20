@@ -1,6 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -11,13 +10,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "ToDo",
       template: "./src/index.html",
+      favicon: "./favicon/favicon.ico",
       minify: {
         removeAttributeQuotes: true,
         collapseWhitespace: true,
         removeComments: true,
       },
     }),
-    new FaviconsWebpackPlugin("./favicon/favicon.ico"),
   ],
   module: {
     rules: [
