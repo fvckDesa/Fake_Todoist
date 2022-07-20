@@ -3,6 +3,8 @@ import Project from "./project";
 const todoList = (() => {
     const projects = JSON.parse(localStorage.getItem('projects') ?? "[]")
         .map(({ name, color, tasks }) => new Project(name, color, tasks));
+    // add default project if none exists
+    if(projects.length === 0) addProject("Inbox");
     
     // public
     function addProject(name, color) {

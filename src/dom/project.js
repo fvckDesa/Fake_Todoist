@@ -1,6 +1,8 @@
-import { projectTemplate, userProjects, sidebar } from "./elements";
+import { projectTemplate, userProjects, sidebar, inboxProject } from "./elements";
 import Icons from "../assets/svg";
 import { setProject } from "./main-content";
+
+inboxProject.addEventListener("click", () => projectClick("Inbox", inboxProject));
 
 function createProjectElement({ name, color, tasks }) {
     // copy element
@@ -13,17 +15,19 @@ function createProjectElement({ name, color, tasks }) {
     projectNum.setAttribute("data-num", tasks.length);
     projectNum.textContent = tasks.length;
     // set project click event
-    projectEl.addEventListener("click", () => {
-        setProject(name);
-        // change current project on sidebar
-        sidebar.querySelector(".project.current").classList.remove("current");
-        projectEl.classList.add("current");
-    });
+    projectEl.addEventListener("click", () => projectClick(name, projectEl));
     // return element
     return projectEl;
 }
 
-function setProjects(...projects) {
+function projectClick(name, projectEl) {
+    setProject(name);
+    // change current project on sidebar
+    sidebar.querySelector(".project.current").classList.remove("current");
+    projectEl.classList.add("current");
+}
+
+function renderProjects(...projects) {
     for(const project of projects) {
         userProjects.appendChild(project);
     }
@@ -31,5 +35,6 @@ function setProjects(...projects) {
 
 export {
     createProjectElement,
-    setProjects
+    renderProjects,
+    projectClick
 }

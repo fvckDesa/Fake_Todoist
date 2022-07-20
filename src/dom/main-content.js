@@ -8,6 +8,7 @@ import {
 } from "./elements.js";
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
+import { setTaskEditor } from "./task-editor";
 
 mainContent.addEventListener("scroll", () => {
   if (mainContent.scrollTop > 0) {
@@ -15,6 +16,10 @@ mainContent.addEventListener("scroll", () => {
   } else {
     mainHeader.classList.remove("scrolled");
   }
+});
+
+addTask.addEventListener("click", () => {
+  setTaskEditor(addTask);
 });
 
 function setProject(name) {

@@ -9,7 +9,7 @@ import {
   addProjectBtn,
   projectFormContainer
 } from "./elements";
-import { createProjectElement, setProjects } from "./project";
+import { createProjectElement, renderProjects } from "./project";
 import todoList from "../module/todo-list";
 
 projectForm.addEventListener("submit", (e) => {
@@ -20,7 +20,7 @@ projectForm.addEventListener("submit", (e) => {
   // add project
   const newProject = todoList.addProject(name, color);
   const projectEl = createProjectElement(newProject);
-  setProjects(projectEl);
+  renderProjects(projectEl);
   // reset project form
   resetProjectForm();
 });

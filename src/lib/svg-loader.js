@@ -1,5 +1,6 @@
 class SvgLoader extends HTMLElement {
   #src = "";
+  #isConnected = false;
   constructor() {
     super();
     // create shadow root
@@ -44,7 +45,7 @@ class SvgLoader extends HTMLElement {
     switch (name) {
       case "src":
         this.#src = newValue;
-        this.render(newValue);
+        if(this.#isConnected) this.render(newValue);
         break;
       case "svg:class":
         this.svg.setAttribute("class", newValue);
@@ -63,6 +64,7 @@ class SvgLoader extends HTMLElement {
       justify-content: center;
       align-items: center;
     `;
+    this.#isConnected = true;
   }
 
   set src(newSrc) {
