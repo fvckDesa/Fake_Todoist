@@ -28,7 +28,7 @@
     </header>
     <div class="side-bar open">
         <ul class="project-container" id="default-projects">
-            <li class="project current">
+            <li class="project current" id="inbox-project">
                 <svg-loader id="inbox-icon" class="project-icon" src=""></svg-loader>
                 <h3 class="project-name">Inbox</h3>
                 <h4 class="project-num" data-num="0">0</h4>
@@ -75,7 +75,7 @@
         <form action="#" class="project-form">
             <header class="form-header">
                 <h1>Add project</h1>
-                <a href="https://taskist.com/help/articles/how-to-best-use-projects" target="_blank">
+                <a href="https://todoist.com/help/articles/how-to-best-use-projects" target="_blank">
                     <svg-loader id="help-icon" src=""></svg-loader>
                 </a>
             </header>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="form-field">
                     <label for="">Color</label>
-                    <button class="form-input color" id="color-selector">
+                    <button type="button" class="form-input color" id="color-selector">
                         <div class="color-icon" style="--color: #808080"></div>
                         <div class="color-name">Gray</div>
                     </button>
@@ -128,7 +128,7 @@
 
     <template id="project-template">
         <li class="project">
-            <div class="project-icon"></div>
+            <svg-loader class="project-icon"></svg-loader>
             <h3 class="project-name"></h3>
             <h4 class="project-num" data-num="0">0</h4>
         </li>

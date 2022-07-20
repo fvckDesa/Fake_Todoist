@@ -18,6 +18,7 @@ import DueDateXl from "./due-date-xl.svg";
 import Comment from "./comment.svg";
 import EditTask from "./edit-task.svg";
 import GarbageContainer from "./garbage-container.svg";
+import Circle from "./circle.svg";
 
 export default {
     Inbox,
@@ -39,5 +40,6 @@ export default {
     DueDateXl,
     Comment,
     EditTask,
-    GarbageContainer
+    GarbageContainer,
+    Circle
 };
