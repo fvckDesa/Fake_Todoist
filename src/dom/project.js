@@ -1,8 +1,6 @@
-import { projectTemplate, userProjects, sidebar, inboxProject } from "./elements";
+import { projectTemplate, userProjects, sidebar } from "./elements";
 import Icons from "../assets/svg";
 import { setProject } from "./main-content";
-
-inboxProject.addEventListener("click", () => projectClick("Inbox", inboxProject));
 
 function createProjectElement({ name, color, tasks }) {
     // copy element
