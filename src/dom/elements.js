@@ -47,3 +47,5 @@ export const addProjectBtn = document.querySelector('#add-project-btn');
 //Templates
 export const projectTemplate = document.querySelector('#project-template').content;
 export const taskTemplate = document.querySelector('#task-template').content;
+// loading screen
+export const loadScreen = document.querySelector(".load-screen");

@@ -7,6 +7,39 @@
     <title>ToDo</title>
 </head>
 <body>
+    <div class="load-screen">
+        <svg class="logo" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd">
+                <path class="logo_bg"
+                    d="M56.000016 0h-48c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V8c0-4.4-3.6-8-8-8"
+                    fill="#E44332"></path>
+                <g class="logo_stripe" fill="#FFF">
+                    <path
+                        d="M13.672368 29.985936c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32016.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
+                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048">
+                    </path>
+                    <path
+                        d="M13.672368 40.76952c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
+                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048">
+                    </path>
+                    <path
+                        d="M13.672368 51.55312c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
+                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048">
+                    </path>
+                </g>
+            </g>
+        </svg>
+        <svg class="loader" width="24" height="24" viewBox="0 0 24 24">
+            <g fill="none" fill-rule="nonzero">
+                <path class="ring_thumb" fill="#E44331"
+                    d="M17.945 3.958A9.955 9.955 0 0 0 12 2c-2.19 0-4.217.705-5.865 1.9L5.131 2.16A11.945 11.945 0 0 1 12 0c2.59 0 4.99.82 6.95 2.217l-1.005 1.741z">
+                </path>
+                <path class="ring_track" fill="#FCECEA"
+                    d="M5.13 2.16L6.136 3.9A9.987 9.987 0 0 0 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10a9.986 9.986 0 0 0-4.055-8.042l1.006-1.741A11.985 11.985 0 0 1 24 12c0 6.627-5.373 12-12 12S0 18.627 0 12c0-4.073 2.029-7.671 5.13-9.84z">
+                </path>
+            </g>
+        </svg>
+    </div>
     <header class="top-bar">
         <div class="left-side">
             <button class="sidebar-btn third-btn">
@@ -52,7 +85,7 @@
                 <svg-loader id="arrow-icon" src=""></svg-loader>
                 <h3>Projects</h3>
                 <button class="third-btn" id="open-project-form">
-                    <svg-loader id="add-icon" src="./imgs/plus-bold.svg"></svg-loader>
+                    <svg-loader id="add-icon" src=""></svg-loader>
                 </button>
             </header>
             <ul class="project-container" id="user-projects"></ul>
@@ -64,7 +97,7 @@
         </header>
         <ul class="task-container" id="task-container">
             <div class="add-task">
-                <svg-loader src="./imgs/plus-bold.svg" class="icon-container" id="add-task-icon">
+                <svg-loader src="" class="icon-container" id="add-task-icon">
                 </svg-loader>
                 <h3 class="add-task-text">Add task</h3>
             </div>
@@ -107,11 +140,11 @@
                 <textarea type="text" class="task-editor-field" placeholder="Description" id="task-description-input"></textarea>
                 <div class="task-editor-extra-field">
                     <div class="task-editor-extra-field-btn-container">
-                        <button class="task-editor-btn" id="task-due-date">
+                        <button type="button" class="task-editor-btn" id="task-due-date">
                             <svg-loader class="task-editor-btn-icon" src=""></svg-loader>
                             <h4 class="task-editor-btn-text">Due Date</h4>
                         </button>
-                        <button class="task-editor-btn" id="task-project">
+                        <button type="button" class="task-editor-btn" id="task-project">
                             <svg-loader class="task-editor-btn-icon" src="" alt="task button icon"></svg-loader>
                             <h4 class="task-editor-btn-text">Inbox</h4>
                         </button>
@@ -145,22 +178,22 @@
                 <h3 class="task-name">task name</h3>
                 <h4 class="task-description">task description</h4>
                 <h4 class="task-due-date">
-                    <svg-loader src="./imgs/due-date-xs.svg" id="due-date-icon"></svg-loader>
+                    <svg-loader src="" id="due-date-icon"></svg-loader>
                     <span id="due-date">Tomorrow</span>
                 </h4>
             </div>
             <div class="task-action-container">
                 <button class="task-action third-btn">
-                    <svg-loader src="./imgs/edit-task.svg"></svg-loader>
+                    <svg-loader src=""></svg-loader>
                 </button>
                 <button class="task-action third-btn">
-                    <svg-loader src="./imgs/due-date-xl.svg"></svg-loader>
+                    <svg-loader src=""></svg-loader>
                 </button>
                 <button class="task-action third-btn">
-                    <svg-loader src="./imgs/comment.svg"></svg-loader>
+                    <svg-loader src=""></svg-loader>
                 </button>
                 <button class="task-action third-btn">
-                    <svg-loader src="./imgs/garbage-container.svg"></svg-loader>
+                    <svg-loader src=""></svg-loader>
                 </button>
             </div>
         </li>
