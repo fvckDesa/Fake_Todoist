@@ -12,6 +12,8 @@ import {
 import { createProjectElement, renderProjects } from "./project";
 import todoList from "../module/todo-list";
 
+createColorList();
+
 projectForm.addEventListener("submit", (e) => {
   e.preventDefault();
   // get project name and color
@@ -43,7 +45,7 @@ colorSelector.addEventListener("click", () => {
   colorList.classList.toggle("hidden");
 });
 
-function setColorList() {
+function createColorList() {
   for (const [hex, name] of Object.entries(Colors)) {
     // create color element
     const color = document.createElement("li");
@@ -77,10 +79,6 @@ function setColorList() {
   }
 }
 
-function activeProjectForm() {
-  setColorList();
-}
-
 function resetProjectForm() {
   // hidden elements
   projectFormContainer.classList.add("hidden");
@@ -98,5 +96,3 @@ function resetProjectForm() {
   // reset name input
   nameProjectInput.value = "";
 }
-
-export default activeProjectForm;

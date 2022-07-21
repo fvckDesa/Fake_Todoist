@@ -1,18 +1,22 @@
+// style
 import "./style.css";
-
+// active events
+import "./dom/default-project";
+import "./dom/sidebar";
+import "./dom/topbar";
+import "./dom/main-content";
+import "./dom/project-form";
+// start app
 import setIcons from "./dom/set-icon";
-import activeSidebar from "./dom/sidebar";
-import activeTopbar from "./dom/topbar";
-import setMainContent from "./dom/main-content";
-import activeProjectForm from "./dom/project-form";
 import { renderProjects, createProjectElement } from "./dom/project";
 import { setProject } from "./dom/main-content";
-import todoList from "./module/todo-list";
 import { loadScreen } from "./dom/elements";
-
+import todoList from "./module/todo-list";
+// render icons on document
 setIcons();
-activeProjectForm();
+// render projects save in localStorage (not Inbox)
 renderProjects(...todoList.projects.slice(1).map(createProjectElement));
+// set Inbox how start project
 setProject("Inbox");
 // remove load screen when all svg are loaded
 Promise.all(

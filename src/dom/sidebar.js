@@ -31,7 +31,3 @@ openProjectForm.addEventListener("click", () => {
   projectFormContainer.classList.remove("hidden");
   nameProjectInput.focus();
 });
-
-function activeSidebar() {}
-
-export default activeSidebar;

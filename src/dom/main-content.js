@@ -1,4 +1,3 @@
-import Icons from "../assets/svg";
 import {
   mainContent,
   mainHeader,
@@ -63,7 +62,4 @@ function getCurrentProject() {
   return currentProject;
 }
 
-function setMainContent() {}
-
-export default setMainContent;
 export { setProject, setTask, setCompletedTask, getCurrentProject };
