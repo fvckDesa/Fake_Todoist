@@ -10,7 +10,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "ToDo",
       template: "./src/index.html",
-      favicon: "./favicon/favicon.ico",
+      favicon: "./src/assets/favicon/favicon.ico",
       minify: {
         removeAttributeQuotes: true,
         collapseWhitespace: true,
@@ -30,7 +30,7 @@ module.exports = {
           loader: "file-loader",
           options: {
             esModule: false,
-            name: "[name].[ext]",
+            name: "[name].[hash].[ext]",
             outputPath: "imgs",
           },
         },
