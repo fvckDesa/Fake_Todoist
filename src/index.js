@@ -24,5 +24,5 @@ Promise.all(
   })
 ).then(() => {
     loadScreen.classList.add("start-animation");
-    setTimeout(() => loadScreen.remove(), 500);
+    setTimeout(() => loadScreen.remove(), 1000);
 });

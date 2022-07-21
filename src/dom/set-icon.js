@@ -10,6 +10,8 @@ import {
   filtersLabelsIcon,
   arrowIcon,
   helpIcon,
+  openProjectIcon,
+  addTaskIcon,
   taskDueDate,
   taskProject
 } from "./elements";
@@ -25,6 +27,8 @@ function setIcons() {
   filtersLabelsIcon.src = Icons.FiltersLabels;
   arrowIcon.src = Icons.Arrow;
   helpIcon.src = Icons.Help;
+  openProjectIcon.src = Icons.PlusBold;
+  addTaskIcon.src =  Icons.PlusBold;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
   taskProject.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.Inbox);

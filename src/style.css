@@ -410,11 +410,14 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18px;
-  height: 18px;
   border-radius: 50%;
   margin-right: 10px;
   color: var(--primary-red);
+  border: solid 2px transparent;
+}
+
+.icon-container > #add-task-icon {
+  transform: scale(0.864);
 }
 
 .add-task:hover .icon-container {
@@ -782,7 +785,7 @@ ul {
 }
 
 .load-screen.start-animation {
-  animation: fade-out 0.5s cubic-bezier(.4,0,1,1);
+  animation: fade-out 1s cubic-bezier(.4,0,1,1);
 }
 
 .loader {
