@@ -1,3 +1,4 @@
+import Icons from "../assets/svg";
 import {
   mainContent,
   mainHeader,
@@ -9,6 +10,9 @@ import {
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
 import { setTaskEditor } from "./task-editor";
+import { setProjectPick } from "./project-picker";
+
+let currentProject;
 
 mainContent.addEventListener("scroll", () => {
   if (mainContent.scrollTop > 0) {
@@ -25,6 +29,7 @@ addTask.addEventListener("click", () => {
 function setProject(name) {
   // get project
   const project = todoList.find((project) => project.name === name);
+  currentProject = project;
   // set main title
   mainTitle.textContent = project.name;
   // set tasks
@@ -42,9 +47,23 @@ function setProject(name) {
       .filterTask((task) => task.completed)
       .map(createTaskElement)
   );
+
+  setProjectPick(currentProject);
+}
+
+function setTask(task) {
+  taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
+}
+
+function setCompletedTask(taskEl) {
+  completedTaskContainer.appendChild(taskEl);
+}
+
+function getCurrentProject() {
+  return currentProject;
 }
 
 function setMainContent() {}
 
 export default setMainContent;
-export { setProject };
+export { setProject, setTask, setCompletedTask, getCurrentProject };

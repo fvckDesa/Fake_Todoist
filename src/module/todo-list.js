@@ -17,6 +17,17 @@ const todoList = (() => {
         return project;
     }
 
+    function addTask(nameProject, taskAttributes) {
+        // find project
+        const project = projects.find(project => project.name === nameProject);
+        // add task to project
+        const task = project.addTask(taskAttributes);
+        // save project to local storage
+        _saveProjects();
+        
+        return task;
+    }
+
     function find(callback) {
         return projects.find(callback);
     }
@@ -28,6 +39,7 @@ const todoList = (() => {
 
     return {
         addProject,
+        addTask,
         find,
         get projects() {
             return projects;

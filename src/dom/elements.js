@@ -39,6 +39,11 @@ export const taskDueDate = taskEditor.querySelector('#task-due-date');
 export const taskProject = taskEditor.querySelector('#task-project');
 export const taskEditorCancel = taskEditor.querySelector('#cancel-btn');
 export const taskEditorSubmit = taskEditor.querySelector('#submit-btn');
+//Project Picker elements
+export const projectPickerContainer = document.querySelector(".project-picker-container");
+export const projectPicker = document.querySelector(".project-picker");
+export const projectPickerList = document.querySelector(".project-picker-list");
+export const projectPickerSearch = document.querySelector(".project-picker-search");
 //Project form elements
 export const projectFormContainer = document.querySelector('.project-form-container');
 export const projectForm = document.querySelector('.project-form');

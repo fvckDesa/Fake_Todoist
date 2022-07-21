@@ -7,8 +7,10 @@ class Project {
         this.tasks = tasks;
     }
 
-    addTask(title, description, dueDate, priority) {
-        this.tasks.push(title, description, dueDate, priority);
+    addTask(taskAttributes) {
+        const task = new Task(taskAttributes);
+        this.tasks.push(task);
+        return task;
     }
 
     filterTask(callback) {

@@ -1,10 +1,10 @@
 import { format } from 'date-fns';
 
 class Task {
-    constructor(title, description, dueDate) {
-        this.title = title;
+    constructor({ name, description, dueDate }) {
+        this.name = name;
         this.description = description;
-        this.dueDate = format(dueDate, "d MMM");
+        this.dueDate = dueDate ? format(dueDate, "d MMM") : undefined;
         this.complete = false;
     }
 }

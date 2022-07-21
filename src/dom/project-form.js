@@ -95,6 +95,8 @@ function resetProjectForm() {
   document.querySelector("#gray").classList.add("current-color");
   // disabled add project btn
   addProjectBtn.disabled = true;
+  // reset name input
+  nameProjectInput.value = "";
 }
 
 export default activeProjectForm;
