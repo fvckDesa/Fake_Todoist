@@ -1,6 +1,8 @@
 class SvgLoader extends HTMLElement {
   #src = "";
   #isConnected = false;
+  onLoadSvg = () => {};
+  onErrorSvg = () => {};
   constructor() {
     super();
     // create shadow root
@@ -31,9 +33,12 @@ class SvgLoader extends HTMLElement {
         for (const { name, value } of this.attributes) {
           if (name.match(/^svg:/)) this.svg.setAttribute(name.slice(4), value);
         }
+        // call onLoadSvg callback
+        this.onLoadSvg(this.svg);
       })
       .catch((err) => {
         console.error(err);
+        this.onErrorSvg(err);
       });
   }
 
