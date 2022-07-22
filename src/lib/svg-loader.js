@@ -1,3 +1,5 @@
+"use strict";
+
 class SvgLoader extends HTMLElement {
   #src = "";
   #isConnected = false;
@@ -9,10 +11,11 @@ class SvgLoader extends HTMLElement {
     this.attachShadow({ mode: "open" });
     // default empty svg
     this.svg = document.createElement("svg");
+    this.shadowRoot.appendChild(this.svg);
   }
 
   render(src) {
-    if (!src) return;
+    if(!src) return;
     getSVG(src)
       .then((svg) => {
         const scriptRegex = /<script>(.|\n|\r)*<\/script>/g;
@@ -25,9 +28,13 @@ class SvgLoader extends HTMLElement {
         if (svgScript) {
           // run the script
           svgScript = svgScript[0].replace(/<\/?script>/g, "");
-          eval(
-            `const shadowRoot = document.querySelector("#today-icon").shadowRoot;\n ${svgScript}`
-          );
+          try {
+            eval(
+              `const shadowRoot = this.shadowRoot;\n ${svgScript}`
+            );
+          } catch(err) {
+            console.error(err);
+          }
         }
         // add attributes to svg
         for (const { name, value } of this.attributes) {
