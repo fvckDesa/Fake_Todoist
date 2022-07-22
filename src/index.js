@@ -26,7 +26,7 @@ Promise.all(
       icon.onErrorSvg = rej;
     });
   })
-).then(() => {
+).finally(() => {
     loadScreen.classList.add("start-animation");
     setTimeout(() => loadScreen.remove(), 1000);
 });

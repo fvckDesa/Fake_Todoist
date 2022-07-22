@@ -19,6 +19,10 @@ import Comment from "./comment.svg";
 import EditTask from "./edit-task.svg";
 import GarbageContainer from "./garbage-container.svg";
 import Circle from "./circle.svg";
+import Tomorrow from "./tomorrow.svg";
+import NextWeek from "./next-week.svg";
+import NoDate from "./no-date.svg";
+import ArrowXl from "./arrow-xl.svg";
 
 export default {
     Inbox,
@@ -41,5 +45,9 @@ export default {
     Comment,
     EditTask,
     GarbageContainer,
-    Circle
+    Circle,
+    Tomorrow,
+    NextWeek,
+    NoDate,
+    ArrowXl
 };

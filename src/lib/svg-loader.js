@@ -29,9 +29,7 @@ class SvgLoader extends HTMLElement {
           // run the script
           svgScript = svgScript[0].replace(/<\/?script>/g, "");
           try {
-            eval(
-              `const shadowRoot = this.shadowRoot;\n ${svgScript}`
-            );
+            eval(`"use strict";\r\n${svgScript}`);
           } catch(err) {
             console.error(err);
           }

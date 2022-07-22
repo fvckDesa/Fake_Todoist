@@ -14,6 +14,13 @@ export const openProjectIcon = document.querySelector('#open-project-icon');
 export const helpIcon = document.querySelector('#help-icon');
 //Main content icons
 export const addTaskIcon = document.querySelector('#add-task-icon');
+//Due Date Picker icons
+export const pickerTodayIcon = document.querySelector("#date-suggestions-icon-today");
+export const pickerTomorrowIcon = document.querySelector("#date-suggestions-icon-tomorrow");
+export const pickerNextWeekIcon = document.querySelector("#date-suggestions-icon-next-week");
+export const pickerNoDateIcon = document.querySelector("#date-suggestions-icon-no-date");
+export const pickerActionPreviousIcon = document.querySelector("#previous-icon");
+export const pickerActionNextIcon = document.querySelector("#next-icon");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');

@@ -13,7 +13,13 @@ import {
   openProjectIcon,
   addTaskIcon,
   taskDueDate,
-  taskProject
+  taskProject,
+  pickerNoDateIcon,
+  pickerTodayIcon,
+  pickerTomorrowIcon,
+  pickerNextWeekIcon,
+  pickerActionPreviousIcon,
+  pickerActionNextIcon,
 } from "./elements";
 
 function setIcons() {
@@ -29,6 +35,12 @@ function setIcons() {
   helpIcon.src = Icons.Help;
   openProjectIcon.src = Icons.PlusBold;
   addTaskIcon.src =  Icons.PlusBold;
+  pickerNoDateIcon.src = Icons.NoDate;
+  pickerTodayIcon.src = Icons.Today;
+  pickerTomorrowIcon.src = Icons.Tomorrow;
+  pickerNextWeekIcon.src = Icons.NextWeek;
+  pickerActionPreviousIcon.src = Icons.ArrowXl;
+  pickerActionNextIcon.src = Icons.ArrowXl;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
   taskProject.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.Inbox);

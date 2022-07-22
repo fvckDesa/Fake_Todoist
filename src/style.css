@@ -17,6 +17,12 @@
   --gray-text: #969696;
   --black-text: #202020;
   --num-text: #aaa;
+  /* due date picker color */
+  --green: #058527;
+  --orange: #ad6200;
+  --purple: #692fc2;
+  --grey: #808080;
+  --red: #d1453b;
   /* size */
   --radius: 5px;
   --radius-xl: 10px;
@@ -35,10 +41,10 @@
   font-family: -apple-system, system-ui, "Segoe UI", Roboto, Noto, Oxygen-Sans,
     Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 13px;
 }
 
 body {
-  font-size: 13px;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -903,4 +909,179 @@ ul {
   padding: 4px 10px;
   margin-bottom: 4px;
   color: var(--black-text);
+}
+
+/* Due Date Picker */
+.due-date-picker-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.due-date-picker,
+.date-suggestions,
+.date-picker {
+  display: flex;
+  flex-direction: column;
+}
+
+.due-date-picker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  max-height: 600px;
+  border-radius: var(--radius);
+  color: var(--black-text);
+  background-color: var(--white);
+  box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%), 0 0 1px 0 rgb(0 0 0 / 30%);
+  overflow: hidden;
+}
+
+.date-input {
+  padding: 8px 13px;
+}
+
+.date-input input {
+  line-height: 24px;
+  width: 100%;
+  border: none;
+  padding: 1px 2px;
+  color: var(--black-text);
+}
+
+.date-suggestions {
+  padding-block: 4px;
+  border-block: solid 1px var(--form-border-color);
+}
+
+.date-suggestions-item {
+  display: flex;
+  padding: 4px 10px;
+  background-color: var(--white);
+  cursor: pointer;
+}
+
+.date-suggestions-item:hover {
+  background-color: var(--current-gray);
+}
+
+.date-suggestions-icon {
+  margin-right: 10px;
+}
+
+.date-suggestions-label {
+  flex-grow: 1;
+  font-size: 13px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.date-suggestions-weekday {
+  color: var(--grey);
+  line-height: 24px;
+}
+
+#date-suggestions-icon-today {
+  color: var(--green);
+}
+
+#date-suggestions-icon-tomorrow {
+  color: var(--orange);
+}
+
+#date-suggestions-icon-next-week {
+  color: var(--purple);
+}
+
+#date-suggestions-icon-no-date {
+  color: var(--grey);
+}
+
+.date-picker-header,
+.date-picker-header-action-container,
+.date-picker-header-action {
+  display: flex;
+  align-items: center;
+}
+
+.date-picker-header {
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 4px 10px 4px 16px;
+}
+
+.date-picker-header-month {
+  font-weight: 700;
+}
+
+.date-picker-header-action-container {
+  gap: 8px;
+}
+
+.date-picker-header-action {
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--white);
+  color: var(--grey);
+  cursor: pointer;
+}
+
+.date-picker-header-action:hover {
+  background-color: var(--current-gray);
+  color: var(--black-text);
+}
+
+#current-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: solid 1px var(--grey);
+}
+
+.date-picker-header-action:hover #current-icon {
+  border-color: var(--black-text);
+}
+
+#next-icon {
+  transform: rotate(180deg);
+}
+
+.date-picker-week-day-list {
+  display: flex;
+  padding: 0 10px;
+  border-bottom: solid 1px var(--form-border-color);
+  color: var(--grey);
+}
+
+.week-day {
+  flex-grow: 1;
+  font-size: 10px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.date-picker-calendar {
+  height: 180px;
+  margin-right: -17px;
+  overflow: hidden scroll;
+}
+
+.date-actions {
+  padding: 8px 10px;
+  border-top: solid 1px var(--form-border-color);
+}
+
+.date-actions-add-time {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--red);
+  cursor: pointer;
 }
