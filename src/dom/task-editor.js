@@ -19,7 +19,7 @@ taskNameInput.addEventListener("input", () => {
 
 taskDescriptionInput.addEventListener("input", formatTaskDescription);
 
-taskProject.addEventListener("click", activeProjectPicker);
+taskProject.addEventListener("click", () => activeProjectPicker(taskProject));
 
 taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();

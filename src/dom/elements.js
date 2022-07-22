@@ -44,6 +44,7 @@ export const projectPickerContainer = document.querySelector(".project-picker-co
 export const projectPicker = document.querySelector(".project-picker");
 export const projectPickerList = document.querySelector(".project-picker-list");
 export const projectPickerSearch = document.querySelector(".project-picker-search");
+export const projectPickerArrow = document.querySelector(".project-picker-arrow");
 //Project form elements
 export const projectFormContainer = document.querySelector('.project-form-container');
 export const projectForm = document.querySelector('.project-form');

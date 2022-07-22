@@ -3,9 +3,9 @@ import {
     projectPicker,
     projectPickerList,
     projectPickerSearch,
-    taskProject
+    projectPickerArrow
 } from "./elements";
-import { getCurrentProject } from "./main-content";
+import { createProjectElement, renderProjects } from "./project";
 import { setTaskProject } from "./task-editor";
 import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
@@ -22,25 +22,31 @@ projectPicker.addEventListener("click", (e) => {
     e.stopPropagation();
 });
 
-projectPickerSearch.addEventListener("input", () => {
+projectPickerSearch.addEventListener("input", renderSearchProjectList);
+
+function renderSearchProjectList() {
     const filter = projectPickerSearch.value.toLowerCase();
     renderProjectList(({ name }) => name.toLowerCase().includes(filter));
-});
+}
 
-function activeProjectPicker() {
+function activeProjectPicker(el) {
     // render project picker
     projectPickerContainer.classList.remove("hidden");
-    // set in correct position
-    const { x, y } = getProjectPickerPosition();
-    projectPicker.style.cssText = `transform: translate(${x}px, ${y}px)`;
     // create list of projects
     renderProjectList();
+    // set in correct position
+    const { x, y, startPos } = getProjectPickerPosition(el);
+    startPos === "bottom" 
+        ? projectPickerArrow.classList.add("reverse")
+        : projectPickerArrow.classList.remove("reverse");
+    
+    projectPicker.style.cssText = `${startPos}: 0; transform: translate(${x}px, ${y}px);`;
 }
 
 function renderProjectList(filterCallback = () => true) {
-    projectPickerList.replaceChildren(
-        ...todoList.projects.filter(filterCallback).map(createPickerItem)
-    );
+    const projectItems = todoList.projects.filter(filterCallback).map(createPickerItem);
+    if(projectItems.length === 0) projectItems.push(createProjectPickerEmpty());
+    projectPickerList.replaceChildren(...projectItems);
 }
 
 function createPickerItem(project) {
@@ -66,16 +72,44 @@ function createPickerItem(project) {
     return pickerItem;
 }
 
-function getProjectPickerPosition() {
-    // get position of taskProject on the screen
-    const { left, bottom, width } = taskProject.getBoundingClientRect();
+function createProjectPickerEmpty() {
+    // create element
+    const projectPickerEmpty = document.createElement("li");
+    projectPickerEmpty.classList.add("project-picker-empty");
+    projectPickerEmpty.innerHTML = `
+        <span>No projects found</span>
+        <div class="project-picker-item">
+            <svg-loader src="${ Icons.Plus }"></svg-loader>
+            <span>Create project "${projectPickerSearch.value}"</span>
+        </div>
+    `;
+    // add event for creating project
+    projectPickerEmpty.querySelector(".project-picker-item").addEventListener("click", () => {
+        // create project
+        const project = todoList.addProject(projectPickerSearch.value, "#808080");
+        // render new project
+        renderProjects(createProjectElement(project));
+        renderSearchProjectList();
+    });
+    return projectPickerEmpty;
+}
+
+function getProjectPickerPosition(element) {
+    // get position of element who calls project picker
+    const { left, bottom, top, width } = element.getBoundingClientRect();
+    // get dimensions of body
+    const { height: bodyHeight } = document.body.getBoundingClientRect();
     // get width of projectPicker
-    const projectPickerWidth = parseInt(getComputedStyle(projectPicker).getPropertyValue("width"));
+    const { width: projectPickerWidth, height: projectPickerHeight} = projectPicker.getBoundingClientRect();
     // distance from btn and projectPicker
     const surplusHeight = 12;
+    // check if projectPicker is too high for the screen
+    const isBottom = bottom + surplusHeight + projectPickerHeight < bodyHeight
     return {
         x: left - projectPickerWidth / 2 + width / 2,
-        y: bottom + surplusHeight
+        // if too height for the screen, show projectPicker on top
+        y: isBottom ? bottom + surplusHeight : (bodyHeight - top + surplusHeight) * -1,
+        startPos: isBottom ? "top" : "bottom"
     }
 }
 
