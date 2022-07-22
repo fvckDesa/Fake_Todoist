@@ -48,6 +48,8 @@ function setProject(name) {
   );
 
   setProjectPick(currentProject);
+  // change page title
+  document.title = `${project.name}: Todoist`;
 }
 
 function setTask(task) {
