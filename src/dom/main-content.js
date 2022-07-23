@@ -28,6 +28,9 @@ addTask.addEventListener("click", () => {
 function setProject(name) {
   // get project
   const project = todoList.find((project) => project.name === name);
+
+  if(project === currentProject) return;
+  
   currentProject = project;
   // set main title
   mainTitle.textContent = project.name;
