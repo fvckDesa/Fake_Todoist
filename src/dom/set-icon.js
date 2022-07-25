@@ -17,6 +17,7 @@ import {
   pickerNoDateIcon,
   pickerTodayIcon,
   pickerTomorrowIcon,
+  pickerWeekendIcon,
   pickerNextWeekIcon,
   pickerActionPreviousIcon,
   pickerActionNextIcon,
@@ -38,6 +39,7 @@ function setIcons() {
   pickerNoDateIcon.src = Icons.NoDate;
   pickerTodayIcon.src = Icons.Today;
   pickerTomorrowIcon.src = Icons.Tomorrow;
+  pickerWeekendIcon.src = Icons.Weekend;
   pickerNextWeekIcon.src = Icons.NextWeek;
   pickerActionPreviousIcon.src = Icons.ArrowXl;
   pickerActionNextIcon.src = Icons.ArrowXl;
