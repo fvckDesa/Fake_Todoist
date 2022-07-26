@@ -17,6 +17,7 @@ export const addTaskIcon = document.querySelector('#add-task-icon');
 //Due Date Picker icons
 export const pickerTodayIcon = document.querySelector("#date-suggestions-icon-today");
 export const pickerTomorrowIcon = document.querySelector("#date-suggestions-icon-tomorrow");
+export const pickerWeekendIcon = document.querySelector("#date-suggestions-icon-weekend");
 export const pickerNextWeekIcon = document.querySelector("#date-suggestions-icon-next-week");
 export const pickerNoDateIcon = document.querySelector("#date-suggestions-icon-no-date");
 export const pickerActionPreviousIcon = document.querySelector("#previous-icon");
@@ -52,6 +53,21 @@ export const projectPicker = document.querySelector(".project-picker");
 export const projectPickerList = document.querySelector(".project-picker-list");
 export const projectPickerSearch = document.querySelector(".project-picker-search");
 export const projectPickerArrow = document.querySelector(".project-picker-arrow");
+//Due Date Picker elements
+export const dueDatePickerContainer = document.querySelector(".due-date-picker-container");
+export const dueDatePicker = document.querySelector(".due-date-picker");
+export const dueDatePickerHeaderMonth = document.querySelector(".date-picker-header-month");
+export const dueDatePickerActionPrev = document.querySelector(".date-picker-header-action#previous");
+export const dueDatePickerActionCurr = document.querySelector(".date-picker-header-action#current");
+export const dueDatePickerActionNext = document.querySelector(".date-picker-header-action#next");
+export const dueDatePickerWeekDayList = document.querySelector(".date-picker-week-day-list");
+export const dueDatePickerMonthList = document.querySelector(".date-picker-month-list");
+export const dueDatePickerSuggestionToday = document.querySelector("#suggestions-today");
+export const dueDatePickerSuggestionTomorrow = document.querySelector("#suggestions-tomorrow");
+export const dueDatePickerSuggestionThisWeekend = document.querySelector("#suggestions-this-weekend");
+export const dueDatePickerSuggestionNextWeek = document.querySelector("#suggestions-next-week");
+export const dueDatePickerSuggestionNoDate = document.querySelector("#suggestions-no-date");
+export const dueDatePickerInput = document.querySelector(".date-input > input");
 //Project form elements
 export const projectFormContainer = document.querySelector('.project-form-container');
 export const projectForm = document.querySelector('.project-form');

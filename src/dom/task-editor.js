@@ -4,12 +4,14 @@ import {
   taskNameInput,
   taskDescriptionInput,
   taskEditorSubmit,
-  taskProject
+  taskProject,
+  taskDueDate
 } from "./elements";
 import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
 import { setTask, getCurrentProject } from "./main-content";
 import { activeProjectPicker, getProjectPick } from "./project-picker";
+import { activeDueDatePicker } from "./due-date-picker";
 
 let lastElement;
 
@@ -20,6 +22,8 @@ taskNameInput.addEventListener("input", () => {
 taskDescriptionInput.addEventListener("input", formatTaskDescription);
 
 taskProject.addEventListener("click", () => activeProjectPicker(taskProject));
+
+taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate));
 
 taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();

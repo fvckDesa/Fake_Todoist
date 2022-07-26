@@ -151,27 +151,27 @@
                 <input type="text" placeholder="Type a due date">
             </div>
             <div class="date-suggestions">
-                <div class="date-suggestions-item">
+                <div class="date-suggestions-item" id="suggestions-today">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-today"></svg-loader>
                     <h3 class="date-suggestions-label">Today</h3>
                     <h4 class="date-suggestions-weekday">Fri</h4>
                 </div>
-                <div class="date-suggestions-item">
+                <div class="date-suggestions-item" id="suggestions-tomorrow">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-tomorrow"></svg-loader>
                     <h3 class="date-suggestions-label">Tomorrow</h3>
                     <h4 class="date-suggestions-weekday">Sat</h4>
                 </div>
-                <div class="date-suggestions-item">
+                <div class="date-suggestions-item" id="suggestions-this-weekend">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-weekend"></svg-loader>
                     <h3 class="date-suggestions-label">This weekend</h3>
                     <h4 class="date-suggestions-weekday">Sat</h4>
                 </div>
-                <div class="date-suggestions-item">
+                <div class="date-suggestions-item" id="suggestions-next-week">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-next-week"></svg-loader>
                     <h3 class="date-suggestions-label">Next week</h3>
                     <h4 class="date-suggestions-weekday">Mon 25 Jul</h4>
                 </div>
-                <div class="date-suggestions-item">
+                <div class="date-suggestions-item" id="suggestions-no-date">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-no-date"></svg-loader>
                     <h3 class="date-suggestions-label">No Date</h3>
                 </div>
@@ -180,10 +180,10 @@
                 <header class="date-picker-header">
                     <span class="date-picker-header-month">Jul 2022</span>
                     <div class="date-picker-header-action-container">
-                        <button class="date-picker-header-action" id="previous">
+                        <button class="date-picker-header-action" id="previous" disabled="true">
                             <svg-loader src="" id="previous-icon"></svg-loader>
                         </button>
-                        <button class="date-picker-header-action" id="current">
+                        <button class="date-picker-header-action" id="current" disabled="true">
                             <div id="current-icon"></div>
                         </button>
                         <button class="date-picker-header-action" id="next">
