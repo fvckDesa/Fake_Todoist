@@ -22,6 +22,8 @@ export const pickerNextWeekIcon = document.querySelector("#date-suggestions-icon
 export const pickerNoDateIcon = document.querySelector("#date-suggestions-icon-no-date");
 export const pickerActionPreviousIcon = document.querySelector("#previous-icon");
 export const pickerActionNextIcon = document.querySelector("#next-icon");
+export const pickerPreviewIcon = document.querySelector(".date-preview-content-icon");
+export const pickerCrossIcon = document.querySelector("#cross-icon");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');
@@ -68,6 +70,8 @@ export const dueDatePickerSuggestionThisWeekend = document.querySelector("#sugge
 export const dueDatePickerSuggestionNextWeek = document.querySelector("#suggestions-next-week");
 export const dueDatePickerSuggestionNoDate = document.querySelector("#suggestions-no-date");
 export const dueDatePickerInput = document.querySelector(".date-input > input");
+export const dueDatePickerPreview = document.querySelector(".date-preview");
+export const dueDatePickerPreviewDate = document.querySelector(".date-preview-content-date");
 //Project form elements
 export const projectFormContainer = document.querySelector('.project-form-container');
 export const projectForm = document.querySelector('.project-form');

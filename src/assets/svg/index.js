@@ -24,6 +24,7 @@ import Weekend from "./weekend.svg";
 import NextWeek from "./next-week.svg";
 import NoDate from "./no-date.svg";
 import ArrowXl from "./arrow-xl.svg";
+import Cross from "./cross.svg";
 
 export default {
     Inbox,
@@ -51,5 +52,6 @@ export default {
     Weekend,
     NextWeek,
     NoDate,
-    ArrowXl
+    ArrowXl,
+    Cross,
 };

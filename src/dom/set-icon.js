@@ -21,6 +21,8 @@ import {
   pickerNextWeekIcon,
   pickerActionPreviousIcon,
   pickerActionNextIcon,
+  pickerPreviewIcon,
+  pickerCrossIcon,
 } from "./elements";
 
 function setIcons() {
@@ -43,6 +45,8 @@ function setIcons() {
   pickerNextWeekIcon.src = Icons.NextWeek;
   pickerActionPreviousIcon.src = Icons.ArrowXl;
   pickerActionNextIcon.src = Icons.ArrowXl;
+  pickerPreviewIcon.src = Icons.DueDateXl;
+  pickerCrossIcon.src = Icons.Cross;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
   taskProject.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.Inbox);

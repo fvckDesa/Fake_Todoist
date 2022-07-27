@@ -11,7 +11,7 @@ import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
 import { setTask, getCurrentProject } from "./main-content";
 import { activeProjectPicker, getProjectPick } from "./project-picker";
-import { activeDueDatePicker } from "./due-date-picker";
+import { activeDueDatePicker, getDatePick } from "./due-date-picker";
 
 let lastElement;
 
@@ -29,10 +29,10 @@ taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = taskNameInput.value;
   const description = taskDescriptionInput.value;
-  //const dueDate = Date.now();
+  const dueDate = getDatePick();
   const project = getProjectPick();
 
-  const newTask = todoList.addTask(project.name, { name, description });
+  const newTask = todoList.addTask(project.name, { name, description, dueDate });
 
   if (project === getCurrentProject()) setTask(newTask);
 
@@ -63,7 +63,7 @@ function setTaskEditor(element) {
 }
 
 function setTaskProject(project) {
-    taskProject.replaceChildren(...createTaskProject(project));
+  taskProject.replaceChildren(...createTaskProject(project));
 }
 
 function createTaskProject({ name, color }) {
@@ -75,6 +75,14 @@ function createTaskProject({ name, color }) {
     text.textContent = name;
 
     return [icon, text];
+}
+
+function setTaskDueDate(date) {
+  taskDueDate.replaceChildren(...createTaskDueDate(date));
+}
+
+function createTaskDueDate(date) {
+  return [];
 }
 
 function formatTaskDescription() {

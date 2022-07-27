@@ -145,48 +145,58 @@
         </div>
     </div>
 
-    <div class="due-date-picker-container">
-        <div class="due-date-picker">
+    <div class="due-date-picker-container hidden">
+        <form class="due-date-picker">
             <div class="date-input">
-                <input type="text" placeholder="Type a due date">
+                <input type="text" placeholder="Type a due date" spellcheck="false">
+                <svg-loader id="cross-icon" hidden></svg-loader>
+            </div>
+            <div class="date-preview" hidden>
+                <div class="date-preview-content">
+                    <svg-loader class="date-preview-content-icon"></svg-loader>
+                    <div class="date-preview-content-date">
+                        <div class="date-preview-info"></div>
+                        <div class="date-preview-tasks"></div>
+                    </div>
+                </div>
             </div>
             <div class="date-suggestions">
-                <div class="date-suggestions-item" id="suggestions-today">
+                <button class="date-suggestions-item" id="suggestions-today">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-today"></svg-loader>
                     <h3 class="date-suggestions-label">Today</h3>
                     <h4 class="date-suggestions-weekday">Fri</h4>
-                </div>
-                <div class="date-suggestions-item" id="suggestions-tomorrow">
+                </button>
+                <button class="date-suggestions-item" id="suggestions-tomorrow">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-tomorrow"></svg-loader>
                     <h3 class="date-suggestions-label">Tomorrow</h3>
                     <h4 class="date-suggestions-weekday">Sat</h4>
-                </div>
-                <div class="date-suggestions-item" id="suggestions-this-weekend">
+                </button>
+                <button class="date-suggestions-item" id="suggestions-this-weekend">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-weekend"></svg-loader>
                     <h3 class="date-suggestions-label">This weekend</h3>
                     <h4 class="date-suggestions-weekday">Sat</h4>
-                </div>
-                <div class="date-suggestions-item" id="suggestions-next-week">
+                </button>
+                <button class="date-suggestions-item" id="suggestions-next-week">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-next-week"></svg-loader>
                     <h3 class="date-suggestions-label">Next week</h3>
                     <h4 class="date-suggestions-weekday">Mon 25 Jul</h4>
-                </div>
-                <div class="date-suggestions-item" id="suggestions-no-date">
+                </button>
+                <button class="date-suggestions-item" id="suggestions-no-date">
                     <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-no-date"></svg-loader>
                     <h3 class="date-suggestions-label">No Date</h3>
-                </div>
+                </button>
             </div>
             <div class="date-picker">
                 <header class="date-picker-header">
                     <span class="date-picker-header-month">Jul 2022</span>
                     <div class="date-picker-header-action-container">
-                        <button class="date-picker-header-action" id="previous" disabled="true">
+                        <button type="button" class="date-picker-header-action" id="previous" disabled="true">
                             <svg-loader src="" id="previous-icon"></svg-loader>
                         </button>
-                        <button class="date-picker-header-action" id="current" disabled="true">
+                        <button type="button" class="date-picker-header-action" id="current" disabled="true">
                             <div id="current-icon"></div>
                         </button>
-                        <button class="date-picker-header-action" id="next">
+                        <button type="button" class="date-picker-header-action" id="next">
                             <svg-loader src="" id="next-icon"></svg-loader>
                         </button>
                     </div>
@@ -205,7 +215,7 @@
             <div class="date-actions">
                 <div class="date-actions-add-time">+ Add time</div>
             </div>
-        </div>
+        </form>
     </div>
 
     <template id="task-editor-template">

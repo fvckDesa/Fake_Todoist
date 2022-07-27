@@ -946,6 +946,12 @@ ul {
   overflow: hidden;
 }
 
+.date-input,
+.date-preview-content,
+.date-preview-date {
+  display: flex;
+}
+
 .date-input {
   padding: 8px 13px;
 }
@@ -958,6 +964,36 @@ ul {
   color: var(--black-text);
 }
 
+.date-input svg-loader {
+  cursor: pointer;
+}
+
+.date-preview {
+  padding: 8px 13px;
+  border-top: 1px solid var(--form-border-color);
+}
+
+.date-preview-content {
+  gap: 10px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.date-preview-content-icon {
+  color: var(--grey);
+}
+
+.date-preview-content-date {
+  flex-direction: column;
+  flex: 1;
+}
+
+.date-preview-tasks {
+  color: var(--border-color);
+  font-size: 10px;
+}
+
 .date-suggestions {
   padding-block: 4px;
   border-block: solid 1px var(--form-border-color);
@@ -966,6 +1002,7 @@ ul {
 .date-suggestions-item {
   display: flex;
   padding: 4px 10px;
+  border: none;
   background-color: var(--white);
   cursor: pointer;
 }
@@ -983,6 +1020,7 @@ ul {
   font-size: 13px;
   line-height: 24px;
   font-weight: 500;
+  text-align: left;
 }
 
 .date-suggestions-weekday {
@@ -1133,6 +1171,8 @@ ul {
 
 .date-picker-calendar-day {
   width: 100%;
+  background-color: var(--white);
+  border: none;
 }
 
 .date-picker-calendar-day:not(.empty, .past) {
@@ -1158,6 +1198,10 @@ ul {
 .date-picker-calendar-day:not(.empty, .past, .selected):hover .date-picker-calendar-day-bg {
   color: var(--black-text);
   background-color: var(--grey-day-hover);
+}
+
+.date-picker-calendar-day span {
+  margin-top: -1px;
 }
 
 .date-picker-calendar-day.today span {

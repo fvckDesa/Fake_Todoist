@@ -12,9 +12,12 @@ import {
   dueDatePickerActionNext,
   dueDatePickerWeekDayList,
   dueDatePickerMonthList,
-  dueDatePickerInput
+  dueDatePickerInput,
+  dueDatePickerPreview,
+  dueDatePickerPreviewDate,
+  pickerCrossIcon
 } from "./elements";
-import { getDaysInWeeksFormat, isBeforeDay } from "../module/date-utilities";
+import { getDaysInWeeksFormat, isBeforeDay, getMonths, parseDateString } from "../module/date-utilities";
 import {
   format,
   nextMonday,
@@ -24,12 +27,17 @@ import {
   isWeekend,
   isSameDay,
   isThisYear,
+  isBefore,
   addDays,
   addMonths,
+  startOfToday,
   startOfMonth,
+  isMatch,
+  parse,
 } from "date-fns";
 
 let datePick;
+let submitCb;
 
 let maxDate = new Date();
 let currentCalendar;
@@ -42,33 +50,63 @@ dueDatePicker.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
-dueDatePickerSuggestionToday.addEventListener("click", () => {
-  datePick = new Date();
+dueDatePicker.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  submitCb(datePick);
+
   dueDatePickerContainer.classList.add("hidden");
 });
 
-dueDatePickerSuggestionTomorrow.addEventListener("click", () => {
-  datePick = addDays(new Date(), 1);
-  dueDatePickerContainer.classList.add("hidden");
+dueDatePickerInput.addEventListener("input", () => {
+  const value = dueDatePickerInput.value.trim();
+  const date = parseDateString(value);
+  
+  dueDatePickerPreview.hidden = date == undefined;
+  if(!date) return;
+  // set info
+  dueDatePickerPreviewDate
+    .firstElementChild
+    .innerText = format(date, `eee d MMM ${isThisYear(date) ? "" : "yyyy"}`);
+
+  const numTasks = 0;
+  dueDatePickerPreviewDate.lastElementChild.innerText = numTasks > 0
+    ? `${numTasks} task${numTasks > 1 ? "s" : ""}`
+    : "No tasks";
 });
 
-dueDatePickerSuggestionThisWeekend.addEventListener("click", () => {
-  datePick = nextSaturday(new Date());
-  dueDatePickerContainer.classList.add("hidden");
+dueDatePickerInput.addEventListener("input", () => {
+  pickerCrossIcon.hidden = dueDatePickerInput.value.trim().length === 0;
 });
 
-dueDatePickerSuggestionNextWeek.addEventListener("click", () => {
-  datePick = nextMonday(new Date());
-  dueDatePickerContainer.classList.add("hidden");
+pickerCrossIcon.addEventListener("click", () => {
+  dueDatePickerInput.value = "";
+  pickerCrossIcon.hidden = true;
+  dueDatePickerPreview.hidden = true;
 });
 
-dueDatePickerSuggestionNoDate.addEventListener("click", () => {
-  datePick = null;
-  dueDatePickerContainer.classList.add("hidden");
-});
+dueDatePickerSuggestionToday.addEventListener("click", () =>
+  setDatePick(new Date())
+);
 
-dueDatePickerActionPrev.addEventListener("click", () => 
-    scrollTo(currentCalendar.previousElementSibling)
+dueDatePickerSuggestionTomorrow.addEventListener("click", () =>
+  setDatePick(addDays(new Date(), 1))
+);
+
+dueDatePickerSuggestionThisWeekend.addEventListener("click", () =>
+  setDatePick(nextSaturday(new Date()))
+);
+
+dueDatePickerSuggestionNextWeek.addEventListener("click", () =>
+  setDatePick(nextMonday(new Date()))
+);
+
+dueDatePickerSuggestionNoDate.addEventListener("click", () =>
+  setDatePick(null)
+);
+
+dueDatePickerActionPrev.addEventListener("click", () =>
+  scrollTo(currentCalendar.previousElementSibling)
 );
 
 dueDatePickerActionCurr.addEventListener("click", () =>
@@ -80,10 +118,8 @@ dueDatePickerActionNext.addEventListener("click", () =>
 );
 
 dueDatePickerMonthList.addEventListener("scroll", () => {
-  const { 
-    height: monthListHeight,
-    top: monthListTop
-  } = dueDatePickerMonthList.getBoundingClientRect();
+  const { height: monthListHeight, top: monthListTop } =
+    dueDatePickerMonthList.getBoundingClientRect();
   const monthListScroll = dueDatePickerMonthList.scrollTop;
   // active border on week day list
   dueDatePickerWeekDayList.classList.toggle("border", monthListScroll > 0);
@@ -96,35 +132,39 @@ dueDatePickerMonthList.addEventListener("scroll", () => {
     const { bottom: calendarBottom } = calendar.getBoundingClientRect();
     return calendarBottom >= monthListTop;
   });
-  dueDatePickerHeaderMonth.innerText = currentCalendar.getAttribute("data-month");
+  dueDatePickerHeaderMonth.innerText =
+    currentCalendar.getAttribute("data-month");
   // disable and enable prev and next buttons
-  dueDatePickerActionPrev.disabled = currentCalendar === dueDatePickerMonthList.firstElementChild;
+  dueDatePickerActionPrev.disabled =
+    currentCalendar === dueDatePickerMonthList.firstElementChild;
   dueDatePickerActionCurr.disabled = monthListScroll === 0;
 });
 
-function activeDueDatePicker(el, dueDate = null) {
+function activeDueDatePicker(el, next = () => {}, dueDate = null) {
   // render due date picker
   dueDatePickerContainer.classList.remove("hidden");
-
+  // set params
   datePick = dueDate;
+  submitCb = next;
   // set date in input
-  dueDatePickerInput.value = datePick 
-    ? `${format(datePick, "d MMM")}${!isThisYear(datePick) ? " " + format(datePick, "yyyy") : "" }`
+  dueDatePickerInput.value = datePick
+    ? `${format(datePick, "d MMM")}${
+        !isThisYear(datePick) ? " " + format(datePick, "yyyy") : ""
+      }`
     : "";
 
   formatSuggestions();
 
-  renderStartCalendarList();
+  renderStartCalendarList(dueDate);
 }
-
-activeDueDatePicker();
 
 function scrollTo(calendar) {
   currentCalendar = calendar;
   const headerHeight = calendar.firstElementChild.getBoundingClientRect().height;
+  console.log(calendar.offsetTop + headerHeight)
   dueDatePickerMonthList.scrollTo({
-    top: calendar.offsetTop + headerHeight,
-    behavior: "smooth",
+    top: Math.floor(calendar.offsetTop + headerHeight),
+    /* behavior: "smooth", */
   });
 }
 
@@ -146,26 +186,20 @@ function formatSuggestions() {
   dueDatePickerSuggestionNoDate.hidden = datePick === null;
 }
 
-function renderStartCalendarList() {
-  // num of months to show in start date picker
-  const START_MONTHS = 4;
+function renderStartCalendarList(maxDatePar) {
+  maxDate = addMonths(maxDatePar ?? addMonths(new Date(), 4), 1);
 
-  for (let i = 0; i < START_MONTHS; i++) {
-    renderNewCalendar();
-    if (i === 0) {
-        currentCalendar = dueDatePickerMonthList.firstElementChild;
-        maxDate = startOfMonth(maxDate);
-    }
-  }
-  // set start month
-  dueDatePickerHeaderMonth.innerText =
-    dueDatePickerMonthList.firstChild.getAttribute("data-month");
+  dueDatePickerMonthList.replaceChildren(...getMonths(maxDate).map(createCalendar));
+  
+  maxDate = startOfMonth(maxDate);
+
+  if(maxDatePar) scrollTo(dueDatePickerMonthList.children[dueDatePickerMonthList.children.length - 2]);
 }
 
 function renderNewCalendar() {
+  maxDate = addMonths(maxDate, 1);
   const calendar = createCalendar(maxDate);
   dueDatePickerMonthList.appendChild(calendar);
-  maxDate = addMonths(maxDate, 1);
 }
 
 function createCalendar(date) {
@@ -193,9 +227,8 @@ function createDaysElements(days) {
     // num day of element
     const numDay = day ? format(day, "d") : "";
     // create element
-    const dayElement = document.createElement("div");
+    const dayElement = document.createElement("button");
     dayElement.classList.add("date-picker-calendar-day");
-    dayElement.setAttribute("data-date", day ? format(day, "yyyy-M-d") : "");
     if (isSameDay(day, datePick)) dayElement.classList.add("selected");
 
     const dayBg = document.createElement("div");
@@ -205,16 +238,24 @@ function createDaysElements(days) {
     // set extra info
     if (!day) {
       dayElement.classList.add("empty");
+      dayElement.disabled = true;
     }
     if (isBeforeDay(day, new Date())) {
       dayElement.classList.add("past");
+      dayElement.disabled = true;
     }
     if (isToday(day)) {
       dayElement.classList.add("today");
     }
 
+    dayElement.addEventListener("click", () => setDatePick(day));
+
     return dayElement;
   });
+}
+
+function setDatePick(date) {
+  datePick = date;
 }
 
 function getDatePick() {

@@ -67,6 +67,8 @@ function createPickerItem(project) {
         // change current project
         projectPickerList.querySelector(".current")?.classList.remove("current");
         pickerItem.classList.add("current");
+        // reset input
+        projectPickerSearch.value = "";
     });
     if( project === projectPick ) pickerItem.classList.add("current");
     return pickerItem;
