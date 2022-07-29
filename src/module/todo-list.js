@@ -1,8 +1,13 @@
 import Project from "./project";
+import { parseJSON } from "date-fns";
 
 const todoList = (() => {
     const projects = JSON.parse(localStorage.getItem('projects') ?? "[]")
-        .map(({ name, color, tasks }) => new Project(name, color, tasks));
+        .map(({ name, color, tasks }) => {
+            // transform due date from JSON string to date object
+            tasks = tasks.map(({ dueDate, ...others }) => ({ ...others, dueDate: parseJSON(dueDate) }));
+            return new Project(name, color, tasks);
+        });
     // add default project if none exists
     if(projects.length === 0) addProject("Inbox");
     
