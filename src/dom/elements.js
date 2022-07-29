@@ -62,7 +62,6 @@ export const dueDatePickerHeaderMonth = document.querySelector(".date-picker-hea
 export const dueDatePickerActionPrev = document.querySelector(".date-picker-header-action#previous");
 export const dueDatePickerActionCurr = document.querySelector(".date-picker-header-action#current");
 export const dueDatePickerActionNext = document.querySelector(".date-picker-header-action#next");
-export const dueDatePickerWeekDayList = document.querySelector(".date-picker-week-day-list");
 export const dueDatePickerMonthList = document.querySelector(".date-picker-month-list");
 export const dueDatePickerSuggestionToday = document.querySelector("#suggestions-today");
 export const dueDatePickerSuggestionTomorrow = document.querySelector("#suggestions-tomorrow");
@@ -72,6 +71,8 @@ export const dueDatePickerSuggestionNoDate = document.querySelector("#suggestion
 export const dueDatePickerInput = document.querySelector(".date-input > input");
 export const dueDatePickerPreview = document.querySelector(".date-preview");
 export const dueDatePickerPreviewDate = document.querySelector(".date-preview-content-date");
+export const dueDatePickerMonthListHeader = document.querySelector(".date-picker-month-list-header");
+export const dueDatePickerTaskCounter = document.querySelector(".task-counter");
 //Project form elements
 export const projectFormContainer = document.querySelector('.project-form-container');
 export const projectForm = document.querySelector('.project-form');

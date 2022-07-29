@@ -16,6 +16,8 @@ import {
   isBefore,
   addDays,
   nextMonday,
+  isSameWeek,
+  addYears,
 } from "date-fns";
 
 export function getDaysInWeeksFormat(date, weekStartsOn = 0) {
@@ -31,7 +33,10 @@ export function isBeforeDay(day1, day2) {
   );
 }
 
-export function getMonths(maxDate = addMonths(new Date(), 4)) {
+export function getMonths(maxDate) {
+  if(isSameMonth(addMonths(new Date(), 1), maxDate)) {
+    maxDate = addMonths(maxDate, 4);
+  }
   return [
     new Date(),
     ...eachMonthOfInterval({
@@ -64,12 +69,11 @@ export function parseDateString(dateString) {
     .find((formatStr) => isMatch(dateString, formatStr));
   // get date object
   let date = formatString && parse(dateString, formatString, new Date());
-  // add 1 week if day of week is in past
-  if (
-    isBefore(date, startOfToday()) &&
-    (formatString === "EEE" || formatString === "EEEE")
-  )
-    date = addDays(date, 7);
+    
+  if(isBefore(date, startOfToday())) {
+    if(formatString.match(/^E{3,4}$/)) date = addDays(date, 7);
+    if(formatString.match(/d M{3,4}$/)) date = addYears(date, 1);
+  }
   // search date for constants words
   switch (dateString.toLowerCase()) {
     case "today":
@@ -89,4 +93,12 @@ export function parseDateString(dateString) {
   }
 
   return date;
+}
+
+export function isNextWeek(date) {
+  return isSameWeek(date, nextMonday(startOfToday()), { weekStartsOn: 1 });
+}
+
+export function isThisWeekend(date) {
+  return isSameWeek(date, startOfToday(), { weekStartsOn: 1 }) && isWeekend(date);
 }

@@ -1,5 +1,6 @@
 import { taskTemplate } from "./elements";
-import Icons from "../assets/svg"
+import Icons from "../assets/svg";
+import { activeDueDatePicker } from "./due-date-picker";
 
 function createTaskElement({ name, description, dueDate }) {
     const taskEl = taskTemplate.cloneNode(true).firstElementChild;
@@ -19,6 +20,8 @@ function createTaskElement({ name, description, dueDate }) {
     name ? taskName.textContent = name : taskName.remove();
     description ? taskDescription.textContent = description : taskDescription.remove();
     dueDate ? dueDateText.textContent = dueDate : taskDueDate.remove();
+    
+    changeDueDate.addEventListener("click", () => activeDueDatePicker(changeDueDate));
 
     return taskEl;
 }

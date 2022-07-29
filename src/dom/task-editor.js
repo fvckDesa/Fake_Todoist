@@ -106,21 +106,21 @@ function setTaskDueDate(date) {
     if(isBefore(date, new Date())) color = "--red";
     text = format(date, `d MMM${isThisYear(date) ? "" : " yyyy"}`);
   }
-  if(date && isToday(date)) {
-    color = "--green";
-    text = "Today";
-  }
-  if(date && isTomorrow(date)) {
-    color = "--orange";
-    text = "Tomorrow";
+  if(date && isNextWeek(date)) {
+    color = "--purple";
+    text = format(date, "eeee");
   }
   if(date && isThisWeek(date, { weekStartsOn: 1 }) && isWeekend(date)) {
     color = "--blue"
     text = format(date, "eeee");
   }
-  if(date && isNextWeek(date)) {
-    color = "--purple";
-    text = format(date, "eeee");
+  if(date && isTomorrow(date)) {
+    color = "--orange";
+    text = "Tomorrow";
+  }
+  if(date && isToday(date)) {
+    color = "--green";
+    text = "Today";
   }
 
   taskDueDate.style.color = color ? `var(${color})` : "";

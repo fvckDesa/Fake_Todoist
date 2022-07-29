@@ -1112,15 +1112,70 @@ ul {
   transform: rotate(180deg);
 }
 
-.date-picker-week-day-list {
-  display: flex;
-  padding: 0 10px;
+.date-picker-month-list-header {
+  position: relative;
+  flex-shrink: 0;
+  height: 25px;
   border-bottom: solid 1px transparent;
+}
+
+.date-picker-month-list-header.border {
+  border-bottom-color: var(--form-border-color);
+}
+
+.task-counter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--white);
+  z-index: 1;
+}
+
+.task-counter-info {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  padding-top: 2px;
   color: var(--grey);
 }
 
-.date-picker-week-day-list.border {
-  border-bottom-color: var(--form-border-color);
+.date-info {
+  font-size: 10px;
+}
+
+.counter-info {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.task-counter-bar {
+  display: flex;
+  justify-content: center;
+  height: 3px;
+}
+
+.task-counter-bar span {
+  display: inline-block;
+  width: 8px;
+  height: 3px;
+  background-color: #b8b8b8;
+}
+
+.task-counter-bar span:first-child {
+  border-radius: 2px 0 0 2px;
+}
+
+.task-counter-bar span:last-child {
+  border-radius: 0 2px 2px 0;
+}
+
+.date-picker-week-day-list {
+  display: flex;
+  font-size: 10px;
+  padding: 0 10px;
+  color: var(--grey);
 }
 
 .week-day {
@@ -1231,6 +1286,26 @@ ul {
 
 .date-picker-calendar-day.past {
   opacity: 0.15;
+}
+
+.has-task {
+  position: relative;
+}
+
+.date-picker-calendar-day.has-task::before {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--grey);
+}
+
+.date-picker-calendar-day.has-task.selected::before {
+  background-color: var(--white);
 }
 
 .date-actions {

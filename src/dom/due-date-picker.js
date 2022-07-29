@@ -10,14 +10,22 @@ import {
   dueDatePickerActionPrev,
   dueDatePickerActionCurr,
   dueDatePickerActionNext,
-  dueDatePickerWeekDayList,
+  dueDatePickerMonthListHeader,
   dueDatePickerMonthList,
   dueDatePickerInput,
   dueDatePickerPreview,
   dueDatePickerPreviewDate,
-  pickerCrossIcon
+  pickerCrossIcon,
+  dueDatePickerTaskCounter
 } from "./elements";
-import { getDaysInWeeksFormat, isBeforeDay, getMonths, parseDateString } from "../module/date-utilities";
+import {
+  getDaysInWeeksFormat,
+  isBeforeDay,
+  getMonths,
+  parseDateString,
+  isThisWeekend,
+  isNextWeek
+} from "../module/date-utilities";
 import {
   format,
   nextMonday,
@@ -27,23 +35,24 @@ import {
   isWeekend,
   isSameDay,
   isThisYear,
-  isBefore,
   addDays,
   addMonths,
-  startOfToday,
   startOfMonth,
-  isMatch,
-  parse,
+  parse
 } from "date-fns";
+import todoList from "../module/todo-list";
 
 let datePick;
 let submitCb;
+let element;
 
 let maxDate = new Date();
 let currentCalendar;
+let isScroll = false;
 
 dueDatePickerContainer.addEventListener("click", () => {
   dueDatePickerContainer.classList.add("hidden");
+  dueDatePickerPreview.hidden = true;
 });
 
 dueDatePicker.addEventListener("click", (e) => {
@@ -56,6 +65,7 @@ dueDatePicker.addEventListener("submit", (e) => {
   submitCb(datePick);
 
   dueDatePickerContainer.classList.add("hidden");
+  dueDatePickerPreview.hidden = true;
 });
 
 dueDatePickerInput.addEventListener("input", () => {
@@ -63,7 +73,9 @@ dueDatePickerInput.addEventListener("input", () => {
   const date = parseDateString(value);
   
   dueDatePickerPreview.hidden = date == undefined;
+  positionDueDatePicker(element);
   if(!date) return;
+  dueDatePickerPreview.setAttribute("data-date", format(date, "yyyy-MM-dd"));
   // set info
   dueDatePickerPreviewDate
     .firstElementChild
@@ -83,6 +95,11 @@ pickerCrossIcon.addEventListener("click", () => {
   dueDatePickerInput.value = "";
   pickerCrossIcon.hidden = true;
   dueDatePickerPreview.hidden = true;
+  positionDueDatePicker(element);
+});
+
+dueDatePickerPreview.addEventListener("click", () => {
+  setDatePick(parse(dueDatePickerPreview.getAttribute("data-date"), "yyyy-MM-dd", new Date()));
 });
 
 dueDatePickerSuggestionToday.addEventListener("click", () =>
@@ -116,13 +133,17 @@ dueDatePickerActionCurr.addEventListener("click", () =>
 dueDatePickerActionNext.addEventListener("click", () =>
   scrollTo(currentCalendar.nextElementSibling)
 );
-
+let time
 dueDatePickerMonthList.addEventListener("scroll", () => {
   const { height: monthListHeight, top: monthListTop } =
     dueDatePickerMonthList.getBoundingClientRect();
   const monthListScroll = dueDatePickerMonthList.scrollTop;
-  // active border on week day list
-  dueDatePickerWeekDayList.classList.toggle("border", monthListScroll > 0);
+  // active border on month list header
+  dueDatePickerMonthListHeader.classList.toggle("border", monthListScroll > 0);
+  // detect scroll end
+  isScroll = true;
+  clearTimeout(time);
+  time = setTimeout(() => { isScroll = false; }, 100);
   // add months
   if (monthListScroll > monthListHeight / 2) {
     renderNewCalendar();
@@ -143,9 +164,10 @@ dueDatePickerMonthList.addEventListener("scroll", () => {
 function activeDueDatePicker(el, next = () => {}, dueDate = null) {
   // render due date picker
   dueDatePickerContainer.classList.remove("hidden");
-  // set params
+  // set states
   datePick = dueDate;
   submitCb = next;
+  element = el;
   // set date in input
   dueDatePickerInput.value = datePick
     ? `${format(datePick, "d MMM")}${
@@ -156,15 +178,16 @@ function activeDueDatePicker(el, next = () => {}, dueDate = null) {
   formatSuggestions();
 
   renderStartCalendarList(dueDate);
+
+  positionDueDatePicker(el);
 }
 
 function scrollTo(calendar) {
   currentCalendar = calendar;
-  const headerHeight = calendar.firstElementChild.getBoundingClientRect().height;
-  console.log(calendar.offsetTop + headerHeight)
+  const headerHeight = calendar.firstElementChild.offsetHeight;
   dueDatePickerMonthList.scrollTo({
-    top: Math.floor(calendar.offsetTop + headerHeight),
-    /* behavior: "smooth", */
+    top: (calendar.offsetTop + 1) + headerHeight,
+    behavior: "smooth",
   });
 }
 
@@ -182,18 +205,20 @@ function formatSuggestions() {
   // remove suggestions if date is set
   dueDatePickerSuggestionToday.hidden = datePick && isToday(datePick);
   dueDatePickerSuggestionTomorrow.hidden = datePick && isTomorrow(datePick);
-  dueDatePickerSuggestionThisWeekend.hidden = datePick && isWeekend(datePick);
+  dueDatePickerSuggestionThisWeekend.hidden = datePick && isThisWeekend(datePick);
+  dueDatePickerSuggestionNextWeek.hidden = datePick && isNextWeek(datePick);
   dueDatePickerSuggestionNoDate.hidden = datePick === null;
 }
 
 function renderStartCalendarList(maxDatePar) {
   maxDate = addMonths(maxDatePar ?? addMonths(new Date(), 4), 1);
-
-  dueDatePickerMonthList.replaceChildren(...getMonths(maxDate).map(createCalendar));
-  
   maxDate = startOfMonth(maxDate);
 
-  if(maxDatePar) scrollTo(dueDatePickerMonthList.children[dueDatePickerMonthList.children.length - 2]);
+  dueDatePickerMonthList.replaceChildren(...getMonths(maxDate).map(createCalendar));
+
+  scrollTo([...dueDatePickerMonthList.children].find((calendar) => {
+    return format(maxDatePar ?? new Date(), "MMM yyyy") === calendar.getAttribute("data-month");
+  }));
 }
 
 function renderNewCalendar() {
@@ -250,8 +275,77 @@ function createDaysElements(days) {
 
     dayElement.addEventListener("click", () => setDatePick(day));
 
+    if(!dayElement.classList.contains("empty") && !dayElement.classList.contains("past")) {
+      const taskInThisDay = todoList.getTaskFromDate(day);
+
+      dayElement.addEventListener("mouseover", () => {
+        if(isScroll) return;
+        const [ counterInfo, counterBar ] = dueDatePickerTaskCounter.children;
+        // date
+        counterInfo.firstElementChild.innerText = format(day, `eee d MMM ${isThisYear(day) ? "" : "yyyy"}`);
+        // num tasks
+        counterInfo.lastElementChild.innerText = `${taskInThisDay.length} tasks due`;
+        
+        counterBar.replaceChildren(...taskInThisDay.map(() => document.createElement("span")));
+
+        dueDatePickerTaskCounter.classList.remove("hidden");
+      });
+      dayElement.addEventListener("mouseleave", () => {
+        dueDatePickerTaskCounter.classList.add("hidden");
+      });
+
+      if(taskInThisDay.length > 0) dayElement.classList.add("has-task");
+    }
+
     return dayElement;
   });
+}
+
+function positionDueDatePicker(el) {
+  let coords = { x: 0, y: 0 }; 
+  // get info of element
+  const { left, right, top, bottom, width, height } = el.getBoundingClientRect();
+  // get dimensions of body
+  const { height: bodyHeight, width: bodyWidth } = document.body.getBoundingClientRect();
+  // get dimensions of dueDatePicker
+  const { height: dueDatePickerHeight, width: dueDatePickerWidth } = dueDatePicker.getBoundingClientRect();
+  // resize x and y if overflow in body
+  const PADDING = 20;
+  const overflowXCorrector = (x) => {
+    return Math.min(Math.max(x, PADDING), bodyWidth - dueDatePickerWidth - PADDING);
+  }
+  const overflowYCorrector = (y) => {
+    return Math.min(Math.max(y, PADDING), bodyHeight - dueDatePickerHeight - PADDING);
+  }
+  // get x and y coordinates
+  // from top
+  if(top - dueDatePickerHeight > 0) {
+    coords = {
+      x: overflowXCorrector(left - dueDatePickerWidth / 2 + width / 2),
+      y: overflowYCorrector(top - dueDatePickerHeight),
+    }
+  // from bottom
+  } else if(bottom + dueDatePickerHeight < bodyHeight) {
+    coords = {
+      x: overflowXCorrector(left - dueDatePickerWidth / 2 + width / 2),
+      y: overflowYCorrector(bottom),
+    }
+  // from left
+  } else if(left - dueDatePickerWidth > 0) {
+    coords = {
+      x: overflowXCorrector(left - dueDatePickerWidth),
+      y: overflowYCorrector(top - dueDatePickerHeight / 2 + height / 2),
+    }
+  // from right
+  } else if(right + dueDatePickerWidth < bodyWidth) {
+    coords = {
+      x: overflowXCorrector(right),
+      y: overflowYCorrector(top - dueDatePickerHeight / 2 + height / 2),
+    }
+  }
+
+  const { x, y } = coords;
+  dueDatePicker.style.cssText = `transform: translate(${x}px, ${y}px)`;
 }
 
 function setDatePick(date) {
