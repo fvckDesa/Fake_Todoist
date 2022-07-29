@@ -6,16 +6,21 @@ import {
     projectPickerArrow
 } from "./elements";
 import { createProjectElement, renderProjects } from "./project";
-import { setTaskProject } from "./task-editor";
 import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
 
 let projectPick;
 
-projectPickerContainer.addEventListener("click", () => {
-    projectPickerContainer.classList.add("hidden");
-    // reset input
-    projectPickerSearch.value = "";
+let submitCb;
+
+projectPickerContainer.addEventListener("click", () => closeProjectPicker());
+
+projectPicker.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    submitCb(projectPick);
+
+    closeProjectPicker();
 });
 
 projectPicker.addEventListener("click", (e) => {
@@ -29,9 +34,12 @@ function renderSearchProjectList() {
     renderProjectList(({ name }) => name.toLowerCase().includes(filter));
 }
 
-function activeProjectPicker(el) {
+function activeProjectPicker(el, next = () => {}) {
     // render project picker
     projectPickerContainer.classList.remove("hidden");
+
+    submitCb = next;
+
     // create list of projects
     renderProjectList();
     // set in correct position
@@ -43,6 +51,13 @@ function activeProjectPicker(el) {
     projectPicker.style.cssText = `${startPos}: 0; transform: translate(${x}px, ${y}px);`;
 }
 
+function closeProjectPicker() {
+    // hide project picker
+    projectPickerContainer.classList.add("hidden");
+    // reset input
+    projectPickerSearch.value = "";
+}
+
 function renderProjectList(filterCallback = () => true) {
     const projectItems = todoList.projects.filter(filterCallback).map(createPickerItem);
     if(projectItems.length === 0) projectItems.push(createProjectPickerEmpty());
@@ -51,27 +66,23 @@ function renderProjectList(filterCallback = () => true) {
 
 function createPickerItem(project) {
     const { name, color } = project;
-    const pickerItem = document.createElement("li");
-    pickerItem.classList.add("project-picker-item");
-    pickerItem.innerHTML = `
-        <svg-loader src="${ color ? Icons.Circle : Icons.Inbox }" style="color: ${color}"></svg-loader>
-        <span>${name}</span>
-        <svg-loader src="${ Icons.ColorTic }" class="project-picker-item-tic"></svg-loader>
+    const pickerItemContainer = document.createElement("li");
+    pickerItemContainer.classList.add("project-picker-item-container");
+    pickerItemContainer.innerHTML = `
+        <button class="project-picker-item">
+            <svg-loader src="${ color ? Icons.Circle : Icons.Inbox }" style="color: ${color}"></svg-loader>
+            <span>${name}</span>
+            <svg-loader src="${ Icons.ColorTic }" class="project-picker-item-tic"></svg-loader>
+        </button>
     `;
-    pickerItem.addEventListener("click", () => {
+    pickerItemContainer.addEventListener("click", () => {
         projectPick = project;
-        // change taskProject
-        setTaskProject(project);
-        // hide project picker
-        projectPickerContainer.classList.add("hidden");
         // change current project
         projectPickerList.querySelector(".current")?.classList.remove("current");
-        pickerItem.classList.add("current");
-        // reset input
-        projectPickerSearch.value = "";
+        pickerItemContainer.firstElementChild.classList.add("current");
     });
-    if( project === projectPick ) pickerItem.classList.add("current");
-    return pickerItem;
+    if( project === projectPick ) pickerItemContainer.firstElementChild.classList.add("current");
+    return pickerItemContainer;
 }
 
 function createProjectPickerEmpty() {

@@ -12,8 +12,12 @@ import Icons from "../assets/svg";
 import { setTask, getCurrentProject } from "./main-content";
 import { activeProjectPicker, getProjectPick } from "./project-picker";
 import { activeDueDatePicker, getDatePick } from "./due-date-picker";
+import { format, isThisWeek, isThisYear, isToday, isTomorrow, isWeekend, isBefore } from "date-fns";
+import { isNextWeek } from "../module/date-utilities";
 
 let lastElement;
+let task;
+let dueDate;
 
 taskNameInput.addEventListener("input", () => {
   taskEditorSubmit.disabled = !taskNameInput.value;
@@ -21,9 +25,9 @@ taskNameInput.addEventListener("input", () => {
 
 taskDescriptionInput.addEventListener("input", formatTaskDescription);
 
-taskProject.addEventListener("click", () => activeProjectPicker(taskProject));
+taskProject.addEventListener("click", () => activeProjectPicker(taskProject, setTaskProject));
 
-taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate));
+taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate, setTaskDueDate, dueDate));
 
 taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -44,22 +48,36 @@ taskEditor.addEventListener("reset", () => {
   removeTaskEditor();
 });
 
+function activeTaskEditor(el, taskPar = {}) {
+  // render task editor
+  if (taskContainer.contains(taskEditor)) removeTaskEditor();
+  taskContainer.replaceChild(taskEditor, el);
+  // change state
+  lastElement = el;
+  task = taskPar;
+
+  setTaskEditor(taskPar);
+}
+
 function resetTaskEditor() {
   taskNameInput.value = "";
   taskDescriptionInput.value = "";
   setTaskProject(getCurrentProject());
+  setTaskDueDate(null);
 }
 
 function removeTaskEditor() {
   taskContainer.replaceChild(lastElement, taskEditor);
 }
 
-function setTaskEditor(element) {
-  if (taskContainer.contains(taskEditor)) removeTaskEditor();
-  taskContainer.replaceChild(taskEditor, element);
-  lastElement = element;
+function setTaskEditor({ name = "", description = "", dueDate = null }) {
+  // set input values
+  taskNameInput.value = name;
+  taskDescriptionInput.value = description;
   // set current project
   setTaskProject(getCurrentProject());
+  // set due date
+  setTaskDueDate(dueDate);
 }
 
 function setTaskProject(project) {
@@ -78,11 +96,35 @@ function createTaskProject({ name, color }) {
 }
 
 function setTaskDueDate(date) {
-  taskDueDate.replaceChildren(...createTaskDueDate(date));
-}
+  dueDate = date;
 
-function createTaskDueDate(date) {
-  return [];
+  let color = "", text = "";
+  if(!date) {
+    text = "Due Date";
+  }
+  if(date) {
+    if(isBefore(date, new Date())) color = "--red";
+    text = format(date, `d MMM${isThisYear(date) ? "" : " yyyy"}`);
+  }
+  if(date && isToday(date)) {
+    color = "--green";
+    text = "Today";
+  }
+  if(date && isTomorrow(date)) {
+    color = "--orange";
+    text = "Tomorrow";
+  }
+  if(date && isThisWeek(date, { weekStartsOn: 1 }) && isWeekend(date)) {
+    color = "--blue"
+    text = format(date, "eeee");
+  }
+  if(date && isNextWeek(date)) {
+    color = "--purple";
+    text = format(date, "eeee");
+  }
+
+  taskDueDate.style.color = color ? `var(${color})` : "";
+  taskDueDate.lastElementChild.innerText = text;
 }
 
 function formatTaskDescription() {
@@ -99,4 +141,4 @@ function formatTaskDescription() {
   taskDescriptionInput.style.cssText = `--height: ${numNewLine * lineHeight}px`;
 }
 
-export { setTaskEditor, formatTaskDescription, setTaskProject };
+export { activeTaskEditor, formatTaskDescription, setTaskProject };

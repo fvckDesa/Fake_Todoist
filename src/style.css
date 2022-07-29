@@ -752,7 +752,6 @@ ul {
 
 .task-editor-btn-text {
   font-size: 13px;
-  color: #555;
 }
 
 .task-editor-footer {
@@ -875,11 +874,18 @@ ul {
   overflow: hidden auto;
 }
 
+.project-picker-item-container {
+  flex-grow: 1;
+}
+
 .project-picker-item {
   display: flex;
+  align-items: center;
   gap: 10px;
-  flex-grow: 1;
+  width: 100%;
   padding: 4px 10px;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
 }
 
@@ -893,6 +899,7 @@ ul {
 
 .project-picker-item span {
   line-height: 24px;
+  text-align: left;
   flex-grow: 1;
 }
 
@@ -934,9 +941,6 @@ ul {
 
 .due-date-picker {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 250px;
   max-height: 600px;
   border-radius: var(--radius);
@@ -975,6 +979,9 @@ ul {
 
 .date-preview-content {
   gap: 10px;
+  width: 100%;
+  border: none;
+  background-color: transparent;
   font-weight: 600;
   text-align: left;
   cursor: pointer;
@@ -1081,7 +1088,7 @@ ul {
 }
 
 .date-picker-header-action:disabled {
-  opacity: .2;
+  opacity: 0.2;
   pointer-events: none;
 }
 
@@ -1201,7 +1208,7 @@ ul {
 }
 
 .date-picker-calendar-day span {
-  margin-top: -1px;
+  margin-top: -2px;
 }
 
 .date-picker-calendar-day.today span {

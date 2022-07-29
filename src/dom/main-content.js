@@ -8,7 +8,7 @@ import {
 } from "./elements.js";
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
-import { setTaskEditor } from "./task-editor";
+import { activeTaskEditor } from "./task-editor";
 import { setProjectPick } from "./project-picker";
 
 let currentProject;
@@ -22,7 +22,7 @@ mainContent.addEventListener("scroll", () => {
 });
 
 addTask.addEventListener("click", () => {
-  setTaskEditor(addTask);
+  activeTaskEditor(addTask);
 });
 
 function setProject(name) {

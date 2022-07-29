@@ -136,13 +136,13 @@
     </div>
 
     <div class="project-picker-container hidden">
-        <div class="project-picker">
+        <form class="project-picker">
             <header class="project-picker-header">
                 <input type="text" class="project-picker-search" placeholder="Type a project">
             </header>
             <ul class="project-picker-list"></ul>
             <div class="project-picker-arrow"></div>
-        </div>
+        </form>
     </div>
 
     <div class="due-date-picker-container hidden">
@@ -152,13 +152,13 @@
                 <svg-loader id="cross-icon" hidden></svg-loader>
             </div>
             <div class="date-preview" hidden>
-                <div class="date-preview-content">
+                <button class="date-preview-content">
                     <svg-loader class="date-preview-content-icon"></svg-loader>
                     <div class="date-preview-content-date">
                         <div class="date-preview-info"></div>
                         <div class="date-preview-tasks"></div>
                     </div>
-                </div>
+                </button>
             </div>
             <div class="date-suggestions">
                 <button class="date-suggestions-item" id="suggestions-today">
