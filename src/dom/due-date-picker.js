@@ -50,6 +50,11 @@ let maxDate = startOfToday();
 let currentCalendar;
 let isScroll = false;
 
+window.addEventListener("resize", () => {
+  if(dueDatePickerContainer.classList.contains("hidden")) return;
+  positionDueDatePicker(element);
+});
+
 dueDatePickerContainer.addEventListener("click", () => {
   dueDatePickerContainer.classList.add("hidden");
   dueDatePickerPreview.hidden = true;

@@ -12,6 +12,12 @@ import Icons from "../assets/svg";
 let projectPick;
 
 let submitCb;
+let element;
+
+window.addEventListener("resize", () => {
+    if(projectPickerContainer.classList.contains("hidden")) return;
+    positionProjectPicker(element);
+});
 
 projectPickerContainer.addEventListener("click", () => closeProjectPicker());
 
@@ -39,16 +45,12 @@ function activeProjectPicker(el, next = () => {}) {
     projectPickerContainer.classList.remove("hidden");
 
     submitCb = next;
+    element = el;
 
     // create list of projects
     renderProjectList();
-    // set in correct position
-    const { x, y, startPos } = getProjectPickerPosition(el);
-    startPos === "bottom" 
-        ? projectPickerArrow.classList.add("reverse")
-        : projectPickerArrow.classList.remove("reverse");
     
-    projectPicker.style.cssText = `${startPos}: 0; transform: translate(${x}px, ${y}px);`;
+    positionProjectPicker(el);
 }
 
 function closeProjectPicker() {
@@ -105,6 +107,15 @@ function createProjectPickerEmpty() {
         renderSearchProjectList();
     });
     return projectPickerEmpty;
+}
+
+function positionProjectPicker(el) {
+    const { x, y, startPos } = getProjectPickerPosition(el);
+    startPos === "bottom" 
+        ? projectPickerArrow.classList.add("reverse")
+        : projectPickerArrow.classList.remove("reverse");
+    
+    projectPicker.style.cssText = `${startPos}: 0; transform: translate(${x}px, ${y}px);`;
 }
 
 function getProjectPickerPosition(element) {
