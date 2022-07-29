@@ -20,10 +20,10 @@ import {
   addYears,
 } from "date-fns";
 
-export function getDaysInWeeksFormat(date, weekStartsOn = 0) {
+export function getDaysInWeeksFormat(date) {
   return eachDayOfInterval({
-    start: startOfWeek(date, { weekStartsOn }),
-    end: endOfWeek(endOfMonth(date), { weekStartsOn }),
+    start: startOfWeek(date),
+    end: endOfWeek(endOfMonth(date)),
   }).map((day) => (isSameMonth(day, date) ? day : null));
 }
 
@@ -96,9 +96,9 @@ export function parseDateString(dateString) {
 }
 
 export function isNextWeek(date) {
-  return isSameWeek(date, nextMonday(startOfToday()), { weekStartsOn: 1 });
+  return isSameWeek(date, nextMonday(startOfToday()));
 }
 
 export function isThisWeekend(date) {
-  return isSameWeek(date, startOfToday(), { weekStartsOn: 1 }) && isWeekend(date);
+  return isSameWeek(date, startOfToday()) && isWeekend(date);
 }

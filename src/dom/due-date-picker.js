@@ -230,7 +230,6 @@ function renderNewCalendar() {
 }
 
 function createCalendar(date) {
-  const MONDAY = 1;
   // create calendar
   const calendar = document.createElement("div");
   calendar.classList.add("date-picker-calendar");
@@ -243,7 +242,7 @@ function createCalendar(date) {
   // create grid of days
   const grid = document.createElement("div");
   grid.classList.add("date-picker-calendar-grid");
-  grid.append(...createDaysElements(getDaysInWeeksFormat(date, MONDAY)));
+  grid.append(...createDaysElements(getDaysInWeeksFormat(date)));
   calendar.appendChild(grid);
 
   return calendar;

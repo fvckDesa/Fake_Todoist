@@ -12,8 +12,11 @@ import { renderProjects, createProjectElement } from "./dom/project";
 import { setProject } from "./dom/main-content";
 import { loadScreen } from "./dom/elements";
 import todoList from "./module/todo-list";
+import configApp from "./config/config";
 // render icons on document
 setIcons();
+// set config
+configApp();
 // render projects save in localStorage (not Inbox)
 renderProjects(...todoList.projects.slice(1).map(createProjectElement));
 // set Inbox how start project

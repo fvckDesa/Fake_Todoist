@@ -110,7 +110,7 @@ function setTaskDueDate(date) {
     color = "--purple";
     text = format(date, "eeee");
   }
-  if(date && isThisWeek(date, { weekStartsOn: 1 }) && isWeekend(date)) {
+  if(date && isThisWeek(date) && isWeekend(date)) {
     color = "--blue"
     text = format(date, "eeee");
   }
