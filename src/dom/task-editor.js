@@ -12,7 +12,7 @@ import Icons from "../assets/svg";
 import { setTask, getCurrentProject } from "./main-content";
 import { activeProjectPicker, getProjectPick } from "./project-picker";
 import { activeDueDatePicker, getDatePick } from "./due-date-picker";
-import { format, isThisWeek, isThisYear, isToday, isTomorrow, isWeekend, isBefore } from "date-fns";
+import { format, isThisWeek, isThisYear, isToday, isTomorrow, isWeekend, isBefore, startOfToday } from "date-fns";
 import { isNextWeek } from "../module/date-utilities";
 
 let lastElement;
@@ -103,7 +103,7 @@ function setTaskDueDate(date) {
     text = "Due Date";
   }
   if(date) {
-    if(isBefore(date, new Date())) color = "--red";
+    if(isBefore(date, startOfToday())) color = "--red";
     text = format(date, `d MMM${isThisYear(date) ? "" : " yyyy"}`);
   }
   if(date && isNextWeek(date)) {

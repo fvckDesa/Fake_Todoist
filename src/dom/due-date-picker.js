@@ -32,12 +32,12 @@ import {
   nextSaturday,
   isToday,
   isTomorrow,
-  isWeekend,
   isSameDay,
   isThisYear,
   addDays,
   addMonths,
   startOfMonth,
+  startOfToday,
   parse
 } from "date-fns";
 import todoList from "../module/todo-list";
@@ -46,7 +46,7 @@ let datePick;
 let submitCb;
 let element;
 
-let maxDate = new Date();
+let maxDate = startOfToday();
 let currentCalendar;
 let isScroll = false;
 
@@ -99,23 +99,23 @@ pickerCrossIcon.addEventListener("click", () => {
 });
 
 dueDatePickerPreview.addEventListener("click", () => {
-  setDatePick(parse(dueDatePickerPreview.getAttribute("data-date"), "yyyy-MM-dd", new Date()));
+  setDatePick(parse(dueDatePickerPreview.getAttribute("data-date"), "yyyy-MM-dd", startOfToday()));
 });
 
 dueDatePickerSuggestionToday.addEventListener("click", () =>
-  setDatePick(new Date())
+  setDatePick(startOfToday())
 );
 
 dueDatePickerSuggestionTomorrow.addEventListener("click", () =>
-  setDatePick(addDays(new Date(), 1))
+  setDatePick(addDays(startOfToday(), 1))
 );
 
 dueDatePickerSuggestionThisWeekend.addEventListener("click", () =>
-  setDatePick(nextSaturday(new Date()))
+  setDatePick(nextSaturday(startOfToday()))
 );
 
 dueDatePickerSuggestionNextWeek.addEventListener("click", () =>
-  setDatePick(nextMonday(new Date()))
+  setDatePick(nextMonday(startOfToday()))
 );
 
 dueDatePickerSuggestionNoDate.addEventListener("click", () =>
@@ -133,17 +133,13 @@ dueDatePickerActionCurr.addEventListener("click", () =>
 dueDatePickerActionNext.addEventListener("click", () =>
   scrollTo(currentCalendar.nextElementSibling)
 );
-let time
+
 dueDatePickerMonthList.addEventListener("scroll", () => {
   const { height: monthListHeight, top: monthListTop } =
     dueDatePickerMonthList.getBoundingClientRect();
   const monthListScroll = dueDatePickerMonthList.scrollTop;
   // active border on month list header
   dueDatePickerMonthListHeader.classList.toggle("border", monthListScroll > 0);
-  // detect scroll end
-  isScroll = true;
-  clearTimeout(time);
-  time = setTimeout(() => { isScroll = false; }, 100);
   // add months
   if (monthListScroll > monthListHeight / 2) {
     renderNewCalendar();
@@ -159,6 +155,13 @@ dueDatePickerMonthList.addEventListener("scroll", () => {
   dueDatePickerActionPrev.disabled =
     currentCalendar === dueDatePickerMonthList.firstElementChild;
   dueDatePickerActionCurr.disabled = monthListScroll === 0;
+});
+// detect scroll end
+let timeout;
+dueDatePickerMonthList.addEventListener("scroll", () => {
+  isScroll = true;
+  clearTimeout(timeout);
+  timeout = setTimeout(() => { isScroll = false; }, 100);
 });
 
 function activeDueDatePicker(el, next = () => {}, dueDate = null) {
@@ -192,13 +195,13 @@ function scrollTo(calendar) {
 
 function formatSuggestions() {
   // set suggestions days text
-  dueDatePickerSuggestionToday.lastChild.innerText = format(new Date(), "EEE");
+  dueDatePickerSuggestionToday.lastChild.innerText = format(startOfToday(), "EEE");
   dueDatePickerSuggestionTomorrow.lastChild.innerText = format(
-    addDays(new Date(), 1),
+    addDays(startOfToday(), 1),
     "EEE"
   );
   dueDatePickerSuggestionNextWeek.lastChild.innerText = format(
-    nextMonday(new Date()),
+    nextMonday(startOfToday()),
     "EEE d MMM"
   );
   // remove suggestions if date is set
@@ -210,13 +213,13 @@ function formatSuggestions() {
 }
 
 function renderStartCalendarList(maxDatePar) {
-  maxDate = addMonths(maxDatePar ?? addMonths(new Date(), 4), 1);
+  maxDate = addMonths(maxDatePar ?? addMonths(startOfToday(), 4), 1);
   maxDate = startOfMonth(maxDate);
 
   dueDatePickerMonthList.replaceChildren(...getMonths(maxDate).map(createCalendar));
 
   scrollTo([...dueDatePickerMonthList.children].find((calendar) => {
-    return format(maxDatePar ?? new Date(), "MMM yyyy") === calendar.getAttribute("data-month");
+    return format(maxDatePar ?? startOfToday(), "MMM yyyy") === calendar.getAttribute("data-month");
   }));
 }
 
@@ -264,7 +267,7 @@ function createDaysElements(days) {
       dayElement.classList.add("empty");
       dayElement.disabled = true;
     }
-    if (isBeforeDay(day, new Date())) {
+    if (isBeforeDay(day, startOfToday())) {
       dayElement.classList.add("past");
       dayElement.disabled = true;
     }

@@ -34,13 +34,13 @@ export function isBeforeDay(day1, day2) {
 }
 
 export function getMonths(maxDate) {
-  if(isSameMonth(addMonths(new Date(), 1), maxDate)) {
+  if(isSameMonth(addMonths(startOfToday(), 1), maxDate)) {
     maxDate = addMonths(maxDate, 4);
   }
   return [
-    new Date(),
+    startOfToday(),
     ...eachMonthOfInterval({
-      start: addMonths(new Date(), 1),
+      start: addMonths(startOfToday(), 1),
       end: maxDate,
     }),
   ];
@@ -68,7 +68,7 @@ export function parseDateString(dateString) {
     .reverse()
     .find((formatStr) => isMatch(dateString, formatStr));
   // get date object
-  let date = formatString && parse(dateString, formatString, new Date());
+  let date = formatString && parse(dateString, formatString, startOfToday());
     
   if(isBefore(date, startOfToday())) {
     if(formatString.match(/^E{3,4}$/)) date = addDays(date, 7);
