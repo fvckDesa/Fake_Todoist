@@ -184,9 +184,8 @@ function activeDueDatePicker(el, next = () => {}, dueDate = null) {
 
 function scrollTo(calendar) {
   currentCalendar = calendar;
-  const headerHeight = calendar.firstElementChild.offsetHeight;
   dueDatePickerMonthList.scrollTo({
-    top: (calendar.offsetTop + 1) + headerHeight,
+    top: calendar.lastElementChild.offsetTop,
     behavior: "smooth",
   });
 }
