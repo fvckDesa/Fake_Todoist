@@ -9,15 +9,14 @@ import {
 } from "./elements";
 import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
-import { setTask, getCurrentProject } from "./main-content";
-import { activeProjectPicker } from "./project-picker";
-import { activeDueDatePicker } from "./due-date-picker";
-import { format, isThisWeek, isThisYear, isToday, isTomorrow, isWeekend, isBefore, startOfToday } from "date-fns";
-import { isNextWeek } from "../module/date-utilities";
+import { setTask, getCurrentProject, setUpdatedTask } from "./main-content";
+import activeProjectPicker from "./project-picker";
+import activeDueDatePicker from "./due-date-picker";
+import { getDueDateInfo } from "../module/date-utilities";
 
 let lastElement;
 let project;
-let task;
+let taskId;
 let dueDate = null;
 
 taskNameInput.addEventListener("input", () => {
@@ -34,11 +33,14 @@ taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = taskNameInput.value;
   const description = taskDescriptionInput.value;
-
-  const newTask = todoList.addTask(project.name, { name, description, dueDate });
-
-  if (project === getCurrentProject()) setTask(newTask);
-
+  if(taskId) {
+    const task = todoList.updateTask(taskId, project, { name, description, dueDate });
+    setUpdatedTask(task, project);
+  }
+  if(!taskId) {
+    const newTask = todoList.addTask(project.name, { name, description, dueDate });
+    if (project === getCurrentProject()) setTask(newTask);
+  }
   resetTaskEditor();
 });
 
@@ -53,7 +55,7 @@ function activeTaskEditor(el, taskPar = {}) {
   taskContainer.replaceChild(taskEditor, el);
   // change state
   lastElement = el;
-  task = taskPar;
+  taskId = taskPar.id;
   project = getCurrentProject();
 
   setTaskEditor(taskPar);
@@ -66,8 +68,6 @@ function resetTaskEditor() {
   // reset buttons
   setTaskProject(getCurrentProject());
   setTaskDueDate(null);
-  // disable submit button
-  taskEditorSubmit.disabled = true;
 }
 
 function removeTaskEditor() {
@@ -82,6 +82,10 @@ function setTaskEditor({ name = "", description = "", dueDate = null }) {
   setTaskProject(getCurrentProject());
   // set due date
   setTaskDueDate(dueDate);
+  // disable submit button
+  taskEditorSubmit.disabled = !taskNameInput.value;
+  // change submit button text
+  taskEditorSubmit.innerText = name ? "Save" : "Add task";
 }
 
 function setTaskProject(projectPick) {
@@ -103,30 +107,7 @@ function createTaskProject({ name, color }) {
 function setTaskDueDate(date) {
   dueDate = date;
 
-  let color = "", text = "";
-  if(!date) {
-    text = "Due Date";
-  }
-  if(date) {
-    if(isBefore(date, startOfToday())) color = "--red";
-    text = format(date, `d MMM${isThisYear(date) ? "" : " yyyy"}`);
-  }
-  if(date && isNextWeek(date)) {
-    color = "--purple";
-    text = format(date, "eeee");
-  }
-  if(date && isThisWeek(date) && isWeekend(date)) {
-    color = "--blue"
-    text = format(date, "eeee");
-  }
-  if(date && isTomorrow(date)) {
-    color = "--orange";
-    text = "Tomorrow";
-  }
-  if(date && isToday(date)) {
-    color = "--green";
-    text = "Today";
-  }
+  const { text, color } = getDueDateInfo(date);
 
   taskDueDate.style.color = color ? `var(${color})` : "";
   taskDueDate.lastElementChild.innerText = text;
@@ -146,4 +127,6 @@ function formatTaskDescription() {
   taskDescriptionInput.style.cssText = `--height: ${numNewLine * lineHeight}px`;
 }
 
-export { activeTaskEditor, formatTaskDescription, setTaskProject };
+export default activeTaskEditor;
+
+export { formatTaskDescription };

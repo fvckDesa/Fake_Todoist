@@ -18,6 +18,12 @@ import {
   nextMonday,
   isSameWeek,
   addYears,
+  isThisYear,
+  isYesterday,
+  isThisWeek,
+  isTomorrow,
+  isToday,
+  format
 } from "date-fns";
 
 export function getDaysInWeeksFormat(date) {
@@ -101,4 +107,38 @@ export function isNextWeek(date) {
 
 export function isThisWeekend(date) {
   return isSameWeek(date, startOfToday()) && isWeekend(date);
+}
+
+export function getDueDateInfo(date) {
+  let color = "", text = "";
+
+  if(!date) {
+    text = "Due Date";
+  }
+  if(date) {
+    if(isBefore(date, startOfToday())) color = "--red";
+    text = format(date, `d MMM${isThisYear(date) ? "" : " yyyy"}`);
+  }
+  if(date && isYesterday(date)) {
+    color = "--red";
+    text = "Yesterday";
+  }
+  if(date && isNextWeek(date)) {
+    color = "--purple";
+    text = format(date, "eeee");
+  }
+  if(date && isThisWeek(date) && isWeekend(date)) {
+    color = "--blue"
+    text = format(date, "eeee");
+  }
+  if(date && isTomorrow(date)) {
+    color = "--orange";
+    text = "Tomorrow";
+  }
+  if(date && isToday(date)) {
+    color = "--green";
+    text = "Today";
+  }
+
+  return { text, color };
 }

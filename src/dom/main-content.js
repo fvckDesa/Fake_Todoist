@@ -5,10 +5,11 @@ import {
   taskContainer,
   completedTaskContainer,
   addTask,
+  taskEditor,
 } from "./elements.js";
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
-import { activeTaskEditor } from "./task-editor";
+import activeTaskEditor from "./task-editor";
 
 let currentProject;
 
@@ -56,9 +57,13 @@ function setTask(task) {
   taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
 }
 
-function replaceTask(oldTask, newTask) {
-  const taskEl = taskContainer.querySelector(`[data-id="${oldTask.id}"]`);
-  taskEl.replaceWith(createTaskElement(newTask));
+function setUpdatedTask(task, project) {
+  if(project !== currentProject) {
+    taskEditor.remove();
+    return;
+  }
+
+  taskContainer.replaceChild(createTaskElement(task), taskEditor);
 }
 
 function setCompletedTask(taskEl) {
@@ -69,4 +74,4 @@ function getCurrentProject() {
   return currentProject;
 }
 
-export { setProject, setTask, setCompletedTask, getCurrentProject, replaceTask };
+export { setProject, setTask, setCompletedTask, getCurrentProject, setUpdatedTask };

@@ -15,6 +15,10 @@ class Project {
         return task;
     }
 
+    removeTask(id) {
+        this.tasks = this.tasks.filter(task => task.id !== id);
+    }
+
     filterTask(callback) {
         return this.tasks.filter(callback);
     }

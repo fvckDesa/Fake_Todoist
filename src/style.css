@@ -636,6 +636,7 @@ ul {
 .task-due-date {
   font-size: 12px;
   line-height: 12px;
+  color: var(--grey);
 }
 
 .task-due-date > #due-date-icon {

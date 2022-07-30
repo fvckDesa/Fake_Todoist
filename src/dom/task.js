@@ -1,8 +1,12 @@
 import { taskTemplate } from "./elements";
 import Icons from "../assets/svg";
-import { activeDueDatePicker } from "./due-date-picker";
+import activeDueDatePicker from "./due-date-picker";
+import activeTaskEditor from "./task-editor";
+import { getDueDateInfo } from "../module/date-utilities";
 
-function createTaskElement({ name, description, dueDate, id }) {
+function createTaskElement(task) {
+    const { name, description, dueDate } = task;
+
     const taskEl = taskTemplate.cloneNode(true).firstElementChild;
     const [ checkboxBtn, content, actionContainer] = taskEl.children;
     const tic = checkboxBtn.querySelector("#tic-icon");
@@ -19,11 +23,13 @@ function createTaskElement({ name, description, dueDate, id }) {
     // set attributes
     name ? taskName.textContent = name : taskName.remove();
     description ? taskDescription.textContent = description : taskDescription.remove();
-    dueDate ? dueDateText.textContent = dueDate : taskDueDate.remove();
-    
-    changeDueDate.addEventListener("click", () => activeDueDatePicker(changeDueDate));
 
-    taskEl.setAttribute("data-id", id);
+    const { text, color } = getDueDateInfo(dueDate);
+    taskDueDate.style.color = `var(${color})`;
+    dueDate ? dueDateText.textContent = text : taskDueDate.remove();
+    // task actions
+    editTask.addEventListener("click", () => activeTaskEditor(taskEl, task));
+    changeDueDate.addEventListener("click", () => activeDueDatePicker(changeDueDate));
 
     return taskEl;
 }
