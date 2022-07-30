@@ -7,7 +7,7 @@ const todoList = (() => {
       // transform due date from JSON string to date object
       tasks = tasks.map(({ dueDate, ...others }) => ({
         ...others,
-        dueDate: parseJSON(dueDate),
+        dueDate: dueDate ? parseJSON(dueDate) : null,
       }));
       return new Project(name, color, tasks);
     }
