@@ -140,6 +140,4 @@ function getProjectPickerPosition(element) {
     }
 }
 
-export {
-    activeProjectPicker
-};
+export default activeProjectPicker;

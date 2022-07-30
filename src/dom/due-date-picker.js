@@ -358,4 +358,4 @@ function setDatePick(date) {
   datePick = date;
 }
 
-export { activeDueDatePicker };
+export default activeDueDatePicker;
