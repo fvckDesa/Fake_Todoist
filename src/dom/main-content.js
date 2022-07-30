@@ -24,11 +24,11 @@ addTask.addEventListener("click", () => {
   activeTaskEditor(addTask);
 });
 
-function setProject(name) {
+function setProject(id) {
   // get project
-  const project = todoList.find((project) => project.name === name);
+  const project = todoList.searchProjectById(id);
 
-  if(project === currentProject) return;
+  if(project === currentProject || !project) return;
   
   currentProject = project;
   // set main title
@@ -56,6 +56,11 @@ function setTask(task) {
   taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
 }
 
+function replaceTask(oldTask, newTask) {
+  const taskEl = taskContainer.querySelector(`[data-id="${oldTask.id}"]`);
+  taskEl.replaceWith(createTaskElement(newTask));
+}
+
 function setCompletedTask(taskEl) {
   completedTaskContainer.appendChild(taskEl);
 }
@@ -64,4 +69,4 @@ function getCurrentProject() {
   return currentProject;
 }
 
-export { setProject, setTask, setCompletedTask, getCurrentProject };
+export { setProject, setTask, setCompletedTask, getCurrentProject, replaceTask };

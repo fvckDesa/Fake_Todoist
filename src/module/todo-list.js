@@ -3,13 +3,13 @@ import { parseJSON, isSameDay } from "date-fns";
 
 const todoList = (() => {
   const projects = JSON.parse(localStorage.getItem("projects") ?? "[]").map(
-    ({ name, color, tasks }) => {
+    ({ name, color, id, tasks }) => {
       // transform due date from JSON string to date object
       tasks = tasks.map(({ dueDate, ...others }) => ({
         ...others,
         dueDate: dueDate ? parseJSON(dueDate) : null,
       }));
-      return new Project(name, color, tasks);
+      return new Project(name, color, id, tasks);
     }
   );
   // add default project if none exists
@@ -37,8 +37,8 @@ const todoList = (() => {
     return task;
   }
 
-  function find(callback) {
-    return projects.find(callback);
+  function searchProjectById(id) {
+    return projects.find(project => project.id === id);
   }
 
   function getTaskFromDate(date) {
@@ -57,7 +57,7 @@ const todoList = (() => {
   return {
     addProject,
     addTask,
-    find,
+    searchProjectById,
     getTaskFromDate,
     get projects() {
       return projects;

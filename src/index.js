@@ -20,7 +20,7 @@ configApp();
 // render projects save in localStorage (not Inbox)
 renderProjects(...todoList.projects.slice(1).map(createProjectElement));
 // set Inbox how start project
-setProject("Inbox");
+setProject(todoList.projects[0].id);
 // remove load screen when all svg are loaded
 Promise.all(
   [...document.querySelectorAll("svg-loader")].map((icon) => {

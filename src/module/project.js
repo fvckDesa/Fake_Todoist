@@ -1,10 +1,12 @@
 import Task from './task';
+import uniqueId from '../lib/unique-number-id';
 
 class Project {
-    constructor(name, color = "", tasks = []) {
+    constructor(name, color = "", id = uniqueId(), tasks = []) {
         this.name = name;
         this.color = color;
         this.tasks = tasks;
+        this.id = id;
     }
 
     addTask(taskAttributes) {
