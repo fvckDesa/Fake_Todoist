@@ -9,7 +9,6 @@ import {
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
 import { activeTaskEditor } from "./task-editor";
-import { setProjectPick } from "./project-picker";
 
 let currentProject;
 
@@ -49,8 +48,6 @@ function setProject(name) {
       .filterTask((task) => task.completed)
       .map(createTaskElement)
   );
-
-  setProjectPick(currentProject);
   // change page title
   document.title = `${project.name}: Todoist`;
 }

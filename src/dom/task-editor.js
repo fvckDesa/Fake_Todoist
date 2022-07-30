@@ -10,14 +10,15 @@ import {
 import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
 import { setTask, getCurrentProject } from "./main-content";
-import { activeProjectPicker, getProjectPick } from "./project-picker";
-import { activeDueDatePicker, getDatePick } from "./due-date-picker";
+import { activeProjectPicker } from "./project-picker";
+import { activeDueDatePicker } from "./due-date-picker";
 import { format, isThisWeek, isThisYear, isToday, isTomorrow, isWeekend, isBefore, startOfToday } from "date-fns";
 import { isNextWeek } from "../module/date-utilities";
 
 let lastElement;
+let project;
 let task;
-let dueDate;
+let dueDate = null;
 
 taskNameInput.addEventListener("input", () => {
   taskEditorSubmit.disabled = !taskNameInput.value;
@@ -25,7 +26,7 @@ taskNameInput.addEventListener("input", () => {
 
 taskDescriptionInput.addEventListener("input", formatTaskDescription);
 
-taskProject.addEventListener("click", () => activeProjectPicker(taskProject, setTaskProject));
+taskProject.addEventListener("click", () => activeProjectPicker(taskProject, setTaskProject, project));
 
 taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate, setTaskDueDate, dueDate));
 
@@ -33,8 +34,6 @@ taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = taskNameInput.value;
   const description = taskDescriptionInput.value;
-  const dueDate = getDatePick();
-  const project = getProjectPick();
 
   const newTask = todoList.addTask(project.name, { name, description, dueDate });
 
@@ -55,15 +54,20 @@ function activeTaskEditor(el, taskPar = {}) {
   // change state
   lastElement = el;
   task = taskPar;
+  project = getCurrentProject();
 
   setTaskEditor(taskPar);
 }
 
 function resetTaskEditor() {
+  // reset input values
   taskNameInput.value = "";
   taskDescriptionInput.value = "";
+  // reset buttons
   setTaskProject(getCurrentProject());
   setTaskDueDate(null);
+  // disable submit button
+  taskEditorSubmit.disabled = true;
 }
 
 function removeTaskEditor() {
@@ -80,8 +84,9 @@ function setTaskEditor({ name = "", description = "", dueDate = null }) {
   setTaskDueDate(dueDate);
 }
 
-function setTaskProject(project) {
-  taskProject.replaceChildren(...createTaskProject(project));
+function setTaskProject(projectPick) {
+  project = projectPick;
+  taskProject.replaceChildren(...createTaskProject(projectPick));
 }
 
 function createTaskProject({ name, color }) {

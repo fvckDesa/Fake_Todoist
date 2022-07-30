@@ -8,6 +8,7 @@ import {
 import { createProjectElement, renderProjects } from "./project";
 import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
+import { getCurrentProject } from "./main-content";
 
 let projectPick;
 
@@ -40,9 +41,11 @@ function renderSearchProjectList() {
     renderProjectList(({ name }) => name.toLowerCase().includes(filter));
 }
 
-function activeProjectPicker(el, next = () => {}) {
+function activeProjectPicker(el, next = () => {}, project = getCurrentProject()) {
     // render project picker
     projectPickerContainer.classList.remove("hidden");
+
+    projectPick = project;
 
     submitCb = next;
     element = el;
@@ -137,16 +140,6 @@ function getProjectPickerPosition(element) {
     }
 }
 
-function setProjectPick(project) {
-    projectPick = project;
-}
-
-function getProjectPick() {
-    return projectPick;
-}
-
 export {
-    activeProjectPicker,
-    setProjectPick,
-    getProjectPick
+    activeProjectPicker
 };
