@@ -8,6 +8,7 @@ import {
   openProjectForm,
   nameProjectInput,
   projectFormContainer,
+  projectHeader
 } from "./elements";
 import Icons from "../assets/svg";
 import { formatTaskDescription } from "./task-editor";
@@ -22,12 +23,14 @@ sidebarBtn.addEventListener("click", () => {
     : Icons.HamburgerMenu;
 });
 
-arrowIcon.addEventListener("click", () => {
+projectHeader.addEventListener("click", () => {
   userProjects.classList.toggle("close");
   arrowIcon.classList.toggle("rotate");
 });
 
-openProjectForm.addEventListener("click", () => {
+openProjectForm.addEventListener("click", (e) => {
+  e.stopPropagation();
+
   projectFormContainer.classList.remove("hidden");
   nameProjectInput.focus();
 });

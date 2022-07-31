@@ -33,6 +33,7 @@ export const searchInput = document.querySelector('#search-input');
 export const sidebar = document.querySelector('.side-bar');
 export const inboxProject = document.querySelector("#inbox-project");
 export const userProjects = document.querySelector('#user-projects');
+export const projectHeader = document.querySelector('.project-header');
 export const openProjectForm = document.querySelector('#open-project-form');
 //Main Content elements
 export const mainContent = document.querySelector('.main-content');
