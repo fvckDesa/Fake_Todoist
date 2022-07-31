@@ -260,7 +260,6 @@ function createDaysElements(days) {
     // create element
     const dayElement = document.createElement("button");
     dayElement.classList.add("date-picker-calendar-day");
-    if (isSameDay(day, datePick)) dayElement.classList.add("selected");
 
     const dayBg = document.createElement("div");
     dayBg.classList.add("date-picker-calendar-day-bg");
@@ -277,6 +276,9 @@ function createDaysElements(days) {
     }
     if (isToday(day)) {
       dayElement.classList.add("today");
+    }
+    if (isSameDay(day, datePick) && !dayElement.classList.contains("past")) {
+      dayElement.classList.add("selected");
     }
 
     dayElement.addEventListener("click", () => setDatePick(day));
@@ -308,7 +310,7 @@ function createDaysElements(days) {
 }
 
 function positionDueDatePicker(el) {
-  let coords = { x: 0, y: 0 }; 
+  let coords = null;
   // get info of element
   const { left, right, top, bottom, width, height } = el.getBoundingClientRect();
   // get dimensions of body
@@ -331,7 +333,7 @@ function positionDueDatePicker(el) {
       y: overflowYCorrector(top - dueDatePickerHeight),
     }
   // from bottom
-  } else if(bottom + dueDatePickerHeight < bodyHeight) {
+  } else if(bottom + dueDatePickerHeight + PADDING < bodyHeight) {
     coords = {
       x: overflowXCorrector(left - dueDatePickerWidth / 2 + width / 2),
       y: overflowYCorrector(bottom),
@@ -350,8 +352,9 @@ function positionDueDatePicker(el) {
     }
   }
 
-  const { x, y } = coords;
-  dueDatePicker.style.cssText = `transform: translate(${x}px, ${y}px)`;
+  dueDatePicker.style.cssText = coords 
+    ? `transform: translate(${coords.x}px, ${coords.y}px)`
+    : ` top: 50%; left: 50%; transform: translate(-50%, -50%);`;
 }
 
 function setDatePick(date) {
