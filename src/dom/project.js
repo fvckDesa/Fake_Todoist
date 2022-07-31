@@ -2,7 +2,8 @@ import { projectTemplate, userProjects, sidebar } from "./elements";
 import Icons from "../assets/svg";
 import { setProject } from "./main-content";
 
-function createProjectElement({ name, color, id, tasks }) {
+function createProjectElement(project) {
+    const { name, color, id, tasks } = project;
     // copy element
     const projectEl = projectTemplate.cloneNode(true).firstElementChild;
     const [projectIcon, projectName, projectNum] = projectEl.children;
@@ -13,13 +14,13 @@ function createProjectElement({ name, color, id, tasks }) {
     projectNum.setAttribute("data-num", tasks.length);
     projectNum.textContent = tasks.length;
     // set project click event
-    projectEl.addEventListener("click", () => projectClick(id, projectEl));
+    projectEl.addEventListener("click", () => projectClick(project, projectEl));
     // return element
     return projectEl;
 }
 
-function projectClick(id, projectEl) {
-    setProject(id);
+function projectClick(project, projectEl) {
+    setProject(project);
     // change current project on sidebar
     sidebar.querySelector(".project.current").classList.remove("current");
     projectEl.classList.add("current");

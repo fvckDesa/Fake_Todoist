@@ -25,10 +25,7 @@ addTask.addEventListener("click", () => {
   activeTaskEditor(addTask);
 });
 
-function setProject(id) {
-  // get project
-  const project = todoList.searchProjectById(id);
-
+function setProject(project) {
   if(project === currentProject || !project) return;
   
   currentProject = project;
@@ -38,7 +35,7 @@ function setProject(id) {
   taskContainer.replaceChildren(
     ...project
     // get uncompleted tasks and create their elements
-      .filterTask((task) => !task.completed)
+      .filterTask((task) => !task.complete)
       .map(createTaskElement)
       // add "add task" button at the end
       .concat(addTask)
@@ -46,7 +43,7 @@ function setProject(id) {
   completedTaskContainer.replaceChildren(
     ...project
     // get completed tasks and create their elements
-      .filterTask((task) => task.completed)
+      .filterTask((task) => task.complete)
       .map(createTaskElement)
   );
   // change page title
@@ -57,21 +54,29 @@ function setTask(task) {
   taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
 }
 
-function setUpdatedTask(task, project) {
+function setUpdatedTask(task, project, id) {
   if(project !== currentProject) {
     taskEditor.remove();
     return;
   }
-
+  if(id) {
+    const taskEl = taskContainer.querySelector(`[data-id="${id}"]`);
+    taskEl.replaceWith(createTaskElement(task));
+    return;
+  }
   taskContainer.replaceChild(createTaskElement(task), taskEditor);
 }
 
-function setCompletedTask(taskEl) {
-  completedTaskContainer.appendChild(taskEl);
+function toggleTask({ id, complete }) {
+  const taskEl = mainContent.querySelector(`[data-id="${id}"]`);
+  taskEl.remove();
+  complete 
+    ? completedTaskContainer.appendChild(taskEl)
+    : taskContainer.insertBefore(taskEl, taskContainer.lastElementChild);
 }
 
 function getCurrentProject() {
   return currentProject;
 }
 
-export { setProject, setTask, setCompletedTask, getCurrentProject, setUpdatedTask };
+export { setProject, setTask, getCurrentProject, setUpdatedTask, toggleTask };
