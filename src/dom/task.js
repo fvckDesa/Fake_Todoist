@@ -3,9 +3,12 @@ import Icons from "../assets/svg";
 import activeDueDatePicker from "./due-date-picker";
 import activeTaskEditor from "./task-editor";
 import { getDueDateInfo } from "../module/date-utilities";
+import todoList from "../module/todo-list";
+import { getCurrentProject, setUpdatedTask, toggleTask } from "./main-content";
 
 function createTaskElement(task) {
-    const { name, description, dueDate } = task;
+    const { name, description, id } = task;
+    let { dueDate, complete } = task;
 
     const taskEl = taskTemplate.cloneNode(true).firstElementChild;
     const [ checkboxBtn, content, actionContainer] = taskEl.children;
@@ -27,9 +30,42 @@ function createTaskElement(task) {
     const { text, color } = getDueDateInfo(dueDate);
     taskDueDate.style.color = `var(${color})`;
     dueDate ? dueDateText.textContent = text : taskDueDate.remove();
+    // events
+    const changeDueDateEvent = (date) => {
+        dueDate = date;
+        const updatedTask = todoList.updateTask(id, { dueDate });
+        setUpdatedTask(updatedTask, getCurrentProject(), id);
+    };
+    
+    checkboxBtn.addEventListener("click", () => {
+        checkboxBtn.classList.add("checked");
+        setTimeout(() => {
+            complete = !complete;
+            const updatedTask = todoList.updateTask(id, { complete });
+            toggleTask(updatedTask);
+            checkboxBtn.classList.remove("checked");
+        }, 210);
+    });
+
+    dueDateText.addEventListener("click", () => {
+        activeDueDatePicker(dueDateText, (date) => {
+            if(complete) return;
+            changeDueDateEvent(date);
+        }, dueDate);
+    });
     // task actions
     editTask.addEventListener("click", () => activeTaskEditor(taskEl, task));
-    changeDueDate.addEventListener("click", () => activeDueDatePicker(changeDueDate));
+
+    changeDueDate.addEventListener("click", () => {
+        activeDueDatePicker(changeDueDate, changeDueDateEvent, dueDate);
+    });
+
+    deleteTask.addEventListener("click", () => {
+        todoList.deleteTask(id);
+        taskEl.remove();
+    });
+
+    taskEl.setAttribute("data-id", id);
 
     return taskEl;
 }

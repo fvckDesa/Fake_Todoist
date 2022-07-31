@@ -34,7 +34,11 @@ taskEditor.addEventListener("submit", (e) => {
   const name = taskNameInput.value;
   const description = taskDescriptionInput.value;
   if(taskId) {
-    const task = todoList.updateTask(taskId, project, { name, description, dueDate });
+    const task = todoList.updateTask(
+      taskId,
+      { name, description, dueDate },
+      project !== getCurrentProject() ? project : null
+    );
     setUpdatedTask(task, project);
   }
   if(!taskId) {

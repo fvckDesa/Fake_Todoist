@@ -15,6 +15,14 @@ class Project {
         return task;
     }
 
+    updateTask(id, taskAttributes) {
+        const task = this.tasks.find(task => task.id === id);
+        for(const [key, value] of Object.entries(taskAttributes)) {
+            task[key] = value;
+        }
+        return task;
+    }
+
     removeTask(id) {
         this.tasks = this.tasks.filter(task => task.id !== id);
     }

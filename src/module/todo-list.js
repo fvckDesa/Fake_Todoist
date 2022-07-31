@@ -41,16 +41,34 @@ const todoList = (() => {
     return projects.find(project => project.id === id);
   }
 
-  function updateTask(id, newProject, taskAttributes) {
+  function taskProject(id) {
+    return projects.find((project) => project.tasks.find(task => task.id === id))
+  }
+
+  function updateTask(id, taskAttributes, newProject) {
     // find project
-    const project = projects.find((project) => project.tasks.find(task => task.id === id));
+    const project = taskProject(id);
     // update task
-    project.removeTask(id);
-    const task = newProject.addTask(taskAttributes);
+    let task;
+    if(newProject) {
+      project.removeTask(id);
+      task = newProject.addTask(taskAttributes);
+    } else {
+      task = project.updateTask(id, taskAttributes);
+    }
     // save project to local storage
     _saveProjects();
 
     return task;
+  }
+
+  function deleteTask(id) {
+    // find project
+    const project = taskProject(id);
+    // delete task
+    project.removeTask(id);
+    // save project to local storage
+    _saveProjects();
   }
 
   function getTaskFromDate(date) {
@@ -71,6 +89,8 @@ const todoList = (() => {
     addTask,
     searchProjectById,
     updateTask,
+    deleteTask,
+    taskProject,
     getTaskFromDate,
     get projects() {
       return projects;
