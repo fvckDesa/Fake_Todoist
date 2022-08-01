@@ -2,7 +2,7 @@ import Inbox from "./inbox.svg";
 import Today from "./today.svg";
 import Upcoming from "./upcoming.svg";
 import FiltersLabels from "./filters-&-labels.svg";
-import CloseMenu from "./close-menu.svg";
+import Close from "./close.svg";
 import HamburgerMenu from "./hamburger-menu.svg";
 import Search from "./search.svg";
 import Home from "./home.svg";
@@ -16,7 +16,7 @@ import DueDate from "./due-date.svg";
 import DueDateXs from "./due-date-xs.svg";
 import DueDateXl from "./due-date-xl.svg";
 import Comment from "./comment.svg";
-import EditTask from "./edit-task.svg";
+import Edit from "./edit.svg";
 import GarbageContainer from "./garbage-container.svg";
 import Circle from "./circle.svg";
 import Tomorrow from "./tomorrow.svg";
@@ -25,13 +25,14 @@ import NextWeek from "./next-week.svg";
 import NoDate from "./no-date.svg";
 import ArrowXl from "./arrow-xl.svg";
 import Cross from "./cross.svg";
+import Info from "./info.svg";
 
 export default {
     Inbox,
     Today,
     Upcoming,
     FiltersLabels,
-    CloseMenu,
+    Close,
     HamburgerMenu,
     Search,
     Home,
@@ -45,7 +46,7 @@ export default {
     DueDateXs,
     DueDateXl,
     Comment,
-    EditTask,
+    Edit,
     GarbageContainer,
     Circle,
     Tomorrow,
@@ -54,4 +55,5 @@ export default {
     NoDate,
     ArrowXl,
     Cross,
+    Info
 };

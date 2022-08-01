@@ -14,6 +14,8 @@ export const openProjectIcon = document.querySelector('#open-project-icon');
 export const helpIcon = document.querySelector('#help-icon');
 //Main content icons
 export const addTaskIcon = document.querySelector('#add-task-icon');
+export const editProjectIcon = document.querySelector('#edit-project-icon');
+export const deleteProjectIcon = document.querySelector('#delete-project-icon');
 //Due Date Picker icons
 export const pickerTodayIcon = document.querySelector("#date-suggestions-icon-today");
 export const pickerTomorrowIcon = document.querySelector("#date-suggestions-icon-tomorrow");
@@ -24,6 +26,9 @@ export const pickerActionPreviousIcon = document.querySelector("#previous-icon")
 export const pickerActionNextIcon = document.querySelector("#next-icon");
 export const pickerPreviewIcon = document.querySelector(".date-preview-content-icon");
 export const pickerCrossIcon = document.querySelector("#cross-icon");
+//Delete Warning icons
+export const deleteWarningInfoIcon = document.querySelector("#delete-warning-info-icon");
+export const deleteWarningCloseIcon = document.querySelector("#delete-warning-close-icon");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');
@@ -42,6 +47,8 @@ export const mainTitle = document.querySelector(".main-header .title");
 export const taskContainer = document.querySelector('#task-container');
 export const completedTaskContainer = document.querySelector('#completed-task-container');
 export const addTask = document.querySelector('.add-task');
+export const editProjectBtn = document.querySelector('#edit-project');
+export const deleteProjectBtn = document.querySelector('#delete-project');
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
 export const taskNameInput = taskEditor.querySelector('#task-name-input');
@@ -85,5 +92,9 @@ export const addProjectBtn = document.querySelector('#add-project-btn');
 //Templates
 export const projectTemplate = document.querySelector('#project-template').content;
 export const taskTemplate = document.querySelector('#task-template').content;
-// loading screen
+//Loading screen
 export const loadScreen = document.querySelector(".load-screen");
+//Delete warning
+export const deleteWarningContainer = document.querySelector(".delete-warning-container");
+export const deleteWarning = document.querySelector(".delete-warning");
+export const deleteWarningName = document.querySelector(".delete-warning-name");

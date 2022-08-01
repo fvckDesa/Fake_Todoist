@@ -6,12 +6,13 @@ import {
   arrowIcon,
   mainContent,
   openProjectForm,
-  nameProjectInput,
-  projectFormContainer,
   projectHeader
 } from "./elements";
 import Icons from "../assets/svg";
 import { formatTaskDescription } from "./task-editor";
+import activeProjectForm from "./project-form";
+import todoList from "../module/todo-list";
+import { renderProjects, createProjectElement } from "./project";
 
 sidebarBtn.addEventListener("click", () => {
   sidebar.classList.toggle("open");
@@ -19,7 +20,7 @@ sidebarBtn.addEventListener("click", () => {
   formatTaskDescription();
 
   sidebarIcon.src = sidebar.classList.contains("open")
-    ? Icons.CloseMenu
+    ? Icons.Close
     : Icons.HamburgerMenu;
 });
 
@@ -31,6 +32,8 @@ projectHeader.addEventListener("click", () => {
 openProjectForm.addEventListener("click", (e) => {
   e.stopPropagation();
 
-  projectFormContainer.classList.remove("hidden");
-  nameProjectInput.focus();
+  activeProjectForm((name, color) => {
+    const newProject = todoList.addProject(name, color);
+    renderProjects(createProjectElement(newProject));
+  });
 });

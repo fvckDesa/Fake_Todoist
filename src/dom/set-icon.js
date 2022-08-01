@@ -23,10 +23,14 @@ import {
   pickerActionNextIcon,
   pickerPreviewIcon,
   pickerCrossIcon,
+  editProjectIcon,
+  deleteProjectIcon,
+  deleteWarningInfoIcon,
+  deleteWarningCloseIcon
 } from "./elements";
 
 function setIcons() {
-  sidebarIcon.src = Icons.CloseMenu;
+  sidebarIcon.src = Icons.Close;
   homeIcon.src = Icons.Home;
   searchIcon.src = Icons.Search;
   topBarAddIcon.src = Icons.Plus;
@@ -47,6 +51,10 @@ function setIcons() {
   pickerActionNextIcon.src = Icons.ArrowXl;
   pickerPreviewIcon.src = Icons.DueDateXl;
   pickerCrossIcon.src = Icons.Cross;
+  editProjectIcon.src = Icons.Edit;
+  deleteProjectIcon.src = Icons.GarbageContainer;
+  deleteWarningInfoIcon.src = Icons.Info;
+  deleteWarningCloseIcon.src = Icons.Close;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
   taskProject.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.Inbox);
