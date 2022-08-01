@@ -6,10 +6,16 @@ import {
   completedTaskContainer,
   addTask,
   taskEditor,
+  editProjectBtn,
+  deleteProjectBtn,
+  inboxProject
 } from "./elements.js";
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
-import activeTaskEditor from "./task-editor";
+import activeTaskEditor, { updateProjectTaskEditor } from "./task-editor";
+import activeProjectForm from "./project-form";
+import activeDeleteWarning from "./delete-warning.js";
+import { updateProject, deleteProject, changeNumTask } from "./project.js";
 
 let currentProject;
 
@@ -21,6 +27,23 @@ mainContent.addEventListener("scroll", () => {
   }
 });
 
+editProjectBtn.addEventListener("click", () => {
+  activeProjectForm((name, color) => {
+    const updatedProject = todoList.updateProject(currentProject.id, { name, color });
+    updateProject(updatedProject);
+    updateProjectTaskEditor(updatedProject);
+    setTitle(updatedProject.name);
+  }, currentProject);
+});
+
+deleteProjectBtn.addEventListener("click", () => {
+  activeDeleteWarning(currentProject.name, () => {
+    todoList.deleteProject(currentProject.id);
+    deleteProject(currentProject.id);
+    inboxProject.click();
+  });
+});
+
 addTask.addEventListener("click", () => {
   activeTaskEditor(addTask);
 });
@@ -28,9 +51,12 @@ addTask.addEventListener("click", () => {
 function setProject(project) {
   if(project === currentProject || !project) return;
   
+  [editProjectBtn, deleteProjectBtn].forEach(el => el.classList.toggle("invisible", project === todoList.inbox));
+
   currentProject = project;
-  // set main title
-  mainTitle.textContent = project.name;
+
+  setTitle(project.name);
+
   // set tasks
   taskContainer.replaceChildren(
     ...project
@@ -46,15 +72,23 @@ function setProject(project) {
       .filterTask((task) => task.complete)
       .map(createTaskElement)
   );
+}
+
+function setTitle(title) {
+  // set main title
+  mainTitle.textContent = title;
   // change page title
-  document.title = `${project.name}: Todoist`;
+  document.title = `${title}: Todoist`;
 }
 
 function setTask(task) {
+  changeNumTask(todoList.taskProject(task.id));
   taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
 }
 
 function setUpdatedTask(task, project, id) {
+  changeNumTask(project);
+  changeNumTask(currentProject);
   if(project !== currentProject) {
     taskEditor.remove();
     return;
@@ -73,6 +107,8 @@ function toggleTask({ id, complete }) {
   complete 
     ? completedTaskContainer.appendChild(taskEl)
     : taskContainer.insertBefore(taskEl, taskContainer.lastElementChild);
+  
+    changeNumTask(todoList.taskProject(id));
 }
 
 function getCurrentProject() {

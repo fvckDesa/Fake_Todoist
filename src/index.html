@@ -64,12 +64,12 @@
             <li class="project current" id="inbox-project">
                 <svg-loader id="inbox-icon" class="project-icon" src=""></svg-loader>
                 <h3 class="project-name">Inbox</h3>
-                <h4 class="project-num" data-num="0">0</h4>
+                <h4 class="project-num" data-num="0"></h4>
             </li>
             <li class="project">
                 <svg-loader id="today-icon" class="project-icon" src=""></svg-loader>
                 <h3 class="project-name">Today</h3>
-                <h4 class="project-num" data-num="0">0</h4>
+                <h4 class="project-num" data-num="0"></h4>
             </li>
             <li class="project">
                 <svg-loader id="upcoming-icon" class="project-icon" src=""></svg-loader>
@@ -93,7 +93,15 @@
     </div>
     <main class="main-content reduced">
         <header class="main-header">
-            <h1 class="title">Inbox</h1>
+            <div class="main-header-content">
+                <h1 class="title">Inbox</h1>
+                <button class="third-btn project-action" id="edit-project">
+                    <svg-loader id="edit-project-icon"></svg-loader>
+                </button>
+                <button class="third-btn project-action" id="delete-project">
+                    <svg-loader id="delete-project-icon"></svg-loader>
+                </button>
+            </div>
         </header>
         <ul class="task-container" id="task-container">
             <div class="add-task">
@@ -228,6 +236,24 @@
         </form>
     </div>
 
+    <div class="delete-warning-container hidden">
+        <form class="delete-warning">
+            <header>
+                <svg-loader id="delete-warning-info-icon"></svg-loader>
+                <button type="reset" class="third-btn delete-warning-close">
+                    <svg-loader id="delete-warning-close-icon"></svg-loader>
+                </button>
+            </header>
+            <div class="delete-warning-content">
+                <h3>Are you sure you want to delete <span class="delete-warning-name">name</span> ?</h3>
+            </div>
+            <footer class="form-footer">
+                <button type="reset" class="secondary-btn">Cancel</button>
+                <button type="submit" class="primary-btn">Delete</button>
+            </footer>
+        </form>
+    </div>
+
     <template id="task-editor-template">
         <form class="task-editor">
             <div class="task-editor-container">
@@ -258,7 +284,7 @@
         <li class="project">
             <svg-loader class="project-icon"></svg-loader>
             <h3 class="project-name"></h3>
-            <h4 class="project-num" data-num="0">0</h4>
+            <h4 class="project-num" data-num="0"></h4>
         </li>
     </template>
 

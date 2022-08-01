@@ -5,6 +5,8 @@ import activeTaskEditor from "./task-editor";
 import { getDueDateInfo } from "../module/date-utilities";
 import todoList from "../module/todo-list";
 import { getCurrentProject, setUpdatedTask, toggleTask } from "./main-content";
+import activeDeleteWarning from "./delete-warning";
+import { changeNumTask } from "./project";
 
 function createTaskElement(task) {
     const { name, description, id } = task;
@@ -19,7 +21,7 @@ function createTaskElement(task) {
     // set svg
     tic.setAttribute("src", Icons.TaskTic);
     dueDateIcon.setAttribute("src", Icons.DueDateXs);
-    editTask.querySelector("svg-loader").setAttribute("src", Icons.EditTask);
+    editTask.querySelector("svg-loader").setAttribute("src", Icons.Edit);
     changeDueDate.querySelector("svg-loader").setAttribute("src", Icons.DueDateXl);
     comment.querySelector("svg-loader").setAttribute("src", Icons.Comment);
     deleteTask.querySelector("svg-loader").setAttribute("src", Icons.GarbageContainer);
@@ -61,8 +63,12 @@ function createTaskElement(task) {
     });
 
     deleteTask.addEventListener("click", () => {
-        todoList.deleteTask(id);
-        taskEl.remove();
+        activeDeleteWarning(name, () => {
+            const project = todoList.taskProject(id);
+            todoList.deleteTask(id);
+            taskEl.remove();
+            changeNumTask(project);
+        });
     });
 
     taskEl.setAttribute("data-id", id);

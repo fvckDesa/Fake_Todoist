@@ -127,8 +127,12 @@ ul {
   border: none;
   border-radius: var(--radius);
   background-color: transparent;
+  color: var(--white);
   overflow: hidden;
   font-weight: 700;
+  transition-duration: .3s;
+  transition-property: color,background-color;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
 }
 
 .third-btn:hover {
@@ -304,7 +308,8 @@ ul {
   width: 65%;
 }
 
-.project-num {
+.project-num::before {
+  content: attr(data-num);
   color: var(--num-text);
 }
 
@@ -324,6 +329,7 @@ ul {
 /* Main content */
 .main-content,
 .task-container,
+.main-header,
 .add-task {
   display: flex;
   flex-direction: column;
@@ -390,14 +396,34 @@ ul {
   z-index: 1;
 }
 
-.main-header .title {
+.main-header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   width: min(100%, 800px);
+  height: 100%;
   padding-bottom: 8px;
-  margin: auto;
 }
 
-.main-header.scrolled .title {
+.main-header.scrolled .main-header-content {
   border-bottom: solid 1px var(--task-border-color);
+}
+
+.main-header-content .title {
+  margin-right: auto;
+}
+
+.project-action {
+  color: gray;
+}
+
+.project-action.invisible {
+  visibility: hidden;
+}
+
+.project-action:hover {
+  background-color: var(--current-gray);
+  color: var(--black-text);
 }
 
 .add-task {
@@ -1338,4 +1364,70 @@ ul {
   line-height: 24px;
   color: var(--red);
   cursor: pointer;
+}
+
+/* Delete warning */
+.delete-warning-container,
+.delete-warning {
+  display: flex;
+  flex-direction: column;
+}
+
+.delete-warning-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  padding-top: 13vh;
+  background-color: var(--opaque-bg);
+  z-index: 3;
+}
+
+.delete-warning {
+  width: min(100%, 450px);
+  max-height: 100%;
+  border-radius: var(--radius-xl);
+  background-color: var(--white);
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 16%);
+}
+
+.delete-warning > * {
+  flex-grow: 1;
+}
+
+.delete-warning > header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  padding-left: 16px;
+}
+
+.delete-warning-close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  color: var(--grey);
+}
+
+.delete-warning-close:hover {
+  background-color: var(--current-gray);
+  color: var(--black-text);
+}
+
+.delete-warning-content {
+  padding: 16px;
+  padding-bottom: 32px;
+}
+
+.delete-warning-name {
+  font-weight: 700;
+}
+
+.delete-warning > footer {
+  border: none;
 }

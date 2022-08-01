@@ -13,6 +13,7 @@ import { setTask, getCurrentProject, setUpdatedTask } from "./main-content";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
 import { getDueDateInfo } from "../module/date-utilities";
+import { changeNumTask } from "./project";
 
 let lastElement;
 let project;
@@ -43,7 +44,9 @@ taskEditor.addEventListener("submit", (e) => {
   }
   if(!taskId) {
     const newTask = todoList.addTask(project.name, { name, description, dueDate });
-    if (project === getCurrentProject()) setTask(newTask);
+    project === getCurrentProject()
+      ? setTask(newTask)
+      : changeNumTask(project);
   }
   resetTaskEditor();
 });
@@ -72,6 +75,8 @@ function resetTaskEditor() {
   // reset buttons
   setTaskProject(getCurrentProject());
   setTaskDueDate(null);
+  
+  taskEditorSubmit.disabled = true;
 }
 
 function removeTaskEditor() {
@@ -131,6 +136,12 @@ function formatTaskDescription() {
   taskDescriptionInput.style.cssText = `--height: ${numNewLine * lineHeight}px`;
 }
 
+function updateProjectTaskEditor(project) {
+  if(project !== getCurrentProject()) return;
+
+  setTaskProject(project);
+}
+
 export default activeTaskEditor;
 
-export { formatTaskDescription };
+export { formatTaskDescription, updateProjectTaskEditor };
