@@ -2,7 +2,7 @@ import Project from "./project";
 import { parseJSON, isSameDay } from "date-fns";
 
 const todoList = (() => {
-  const projects = JSON.parse(localStorage.getItem("projects") ?? "[]").map(
+  let projects = JSON.parse(localStorage.getItem("projects") ?? "[]").map(
     ({ name, color, id, tasks }) => {
       // transform due date from JSON string to date object
       tasks = tasks.map(({ dueDate, ...others }) => ({
@@ -24,6 +24,25 @@ const todoList = (() => {
     _saveProjects();
 
     return project;
+  }
+
+  function updateProject(id, projectAttributes) {
+    const project = projects.find((project) => project.id === id);
+    if (project === projects[0]) throw new Error("Cannot update inbox");
+    // update project
+    for(const [key, value] of Object.entries(projectAttributes)) {
+      project[key] = value;
+    }
+    // save project to local storage
+    _saveProjects();
+
+    return project;
+  }
+
+  function deleteProject(id) {
+    projects = projects.filter((project) => project.id !== id);
+    // save project to local storage
+    _saveProjects();
   }
 
   function addTask(nameProject, taskAttributes) {
@@ -86,6 +105,8 @@ const todoList = (() => {
 
   return {
     addProject,
+    updateProject,
+    deleteProject,
     addTask,
     searchProjectById,
     updateTask,

@@ -9,8 +9,8 @@ import {
   addProjectBtn,
   projectFormContainer
 } from "./elements";
-import { createProjectElement, renderProjects } from "./project";
-import todoList from "../module/todo-list";
+
+let submitCb;
 
 createColorList();
 
@@ -18,11 +18,9 @@ projectForm.addEventListener("submit", (e) => {
   e.preventDefault();
   // get project name and color
   const name = nameProjectInput.value;
-  const color = colorSelector.querySelector(".color-icon").style.getPropertyValue("--color");
-  // add project
-  const newProject = todoList.addProject(name, color);
-  const projectEl = createProjectElement(newProject);
-  renderProjects(projectEl);
+  const color = colorSelector.querySelector(".color-icon").style.getPropertyValue("--color").trim();
+  
+  submitCb(name, color);
   // reset project form
   resetProjectForm();
 });
@@ -45,11 +43,26 @@ colorSelector.addEventListener("click", () => {
   colorList.classList.toggle("hidden");
 });
 
+function activeProjectForm(next = () => {}, { name = "", color = "#808080" } = {}) {
+  nameProjectInput.value = name;
+  colorList.querySelector(`[hex="${color}"]`).click();
+  
+  submitCb = next;
+  
+  addProjectBtn.disabled = nameProjectInput.value.length > 0 ? false : true;
+  addProjectBtn.innerText = name.length === 0 ? "Add" : "Save";
+  
+  projectFormContainer.classList.remove("hidden");
+  
+  nameProjectInput.focus();
+}
+
 function createColorList() {
   for (const [hex, name] of Object.entries(Colors)) {
     // create color element
     const color = document.createElement("li");
     color.classList.add("color");
+    color.setAttribute("hex", hex);
     color.innerHTML = `
       <div class="color-icon" style="--color: ${hex}"></div>
       <h3 class="color-name">${name}</h3>
@@ -96,3 +109,5 @@ function resetProjectForm() {
   // reset name input
   nameProjectInput.value = "";
 }
+
+export default activeProjectForm;
