@@ -49,7 +49,7 @@ export const mainHeader = document.querySelector('.main-header');
 export const mainTitle = document.querySelector(".main-header .title");
 export const taskContainer = document.querySelector('#task-container');
 export const completedTaskContainer = document.querySelector('#completed-task-container');
-export const addTask = document.querySelector('.add-task');
+export const addTaskBtn = document.querySelector('.add-task');
 export const editProjectBtn = document.querySelector('#edit-project');
 export const deleteProjectBtn = document.querySelector('#delete-project');
 //Task Editor elements

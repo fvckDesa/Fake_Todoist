@@ -7,18 +7,16 @@ import {
   taskProject,
   taskDueDate
 } from "./elements";
-import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
-import { getCurrentProject, setUpdatedTask } from "./main-content";
+import { getCurrentProject } from "./main-content";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
 import { getDueDateInfo } from "../utilities/date-utilities";
-import { addTask } from "../utilities/dom-utilities.js";
 
 let lastElement;
 let project;
-let taskId;
 let dueDate = null;
+let submitCb;
 
 taskNameInput.addEventListener("input", () => {
   taskEditorSubmit.disabled = !taskNameInput.value;
@@ -32,19 +30,13 @@ taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate, set
 
 taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();
-  const name = taskNameInput.value;
-  const description = taskDescriptionInput.value;
-  if(taskId) {
-    const task = todoList.updateTask(
-      taskId,
-      { name, description, dueDate },
-      project !== getCurrentProject() ? project : null
-    );
-    setUpdatedTask(task, project);
-  }
-  if(!taskId) {
-    addTask(project, { name, description, dueDate });
-  }
+  
+  submitCb(project, {
+    name: taskNameInput.value,
+    description: taskDescriptionInput.value,
+    dueDate,
+  });
+
   resetTaskEditor();
 });
 
@@ -53,14 +45,14 @@ taskEditor.addEventListener("reset", () => {
   removeTaskEditor();
 });
 
-function activeTaskEditor(el, taskPar = {}) {
+function activeTaskEditor(el, next = () => {}, taskPar = {}) {
   // render task editor
   if (taskContainer.contains(taskEditor)) removeTaskEditor();
   taskContainer.replaceChild(taskEditor, el);
   // change state
   lastElement = el;
-  taskId = taskPar.id;
   project = getCurrentProject();
+  submitCb = next;
 
   setTaskEditor(taskPar);
 }

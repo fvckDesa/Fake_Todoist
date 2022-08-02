@@ -4,7 +4,7 @@ import {
   mainTitle,
   taskContainer,
   completedTaskContainer,
-  addTask,
+  addTaskBtn,
   taskEditor,
   editProjectBtn,
   deleteProjectBtn,
@@ -16,6 +16,7 @@ import activeTaskEditor, { updateProjectTaskEditor } from "./task-editor";
 import activeProjectForm from "./project-form";
 import activeDeleteWarning from "./delete-warning.js";
 import { updateProject, deleteProject, changeNumTask } from "./project.js";
+import { addTask } from "../utilities/dom-utilities";
 
 let currentProject;
 
@@ -44,8 +45,8 @@ deleteProjectBtn.addEventListener("click", () => {
   });
 });
 
-addTask.addEventListener("click", () => {
-  activeTaskEditor(addTask);
+addTaskBtn.addEventListener("click", () => {
+  activeTaskEditor(addTaskBtn, addTask);
 });
 
 function setProject(project) {
@@ -64,7 +65,7 @@ function setProject(project) {
       .filterTask((task) => !task.complete)
       .map(createTaskElement)
       // add "add task" button at the end
-      .concat(addTask)
+      .concat(addTaskBtn)
   );
   completedTaskContainer.replaceChildren(
     ...project

@@ -4,12 +4,14 @@ import activeDueDatePicker from "./due-date-picker";
 import activeTaskEditor from "./task-editor";
 import { getDueDateInfo } from "../utilities/date-utilities";
 import todoList from "../module/todo-list";
-import { getCurrentProject, setUpdatedTask, toggleTask } from "./main-content";
+import { toggleTask } from "./main-content";
 import activeDeleteWarning from "./delete-warning";
 import { changeNumTask } from "./project";
+import { updateTask } from "../utilities/dom-utilities";
 
 function createTaskElement(task) {
     const { name, description, id } = task;
+    const project = todoList.taskProject(id);
     let { dueDate, complete } = task;
 
     const taskEl = taskTemplate.cloneNode(true).firstElementChild;
@@ -35,8 +37,7 @@ function createTaskElement(task) {
     // events
     const changeDueDateEvent = (date) => {
         dueDate = date;
-        const updatedTask = todoList.updateTask(id, { dueDate });
-        setUpdatedTask(updatedTask, getCurrentProject(), id);
+        updateTask(id, project, { dueDate });
     };
     
     checkboxBtn.addEventListener("click", () => {
@@ -56,7 +57,9 @@ function createTaskElement(task) {
         }, dueDate);
     });
     // task actions
-    editTask.addEventListener("click", () => activeTaskEditor(taskEl, task));
+    editTask.addEventListener("click", () => activeTaskEditor(taskEl, (...params) => {
+        updateTask(id, ...params);
+    }, task));
 
     changeDueDate.addEventListener("click", () => {
         activeDueDatePicker(changeDueDate, changeDueDateEvent, dueDate);
@@ -64,7 +67,6 @@ function createTaskElement(task) {
 
     deleteTask.addEventListener("click", () => {
         activeDeleteWarning(name, () => {
-            const project = todoList.taskProject(id);
             todoList.deleteTask(id);
             taskEl.remove();
             changeNumTask(project);
