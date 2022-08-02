@@ -2,7 +2,7 @@ import { taskTemplate } from "./elements";
 import Icons from "../assets/svg";
 import activeDueDatePicker from "./due-date-picker";
 import activeTaskEditor from "./task-editor";
-import { getDueDateInfo } from "../module/date-utilities";
+import { getDueDateInfo } from "../utilities/date-utilities";
 import todoList from "../module/todo-list";
 import { getCurrentProject, setUpdatedTask, toggleTask } from "./main-content";
 import activeDeleteWarning from "./delete-warning";

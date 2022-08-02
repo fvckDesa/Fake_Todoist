@@ -45,9 +45,7 @@ const todoList = (() => {
     _saveProjects();
   }
 
-  function addTask(nameProject, taskAttributes) {
-    // find project
-    const project = projects.find((project) => project.name === nameProject);
+  function addTask(project, taskAttributes) {
     // add task to project
     const task = project.addTask(taskAttributes);
     // save project to local storage

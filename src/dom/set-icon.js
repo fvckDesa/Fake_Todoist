@@ -13,7 +13,6 @@ import {
   openProjectIcon,
   addTaskIcon,
   taskDueDate,
-  taskProject,
   pickerNoDateIcon,
   pickerTodayIcon,
   pickerTomorrowIcon,
@@ -26,7 +25,8 @@ import {
   editProjectIcon,
   deleteProjectIcon,
   deleteWarningInfoIcon,
-  deleteWarningCloseIcon
+  deleteWarningCloseIcon,
+  quickAddDueDateIcon
 } from "./elements";
 
 function setIcons() {
@@ -55,9 +55,9 @@ function setIcons() {
   deleteProjectIcon.src = Icons.GarbageContainer;
   deleteWarningInfoIcon.src = Icons.Info;
   deleteWarningCloseIcon.src = Icons.Close;
+  quickAddDueDateIcon.src = Icons.DueDate;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
-  taskProject.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.Inbox);
 }
 
 export default setIcons;

@@ -208,7 +208,7 @@ ul {
   transform: translateY(-50%);
 }
 
-.top-bar-add-btn {
+.quick-add-btn {
   color: var(--white-text);
 }
 
@@ -752,13 +752,13 @@ ul {
   border: none;
 }
 
-#task-name-input {
+.task-name-input {
   font-size: 14px;
   line-height: 21px;
   font-weight: 500;
 }
 
-#task-description-input {
+.task-description-input {
   --height: 36px;
   resize: none;
   line-height: 18px;
@@ -860,7 +860,7 @@ ul {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
+  z-index: 4;
 }
 
 .project-picker,
@@ -978,7 +978,7 @@ ul {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
+  z-index: 4;
 }
 
 .due-date-picker,
@@ -1430,4 +1430,52 @@ ul {
 
 .delete-warning > footer {
   border: none;
+}
+/* Quick add */
+.quick-add-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  z-index: 3;
+  animation: modal-appear 0.1s cubic-bezier(.165,.84,.44,1) both;
+}
+
+.quick-add-container.disappear {
+  animation: modal-disappear 0.1s cubic-bezier(.165,.84,.44,1) both;
+}
+
+@keyframes modal-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modal-disappear {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.quick-add {
+  width: min(100%, 550px);
+  padding: 16px;
+  margin-top: calc(13vh - 32px);
+  background-color: var(--white);
+  box-shadow: 0 15px 50px 0 rgb(0 0 0 / 35%);
 }

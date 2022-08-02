@@ -9,11 +9,11 @@ import {
 } from "./elements";
 import todoList from "../module/todo-list";
 import Icons from "../assets/svg";
-import { setTask, getCurrentProject, setUpdatedTask } from "./main-content";
+import { getCurrentProject, setUpdatedTask } from "./main-content";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
-import { getDueDateInfo } from "../module/date-utilities";
-import { changeNumTask } from "./project";
+import { getDueDateInfo } from "../utilities/date-utilities";
+import { addTask } from "../utilities/dom-utilities.js";
 
 let lastElement;
 let project;
@@ -43,10 +43,7 @@ taskEditor.addEventListener("submit", (e) => {
     setUpdatedTask(task, project);
   }
   if(!taskId) {
-    const newTask = todoList.addTask(project.name, { name, description, dueDate });
-    project === getCurrentProject()
-      ? setTask(newTask)
-      : changeNumTask(project);
+    addTask(project, { name, description, dueDate });
   }
   resetTaskEditor();
 });

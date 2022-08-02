@@ -29,11 +29,14 @@ export const pickerCrossIcon = document.querySelector("#cross-icon");
 //Delete Warning icons
 export const deleteWarningInfoIcon = document.querySelector("#delete-warning-info-icon");
 export const deleteWarningCloseIcon = document.querySelector("#delete-warning-close-icon");
+//Quick Add icons
+export const quickAddDueDateIcon = document.querySelector(".quick-add .task-editor-btn-icon");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');
 export const searchBar = document.querySelector('.search-bar');
 export const searchInput = document.querySelector('#search-input');
+export const quickAddBtn = document.querySelector('.quick-add-btn');
 //Side Bar elements
 export const sidebar = document.querySelector('.side-bar');
 export const inboxProject = document.querySelector("#inbox-project");
@@ -51,12 +54,12 @@ export const editProjectBtn = document.querySelector('#edit-project');
 export const deleteProjectBtn = document.querySelector('#delete-project');
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
-export const taskNameInput = taskEditor.querySelector('#task-name-input');
-export const taskDescriptionInput = taskEditor.querySelector('#task-description-input');
-export const taskDueDate = taskEditor.querySelector('#task-due-date');
-export const taskProject = taskEditor.querySelector('#task-project');
-export const taskEditorCancel = taskEditor.querySelector('#cancel-btn');
-export const taskEditorSubmit = taskEditor.querySelector('#submit-btn');
+export const taskNameInput = taskEditor.querySelector('#task-editor .task-name-input');
+export const taskDescriptionInput = taskEditor.querySelector('#task-editor .task-description-input');
+export const taskDueDate = taskEditor.querySelector('#task-editor .task-due-date');
+export const taskProject = taskEditor.querySelector('#task-editor .task-project');
+export const taskEditorCancel = taskEditor.querySelector('#task-editor .cancel-btn');
+export const taskEditorSubmit = taskEditor.querySelector('#task-editor .submit-btn');
 //Project Picker elements
 export const projectPickerContainer = document.querySelector(".project-picker-container");
 export const projectPicker = document.querySelector(".project-picker");
@@ -98,3 +101,11 @@ export const loadScreen = document.querySelector(".load-screen");
 export const deleteWarningContainer = document.querySelector(".delete-warning-container");
 export const deleteWarning = document.querySelector(".delete-warning");
 export const deleteWarningName = document.querySelector(".delete-warning-name");
+//Quick add
+export const quickAddContainer = document.querySelector(".quick-add-container");
+export const quickAdd = document.querySelector(".quick-add");
+export const quickAddNameInput = document.querySelector(".quick-add .task-name-input");
+export const quickAddDescriptionInput = document.querySelector(".quick-add .task-description-input");
+export const quickAddDueDate = document.querySelector(".quick-add .task-due-date");
+export const quickAddProject = document.querySelector(".quick-add .task-project");
+export const quickAddSubmitBtn = document.querySelector(".quick-add .submit-btn");

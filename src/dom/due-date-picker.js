@@ -25,7 +25,7 @@ import {
   parseDateString,
   isThisWeekend,
   isNextWeek
-} from "../module/date-utilities";
+} from "../utilities/date-utilities";
 import {
   format,
   nextMonday,
