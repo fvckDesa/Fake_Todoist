@@ -23,7 +23,8 @@ import {
   isThisWeek,
   isTomorrow,
   isToday,
-  format
+  format,
+  isWithinInterval
 } from "date-fns";
 
 export function getDaysInWeeksFormat(date) {
@@ -123,7 +124,10 @@ export function getDueDateInfo(date) {
     color = "--red";
     text = "Yesterday";
   }
-  if(date && isNextWeek(date)) {
+  if(date && isWithinInterval(date, {
+    start: startOfToday(),
+    end: addDays(startOfToday(), 7)
+  })) {
     color = "--purple";
     text = format(date, "eeee");
   }
