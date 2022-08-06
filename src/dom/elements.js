@@ -26,6 +26,8 @@ export const pickerActionPreviousIcon = document.querySelector("#previous-icon")
 export const pickerActionNextIcon = document.querySelector("#next-icon");
 export const pickerPreviewIcon = document.querySelector(".date-preview-content-icon");
 export const pickerCrossIcon = document.querySelector("#cross-icon");
+//Time Picker icons
+export const timePickerWarningIcon = document.querySelector(".warning-icon");
 //Delete Warning icons
 export const deleteWarningInfoIcon = document.querySelector("#delete-warning-info-icon");
 export const deleteWarningCloseIcon = document.querySelector("#delete-warning-close-icon");
@@ -84,6 +86,14 @@ export const dueDatePickerPreview = document.querySelector(".date-preview");
 export const dueDatePickerPreviewDate = document.querySelector(".date-preview-content-date");
 export const dueDatePickerMonthListHeader = document.querySelector(".date-picker-month-list-header");
 export const dueDatePickerTaskCounter = document.querySelector(".task-counter");
+export const dueDatePickerActions = document.querySelector(".date-actions");
+export const dueDatePickerAddTime = document.querySelector(".date-actions-add-time");
+export const dueDatePickerSave = document.querySelector(".date-actions-save");
+//Time picker elements
+export const timePickerContainer = document.querySelector(".time-picker-container");
+export const timePicker = document.querySelector(".time-picker");
+export const timePickerInput = document.querySelector(".time-picker-input");
+export const timePickerSubmit = document.querySelector(".time-picker-footer > button[type=\"submit\"]");
 //Project form elements
 export const projectFormContainer = document.querySelector('.project-form-container');
 export const projectForm = document.querySelector('.project-form');

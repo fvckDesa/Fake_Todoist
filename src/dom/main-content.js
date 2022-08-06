@@ -16,7 +16,7 @@ import activeTaskEditor, { updateProjectTaskEditor } from "./task-editor";
 import activeProjectForm from "./project-form";
 import activeDeleteWarning from "./delete-warning.js";
 import { updateProject, deleteProject, changeNumTask } from "./project.js";
-import { addTask } from "../utilities/dom-utilities";
+import { addTask } from "../utilities/task";
 
 let currentProject;
 

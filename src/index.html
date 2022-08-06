@@ -163,7 +163,10 @@
                 <button class="date-preview-content">
                     <svg-loader class="date-preview-content-icon"></svg-loader>
                     <div class="date-preview-content-date">
-                        <div class="date-preview-info"></div>
+                        <div class="date-preview-info">
+                            <span class="date-preview-info-date"></span>
+                            <span class="date-preview-info-time"></span>
+                        </div>
                         <div class="date-preview-tasks"></div>
                     </div>
                 </button>
@@ -231,9 +234,26 @@
                 <div class="date-picker-month-list"></div>
             </div>
             <div class="date-actions">
-                <div class="date-actions-add-time">+ Add time</div>
+                <span class="date-actions-add-time">+ Add time</span>
+                <button type="submit" class="date-actions-save" hidden>Save</button>
             </div>
         </form>
+
+        <div class="time-picker-container hidden">
+            <form class="time-picker">
+                <div class="time-picker-field">
+                    <input type="text" class="time-picker-input" placeholder="eg, 14:00" maxlength="8" spellcheck="false">
+                    <div class="time-picker-label">
+                        <label>Time</label>
+                        <svg-loader class="warning-icon"></svg-loader>
+                    </div>
+                </div>
+                <footer class="time-picker-footer">
+                    <button type="reset">Cancel</button>
+                    <button type="submit" disabled>Add</button>
+                </footer>
+            </form>
+        </div>
     </div>
 
     <div class="delete-warning-container hidden">

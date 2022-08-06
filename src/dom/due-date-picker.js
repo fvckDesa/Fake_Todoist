@@ -16,16 +16,21 @@ import {
   dueDatePickerPreview,
   dueDatePickerPreviewDate,
   pickerCrossIcon,
-  dueDatePickerTaskCounter
+  dueDatePickerTaskCounter,
+  dueDatePickerActions,
+  dueDatePickerAddTime,
+  dueDatePickerSave,
 } from "./elements";
 import {
   getDaysInWeeksFormat,
   isBeforeDay,
   getMonths,
-  parseDateString,
+  parseDueDateString,
   isThisWeekend,
-  isNextWeek
-} from "../utilities/date-utilities";
+  isNextWeek,
+  isEndOfDay,
+  formatDateString,
+} from "../utilities/due-date";
 import {
   format,
   nextMonday,
@@ -37,21 +42,29 @@ import {
   addDays,
   addMonths,
   startOfMonth,
-  startOfToday,
-  parse
+  endOfDay,
+  parse,
+  set,
+  endOfToday,
+  isEqual,
 } from "date-fns";
 import todoList from "../module/todo-list";
+import activeTimePicker from "./time-picker";
+import Icons from "../assets/svg";
+import { formatTimeString, getTime } from "../utilities/time";
 
-let datePick;
+let dueDatePick;
 let submitCb;
 let element;
 
-let maxDate = startOfToday();
+let startDueDate;
+
+let maxDate = endOfToday();
 let currentCalendar;
 let isScroll = false;
 
 window.addEventListener("resize", () => {
-  if(dueDatePickerContainer.classList.contains("hidden")) return;
+  if (dueDatePickerContainer.classList.contains("hidden")) return;
   positionDueDatePicker(element);
 });
 
@@ -67,7 +80,7 @@ dueDatePicker.addEventListener("click", (e) => {
 dueDatePicker.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  submitCb(datePick);
+  submitCb(dueDatePick);
 
   dueDatePickerContainer.classList.add("hidden");
   dueDatePickerPreview.hidden = true;
@@ -75,21 +88,27 @@ dueDatePicker.addEventListener("submit", (e) => {
 
 dueDatePickerInput.addEventListener("input", () => {
   const value = dueDatePickerInput.value.trim();
-  const date = parseDateString(value);
-  
-  dueDatePickerPreview.hidden = date == undefined;
-  positionDueDatePicker(element);
-  if(!date) return;
-  dueDatePickerPreview.setAttribute("data-date", format(date, "yyyy-MM-dd"));
-  // set info
-  dueDatePickerPreviewDate
-    .firstElementChild
-    .innerText = format(date, `eee d MMM ${isThisYear(date) ? "" : "yyyy"}`);
+  const date = parseDueDateString(value);
 
-  const numTasks = 0;
-  dueDatePickerPreviewDate.lastElementChild.innerText = numTasks > 0
-    ? `${numTasks} task${numTasks > 1 ? "s" : ""}`
-    : "No tasks";
+  dueDatePickerPreview.hidden = date == null;
+  positionDueDatePicker(element);
+  if (!date) return;
+  dueDatePickerPreview.setAttribute("data-dueDate", value);
+  // set info
+  const [previewDay, previewTime] =
+    dueDatePickerPreviewDate.firstElementChild.children;
+  previewDay.innerText = format(
+    date,
+    `eee d MMM ${isThisYear(date) ? "" : "yyyy"}`
+  );
+  
+  previewTime.innerText = !isEndOfDay(date)
+    ? formatTimeString(date)
+    : "";
+
+  const numTasks = todoList.getTaskFromDate(date).length;
+  dueDatePickerPreviewDate.lastElementChild.innerText =
+    numTasks > 0 ? `${numTasks} task${numTasks > 1 ? "s" : ""}` : "No tasks";
 });
 
 dueDatePickerInput.addEventListener("input", () => {
@@ -104,28 +123,29 @@ pickerCrossIcon.addEventListener("click", () => {
 });
 
 dueDatePickerPreview.addEventListener("click", () => {
-  setDatePick(parse(dueDatePickerPreview.getAttribute("data-date"), "yyyy-MM-dd", startOfToday()));
+  dueDatePick = parseDueDateString(dueDatePickerPreview.getAttribute("data-dueDate"));
 });
 
 dueDatePickerSuggestionToday.addEventListener("click", () =>
-  setDatePick(startOfToday())
+  setDatePick(endOfToday())
 );
 
 dueDatePickerSuggestionTomorrow.addEventListener("click", () =>
-  setDatePick(addDays(startOfToday(), 1))
+  setDatePick(addDays(endOfToday(), 1))
 );
 
 dueDatePickerSuggestionThisWeekend.addEventListener("click", () =>
-  setDatePick(nextSaturday(startOfToday()))
+  setDatePick(nextSaturday(endOfToday()))
 );
 
 dueDatePickerSuggestionNextWeek.addEventListener("click", () =>
-  setDatePick(nextMonday(startOfToday()))
+  setDatePick(nextMonday(endOfToday()))
 );
 
-dueDatePickerSuggestionNoDate.addEventListener("click", () =>
-  setDatePick(null)
-);
+dueDatePickerSuggestionNoDate.addEventListener("click", () => {
+  setDatePick(null);
+  setTimePick(null);
+});
 
 dueDatePickerActionPrev.addEventListener("click", () =>
   scrollTo(currentCalendar.previousElementSibling)
@@ -166,28 +186,33 @@ let timeout;
 dueDatePickerMonthList.addEventListener("scroll", () => {
   isScroll = true;
   clearTimeout(timeout);
-  timeout = setTimeout(() => { isScroll = false; }, 100);
+  timeout = setTimeout(() => {
+    isScroll = false;
+  }, 100);
+});
+
+dueDatePickerAddTime.addEventListener("click", () => {
+  activeTimePicker(dueDatePickerAddTime, setTimePick);
 });
 
 function activeDueDatePicker(el, next = () => {}, dueDate = null) {
   // render due date picker
   dueDatePickerContainer.classList.remove("hidden");
   // set states
-  datePick = dueDate;
+  dueDatePick = dueDate;
+  startDueDate = dueDate ? new Date(dueDate) : null;
   submitCb = next;
   element = el;
   // set date in input
-  dueDatePickerInput.value = datePick
-    ? `${format(datePick, "d MMM")}${
-        !isThisYear(datePick) ? " " + format(datePick, "yyyy") : ""
-      }`
-    : "";
+  setDueDateInInput(dueDatePick);
 
   formatSuggestions();
 
   renderStartCalendarList(dueDate);
 
   positionDueDatePicker(el);
+
+  setTimePick(dueDate && !isEndOfDay(dueDate) ? getTime(dueDate) : null);
 }
 
 function scrollTo(calendar) {
@@ -200,32 +225,45 @@ function scrollTo(calendar) {
 
 function formatSuggestions() {
   // set suggestions days text
-  dueDatePickerSuggestionToday.lastChild.innerText = format(startOfToday(), "EEE");
+  dueDatePickerSuggestionToday.lastChild.innerText = format(
+    endOfToday(),
+    "EEE"
+  );
   dueDatePickerSuggestionTomorrow.lastChild.innerText = format(
-    addDays(startOfToday(), 1),
+    addDays(endOfToday(), 1),
     "EEE"
   );
   dueDatePickerSuggestionNextWeek.lastChild.innerText = format(
-    nextMonday(startOfToday()),
+    nextMonday(endOfToday()),
     "EEE d MMM"
   );
   // remove suggestions if date is set
-  dueDatePickerSuggestionToday.hidden = datePick && isToday(datePick);
-  dueDatePickerSuggestionTomorrow.hidden = datePick && isTomorrow(datePick);
-  dueDatePickerSuggestionThisWeekend.hidden = datePick && isThisWeekend(datePick);
-  dueDatePickerSuggestionNextWeek.hidden = datePick && isNextWeek(datePick);
-  dueDatePickerSuggestionNoDate.hidden = datePick === null;
+  dueDatePickerSuggestionToday.hidden = dueDatePick && isToday(dueDatePick);
+  dueDatePickerSuggestionTomorrow.hidden =
+    dueDatePick && isTomorrow(dueDatePick);
+  dueDatePickerSuggestionThisWeekend.hidden =
+    dueDatePick && isThisWeekend(dueDatePick);
+  dueDatePickerSuggestionNextWeek.hidden =
+    dueDatePick && isNextWeek(dueDatePick);
+  dueDatePickerSuggestionNoDate.hidden = dueDatePick === null;
 }
 
 function renderStartCalendarList(maxDatePar) {
-  maxDate = addMonths(maxDatePar ?? addMonths(startOfToday(), 4), 1);
+  maxDate = addMonths(maxDatePar ?? addMonths(endOfToday(), 4), 1);
   maxDate = startOfMonth(maxDate);
 
-  dueDatePickerMonthList.replaceChildren(...getMonths(maxDate).map(createCalendar));
+  dueDatePickerMonthList.replaceChildren(
+    ...getMonths(maxDate).map(createCalendar)
+  );
 
-  scrollTo([...dueDatePickerMonthList.children].find((calendar) => {
-    return format(maxDatePar ?? startOfToday(), "MMM yyyy") === calendar.getAttribute("data-month");
-  }));
+  scrollTo(
+    [...dueDatePickerMonthList.children].find((calendar) => {
+      return (
+        format(maxDatePar ?? endOfToday(), "MMM yyyy") ===
+        calendar.getAttribute("data-month")
+      );
+    })
+  );
 }
 
 function renderNewCalendar() {
@@ -270,31 +308,45 @@ function createDaysElements(days) {
       dayElement.classList.add("empty");
       dayElement.disabled = true;
     }
-    if (isBeforeDay(day, startOfToday())) {
+    if (isBeforeDay(day, endOfToday())) {
       dayElement.classList.add("past");
       dayElement.disabled = true;
     }
     if (isToday(day)) {
       dayElement.classList.add("today");
     }
-    if (isSameDay(day, datePick) && !dayElement.classList.contains("past")) {
+    if (isSameDay(day, dueDatePick) && !dayElement.classList.contains("past")) {
       dayElement.classList.add("selected");
     }
 
-    dayElement.addEventListener("click", () => setDatePick(day));
+    dayElement.addEventListener("click", () => {
+      dayElement.type = dueDatePick && !isEndOfDay(dueDatePick) ? "button" : "submit";
 
-    if(!dayElement.classList.contains("empty") && !dayElement.classList.contains("past")) {
+      setDatePick(day);
+
+      changeDaySelected(dayElement);
+    });
+
+    if (
+      !dayElement.classList.contains("empty") &&
+      !dayElement.classList.contains("past")
+    ) {
       const taskInThisDay = todoList.getTaskFromDate(day);
 
       dayElement.addEventListener("mouseover", () => {
-        if(isScroll) return;
-        const [ counterInfo, counterBar ] = dueDatePickerTaskCounter.children;
+        if (isScroll) return;
+        const [counterInfo, counterBar] = dueDatePickerTaskCounter.children;
         // date
-        counterInfo.firstElementChild.innerText = format(day, `eee d MMM ${isThisYear(day) ? "" : "yyyy"}`);
+        counterInfo.firstElementChild.innerText = format(
+          day,
+          `eee d MMM ${isThisYear(day) ? "" : "yyyy"}`
+        );
         // num tasks
         counterInfo.lastElementChild.innerText = `${taskInThisDay.length} tasks due`;
-        
-        counterBar.replaceChildren(...taskInThisDay.map(() => document.createElement("span")));
+
+        counterBar.replaceChildren(
+          ...taskInThisDay.map(() => document.createElement("span"))
+        );
 
         dueDatePickerTaskCounter.classList.remove("hidden");
       });
@@ -302,7 +354,7 @@ function createDaysElements(days) {
         dueDatePickerTaskCounter.classList.add("hidden");
       });
 
-      if(taskInThisDay.length > 0) dayElement.classList.add("has-task");
+      if (taskInThisDay.length > 0) dayElement.classList.add("has-task");
     }
 
     return dayElement;
@@ -312,53 +364,124 @@ function createDaysElements(days) {
 function positionDueDatePicker(el) {
   let coords = null;
   // get info of element
-  const { left, right, top, bottom, width, height } = el.getBoundingClientRect();
+  const { left, right, top, bottom, width, height } =
+    el.getBoundingClientRect();
   // get dimensions of body
-  const { height: bodyHeight, width: bodyWidth } = document.body.getBoundingClientRect();
+  const { height: bodyHeight, width: bodyWidth } =
+    document.body.getBoundingClientRect();
   // get dimensions of dueDatePicker
-  const { height: dueDatePickerHeight, width: dueDatePickerWidth } = dueDatePicker.getBoundingClientRect();
+  const { height: dueDatePickerHeight, width: dueDatePickerWidth } =
+    dueDatePicker.getBoundingClientRect();
   // resize x and y if overflow in body
   const PADDING = 20;
   const overflowXCorrector = (x) => {
-    return Math.min(Math.max(x, PADDING), bodyWidth - dueDatePickerWidth - PADDING);
-  }
+    return Math.min(
+      Math.max(x, PADDING),
+      bodyWidth - dueDatePickerWidth - PADDING
+    );
+  };
   const overflowYCorrector = (y) => {
-    return Math.min(Math.max(y, PADDING), bodyHeight - dueDatePickerHeight - PADDING);
-  }
+    return Math.min(
+      Math.max(y, PADDING),
+      bodyHeight - dueDatePickerHeight - PADDING
+    );
+  };
   // get x and y coordinates
   // from top
-  if(top - dueDatePickerHeight > 0) {
+  if (top - dueDatePickerHeight > 0) {
     coords = {
       x: overflowXCorrector(left - dueDatePickerWidth / 2 + width / 2),
       y: overflowYCorrector(top - dueDatePickerHeight),
-    }
-  // from bottom
-  } else if(bottom + dueDatePickerHeight + PADDING < bodyHeight) {
+    };
+    // from bottom
+  } else if (bottom + dueDatePickerHeight + PADDING < bodyHeight) {
     coords = {
       x: overflowXCorrector(left - dueDatePickerWidth / 2 + width / 2),
       y: overflowYCorrector(bottom),
-    }
-  // from left
-  } else if(left - dueDatePickerWidth > 0) {
+    };
+    // from left
+  } else if (left - dueDatePickerWidth > 0) {
     coords = {
       x: overflowXCorrector(left - dueDatePickerWidth),
       y: overflowYCorrector(top - dueDatePickerHeight / 2 + height / 2),
-    }
-  // from right
-  } else if(right + dueDatePickerWidth < bodyWidth) {
+    };
+    // from right
+  } else if (right + dueDatePickerWidth < bodyWidth) {
     coords = {
       x: overflowXCorrector(right),
       y: overflowYCorrector(top - dueDatePickerHeight / 2 + height / 2),
-    }
+    };
   }
 
-  dueDatePicker.style.cssText = coords 
+  dueDatePicker.style.cssText = coords
     ? `transform: translate(${coords.x}px, ${coords.y}px)`
     : ` top: 50%; left: 50%; transform: translate(-50%, -50%);`;
 }
 
+function setTimePick(time) {
+  dueDatePick = time
+    ? set(dueDatePick ?? endOfToday(), time)
+    : dueDatePick
+    ? endOfDay(dueDatePick)
+    : null;
+
+  setDueDateInInput(dueDatePick);
+
+  dueDatePickerActions.firstElementChild.replaceWith(
+    time ? createTimeElement(time) : dueDatePickerAddTime
+  );
+  // render save btn
+  dueDatePickerSave.hidden = JSON.stringify(startDueDate) === JSON.stringify(dueDatePick);
+}
+
+function createTimeElement(time) {
+  const timeEl = document.createElement("span");
+  timeEl.classList.add("date-actions-time");
+
+  timeEl.innerHTML = `
+    <span class="date-actions-time-label">${formatTimeString(time)}</span>
+    <span class="date-actions-time-remove">
+      <svg-loader src="${Icons.CloseXs}"></svg-loader>
+    </span>
+  `;
+
+  timeEl.firstElementChild.addEventListener("click", () =>
+    activeTimePicker(
+      timeEl.firstElementChild,
+      setTimePick,
+      dueDatePick && !isEndOfDay(dueDatePick) ? getTime(dueDatePick) : null
+    )
+  );
+
+  timeEl.lastElementChild.addEventListener("click", () => setTimePick(null));
+
+  return timeEl;
+}
+
+function setDueDateInInput(dueDate) {
+  if(!dueDate) {
+    dueDatePickerInput.value = "";
+    return;
+  }
+  dueDatePickerInput.value = formatDateString(dueDate);
+
+  if(!isEndOfDay(dueDate)) dueDatePickerInput.value += ` ${formatTimeString(dueDate)}`;
+}
+
+function changeDaySelected(dayEl) {
+  dueDatePicker.querySelector(".selected")?.classList.remove("selected");
+  dayEl.classList.add("selected");
+}
+
 function setDatePick(date) {
-  datePick = date;
+  // set day
+  const dayPick = date ? endOfDay(date) : null;
+  // set time
+  dueDatePick = dayPick && dueDatePick ? set(dayPick, getTime(dueDatePick)) : dayPick;
+  // render save btn
+  dueDatePickerSave.hidden = JSON.stringify(startDueDate) === JSON.stringify(dueDatePick);
+
+  setDueDateInInput(dueDatePick);
 }
 
 export default activeDueDatePicker;

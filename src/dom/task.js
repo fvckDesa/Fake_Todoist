@@ -2,12 +2,12 @@ import { taskTemplate } from "./elements";
 import Icons from "../assets/svg";
 import activeDueDatePicker from "./due-date-picker";
 import activeTaskEditor from "./task-editor";
-import { getDueDateInfo } from "../utilities/date-utilities";
+import { getDueDateInfo } from "../utilities/due-date";
 import todoList from "../module/todo-list";
 import { toggleTask } from "./main-content";
 import activeDeleteWarning from "./delete-warning";
 import { changeNumTask } from "./project";
-import { updateTask } from "../utilities/dom-utilities";
+import { updateTask } from "../utilities/task";
 
 function createTaskElement(task) {
     const { name, description, id } = task;
@@ -50,8 +50,8 @@ function createTaskElement(task) {
         }, 210);
     });
 
-    dueDateText.addEventListener("click", () => {
-        activeDueDatePicker(dueDateText, (date) => {
+    taskDueDate.addEventListener("click", () => {
+        activeDueDatePicker(taskDueDate, (date) => {
             if(complete) return;
             changeDueDateEvent(date);
         }, dueDate);

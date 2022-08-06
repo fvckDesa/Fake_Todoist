@@ -26,6 +26,8 @@ import NoDate from "./no-date.svg";
 import ArrowXl from "./arrow-xl.svg";
 import Cross from "./cross.svg";
 import Info from "./info.svg";
+import Warning from "./warning.svg";
+import CloseXs from "./close-xs.svg";
 
 export default {
     Inbox,
@@ -55,5 +57,7 @@ export default {
     NoDate,
     ArrowXl,
     Cross,
-    Info
+    Info,
+    Warning,
+    CloseXs
 };

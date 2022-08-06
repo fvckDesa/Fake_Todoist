@@ -9,7 +9,7 @@ import {
 } from "./elements";
 import { getCurrentProject } from "./main-content";
 import Icons from "../assets/svg";
-import { getDueDateInfo } from "../utilities/date-utilities";
+import { getDueDateInfo } from "../utilities/due-date";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
 

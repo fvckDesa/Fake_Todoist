@@ -12,7 +12,7 @@ export function addTask(project, taskAttr) {
 export function updateTask(id, project, taskAttr) {
   const task = todoList.updateTask(id, taskAttr, project !== getCurrentProject() ? project : null);
   project === getCurrentProject()
-    ? setUpdatedTask(task, project, id)
+    ? setUpdatedTask(task, project)
     : changeNumTask(project);
 }
 
