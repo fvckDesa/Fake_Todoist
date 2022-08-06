@@ -705,7 +705,7 @@ ul {
   opacity: 0;
 }
 
-.task-action:focus {
+.task-action.active {
   opacity: 1;
 }
 

@@ -35,7 +35,7 @@ timePickerInput.addEventListener("input", () => {
   timePickerSubmit.disabled = !checkTimeValidity(timePickerInput.value);
 });
 
-function activeTimePicker(el, next = () => {}, time) {
+function activeTimePicker(el, time, next = () => {}) {
   timePickerContainer.classList.remove("hidden");
 
   submitCb = next;

@@ -43,7 +43,9 @@ colorSelector.addEventListener("click", () => {
   colorList.classList.toggle("hidden");
 });
 
-function activeProjectForm(next = () => {}, { name = "", color = "#808080" } = {}) {
+function activeProjectForm(project, next = () => {}) {
+  const { name = "", color = "#808080" } = project ?? {};
+
   nameProjectInput.value = name;
   colorList.querySelector(`[hex="${color}"]`).click();
   

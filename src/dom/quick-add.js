@@ -49,11 +49,11 @@ quickAddNameInput.addEventListener("input", () => {
 });
 
 quickAddDueDate.addEventListener("click", () =>
-  activeDueDatePicker(quickAddDueDate, setTaskDueDate, dueDate)
+  activeDueDatePicker(quickAddDueDate, dueDate, setTaskDueDate)
 );
 
 quickAddProject.addEventListener("click", () =>
-  activeProjectPicker(quickAddProject, setTaskProject, project)
+  activeProjectPicker(quickAddProject, project, setTaskProject)
 );
 
 function activeQuickAdd(next = () => {}) {

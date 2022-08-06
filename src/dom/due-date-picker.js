@@ -55,6 +55,7 @@ import { formatTimeString, getTime } from "../utilities/time";
 
 let dueDatePick;
 let submitCb;
+let resetCb;
 let element;
 
 let startDueDate;
@@ -71,6 +72,8 @@ window.addEventListener("resize", () => {
 dueDatePickerContainer.addEventListener("click", () => {
   dueDatePickerContainer.classList.add("hidden");
   dueDatePickerPreview.hidden = true;
+
+  resetCb();
 });
 
 dueDatePicker.addEventListener("click", (e) => {
@@ -192,16 +195,17 @@ dueDatePickerMonthList.addEventListener("scroll", () => {
 });
 
 dueDatePickerAddTime.addEventListener("click", () => {
-  activeTimePicker(dueDatePickerAddTime, setTimePick);
+  activeTimePicker(dueDatePickerAddTime, null, setTimePick);
 });
 
-function activeDueDatePicker(el, next = () => {}, dueDate = null) {
+function activeDueDatePicker(el, dueDate = null, next = () => {}, close = () => {}) {
   // render due date picker
   dueDatePickerContainer.classList.remove("hidden");
   // set states
   dueDatePick = dueDate;
   startDueDate = dueDate ? new Date(dueDate) : null;
   submitCb = next;
+  resetCb = close;
   element = el;
   // set date in input
   setDueDateInInput(dueDatePick);
@@ -448,8 +452,8 @@ function createTimeElement(time) {
   timeEl.firstElementChild.addEventListener("click", () =>
     activeTimePicker(
       timeEl.firstElementChild,
-      setTimePick,
-      dueDatePick && !isEndOfDay(dueDatePick) ? getTime(dueDatePick) : null
+      dueDatePick && !isEndOfDay(dueDatePick) ? getTime(dueDatePick) : null,
+      setTimePick
     )
   );
 

@@ -32,7 +32,7 @@ projectHeader.addEventListener("click", () => {
 openProjectForm.addEventListener("click", (e) => {
   e.stopPropagation();
 
-  activeProjectForm((name, color) => {
+  activeProjectForm(null, (name, color) => {
     const newProject = todoList.addProject(name, color);
     renderProjects(createProjectElement(newProject));
   });

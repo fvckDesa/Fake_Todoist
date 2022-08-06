@@ -51,18 +51,25 @@ function createTaskElement(task) {
     });
 
     taskDueDate.addEventListener("click", () => {
-        activeDueDatePicker(taskDueDate, (date) => {
+        activeDueDatePicker(taskDueDate, dueDate, (date) => {
             if(complete) return;
             changeDueDateEvent(date);
-        }, dueDate);
+        });
     });
     // task actions
-    editTask.addEventListener("click", () => activeTaskEditor(taskEl, (...params) => {
+    editTask.addEventListener("click", () => activeTaskEditor(taskEl,  task, (...params) => {
         updateTask(id, ...params);
-    }, task));
+    }));
 
     changeDueDate.addEventListener("click", () => {
-        activeDueDatePicker(changeDueDate, changeDueDateEvent, dueDate);
+        changeDueDate.classList.add("active");
+
+        activeDueDatePicker(
+            changeDueDate,
+            dueDate,
+            changeDueDateEvent,
+            () => changeDueDate.classList.remove("active")
+        );
     });
 
     deleteTask.addEventListener("click", () => {

@@ -29,12 +29,12 @@ mainContent.addEventListener("scroll", () => {
 });
 
 editProjectBtn.addEventListener("click", () => {
-  activeProjectForm((name, color) => {
+  activeProjectForm(currentProject, (name, color) => {
     const updatedProject = todoList.updateProject(currentProject.id, { name, color });
     updateProject(updatedProject);
     updateProjectTaskEditor(updatedProject);
     setTitle(updatedProject.name);
-  }, currentProject);
+  });
 });
 
 deleteProjectBtn.addEventListener("click", () => {
@@ -46,7 +46,7 @@ deleteProjectBtn.addEventListener("click", () => {
 });
 
 addTaskBtn.addEventListener("click", () => {
-  activeTaskEditor(addTaskBtn, addTask);
+  activeTaskEditor(addTaskBtn, null, addTask);
 });
 
 function setProject(project) {

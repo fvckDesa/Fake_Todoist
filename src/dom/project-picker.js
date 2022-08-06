@@ -41,11 +41,11 @@ function renderSearchProjectList() {
     renderProjectList(({ name }) => name.toLowerCase().includes(filter));
 }
 
-function activeProjectPicker(el, next = () => {}, project = getCurrentProject()) {
+function activeProjectPicker(el, project, next = () => {}) {
     // render project picker
     projectPickerContainer.classList.remove("hidden");
 
-    projectPick = project;
+    projectPick = project ?? getCurrentProject();
 
     submitCb = next;
     element = el;

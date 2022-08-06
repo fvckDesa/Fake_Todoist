@@ -24,9 +24,9 @@ taskNameInput.addEventListener("input", () => {
 
 taskDescriptionInput.addEventListener("input", formatTaskDescription);
 
-taskProject.addEventListener("click", () => activeProjectPicker(taskProject, setTaskProject, project));
+taskProject.addEventListener("click", () => activeProjectPicker(taskProject, project, setTaskProject));
 
-taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate, setTaskDueDate, dueDate));
+taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate, dueDate, setTaskDueDate));
 
 taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -45,7 +45,7 @@ taskEditor.addEventListener("reset", () => {
   removeTaskEditor();
 });
 
-function activeTaskEditor(el, next = () => {}, taskPar = {}) {
+function activeTaskEditor(el, taskPar, next = () => {}) {
   // render task editor
   if (taskContainer.contains(taskEditor)) removeTaskEditor();
   taskContainer.replaceChild(taskEditor, el);
@@ -54,7 +54,7 @@ function activeTaskEditor(el, next = () => {}, taskPar = {}) {
   project = getCurrentProject();
   submitCb = next;
 
-  setTaskEditor(taskPar);
+  setTaskEditor(taskPar ?? {});
 }
 
 function resetTaskEditor() {
