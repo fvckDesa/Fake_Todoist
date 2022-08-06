@@ -1,7 +1,6 @@
 import { projectTemplate, userProjects, sidebar } from "./elements";
 import Icons from "../assets/svg";
 import { setProject } from "./main-content";
-import todoList from "../module/todo-list";
 
 function createProjectElement(project) {
     const { name, color, id, tasks } = project;

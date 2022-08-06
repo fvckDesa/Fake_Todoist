@@ -1,9 +1,9 @@
-import { searchInput, quickAddBtn } from './elements.js';
-import activeQuickAdd from './quick-add.js';
-import { addTask } from "../utilities/task.js";
+import { searchInput, quickAddBtn } from "./elements";
+import activeQuickAdd from "./quick-add";
+import { addTask } from "./task";
 
 searchInput.addEventListener("focusout", () => {
-    searchInput.value = "";
+  searchInput.value = "";
 });
 
 quickAddBtn.addEventListener("click", () => activeQuickAdd(addTask));

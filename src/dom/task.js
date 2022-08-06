@@ -4,16 +4,16 @@ import activeDueDatePicker from "./due-date-picker";
 import activeTaskEditor from "./task-editor";
 import { getDueDateInfo } from "../utilities/due-date";
 import todoList from "../module/todo-list";
-import { toggleTask } from "./main-content";
+import { setUpdatedTask, toggleTask } from "./main-content";
 import activeDeleteWarning from "./delete-warning";
 import { changeNumTask } from "./project";
-import { updateTask } from "../utilities/task";
+import { getCurrentProject, setTask } from "./main-content.js";
 
 function createTaskElement(task) {
-    const { name, description, id } = task;
-    const project = todoList.taskProject(id);
-    let { dueDate, complete } = task;
+    let { name, id, dueDate, complete } = task;
 
+    const project = todoList.taskProject(id);
+    // task element and its children
     const taskEl = taskTemplate.cloneNode(true).firstElementChild;
     const [ checkboxBtn, content, actionContainer] = taskEl.children;
     const tic = checkboxBtn.querySelector("#tic-icon");
@@ -28,24 +28,20 @@ function createTaskElement(task) {
     comment.querySelector("svg-loader").setAttribute("src", Icons.Comment);
     deleteTask.querySelector("svg-loader").setAttribute("src", Icons.GarbageContainer);
     // set attributes
-    name ? taskName.textContent = name : taskName.remove();
-    description ? taskDescription.textContent = description : taskDescription.remove();
-
-    const { text, color } = getDueDateInfo(dueDate);
-    taskDueDate.style.color = `var(${color})`;
-    dueDate ? dueDateText.textContent = text : taskDueDate.remove();
+    setTaskProps(task);
     // events
     const changeDueDateEvent = (date) => {
         dueDate = date;
-        updateTask(id, project, { dueDate });
+        todoList.updateTask(id, { dueDate });
+        setDueDate(date);
     };
     
     checkboxBtn.addEventListener("click", () => {
         checkboxBtn.classList.add("checked");
         setTimeout(() => {
             complete = !complete;
-            const updatedTask = todoList.updateTask(id, { complete });
-            toggleTask(updatedTask);
+            todoList.updateTask(id, { complete });
+            toggleTask(id, complete);
             checkboxBtn.classList.remove("checked");
         }, 210);
     });
@@ -57,9 +53,15 @@ function createTaskElement(task) {
         });
     });
     // task actions
-    editTask.addEventListener("click", () => activeTaskEditor(taskEl,  task, (...params) => {
-        updateTask(id, ...params);
-    }));
+    editTask.addEventListener("click", () => {
+        activeTaskEditor(taskEl,  task, (project, task) => {
+            setTaskProps(task);
+            todoList.updateTask(id, task, project === getCurrentProject() ? null : project);
+            setUpdatedTask(taskEl, project);
+    
+            dueDate = task.dueDate;
+        });
+    });
 
     changeDueDate.addEventListener("click", () => {
         changeDueDate.classList.add("active");
@@ -67,7 +69,10 @@ function createTaskElement(task) {
         activeDueDatePicker(
             changeDueDate,
             dueDate,
-            changeDueDateEvent,
+            (date) => {
+                changeDueDateEvent(date);
+                changeDueDate.classList.remove("active")
+            },
             () => changeDueDate.classList.remove("active")
         );
     });
@@ -83,8 +88,36 @@ function createTaskElement(task) {
     taskEl.setAttribute("data-id", id);
 
     return taskEl;
+
+    function setTaskProps({ name, description, dueDate }) {
+        // task name
+        if(!name) throw new Error("Task name is required");
+        taskName.textContent = name;
+        // task description
+        taskDescription.textContent = description
+        taskDescription.hidden = !description;
+        // task due date
+        setDueDate(dueDate);
+    }
+
+    function setDueDate(dueDate) {
+        const { text, color } = getDueDateInfo(dueDate);
+
+        taskDueDate.style.color = color ? `var(${color})` : "";
+        dueDateText.textContent = text;
+
+        taskDueDate.hidden = !dueDate;
+    }
+}
+
+function addTask(project, taskAttr) {
+  const task = todoList.addTask(project, taskAttr);
+  project === getCurrentProject()
+    ? setTask(task)
+    : changeNumTask(project);
 }
 
 export {
-    createTaskElement
+    createTaskElement,
+    addTask
 }

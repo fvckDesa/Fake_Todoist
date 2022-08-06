@@ -16,7 +16,7 @@ import activeTaskEditor, { updateProjectTaskEditor } from "./task-editor";
 import activeProjectForm from "./project-form";
 import activeDeleteWarning from "./delete-warning.js";
 import { updateProject, deleteProject, changeNumTask } from "./project.js";
-import { addTask } from "../utilities/task";
+import { addTask } from "./task";
 
 let currentProject;
 
@@ -87,22 +87,17 @@ function setTask(task) {
   taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
 }
 
-function setUpdatedTask(task, project, id) {
+function setUpdatedTask(taskEl, project) {
   changeNumTask(project);
   changeNumTask(currentProject);
   if(project !== currentProject) {
     taskEditor.remove();
     return;
   }
-  if(id) {
-    const taskEl = taskContainer.querySelector(`[data-id="${id}"]`);
-    taskEl.replaceWith(createTaskElement(task));
-    return;
-  }
-  taskContainer.replaceChild(createTaskElement(task), taskEditor);
+  taskContainer.replaceChild(taskEl, taskEditor);
 }
 
-function toggleTask({ id, complete }) {
+function toggleTask(id, complete) {
   const taskEl = mainContent.querySelector(`[data-id="${id}"]`);
   taskEl.remove();
   complete 
