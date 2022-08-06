@@ -1,4 +1,5 @@
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
+import Illustrations from "../assets/illustrations";
 import {
   sidebarIcon,
   homeIcon,

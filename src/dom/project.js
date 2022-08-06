@@ -1,5 +1,5 @@
 import { projectTemplate, userProjects, sidebar } from "./elements";
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
 import { setProject } from "./main-content";
 
 function createProjectElement(project) {

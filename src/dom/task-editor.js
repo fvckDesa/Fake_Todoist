@@ -7,7 +7,7 @@ import {
   taskProject,
   taskDueDate
 } from "./elements";
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
 import { getCurrentProject } from "./main-content";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";

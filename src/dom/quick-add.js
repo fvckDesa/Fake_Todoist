@@ -8,7 +8,7 @@ import {
   quickAddSubmitBtn
 } from "./elements";
 import { getCurrentProject } from "./main-content";
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
 import { getDueDateInfo } from "../utils/due-date";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";

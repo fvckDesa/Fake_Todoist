@@ -54,6 +54,8 @@ export const completedTaskContainer = document.querySelector('#completed-task-co
 export const addTaskBtn = document.querySelector('.add-task');
 export const editProjectBtn = document.querySelector('#edit-project');
 export const deleteProjectBtn = document.querySelector('#delete-project');
+export const emptyProject = document.querySelector('.empty-project');
+export const emptyProjectIllustration = document.querySelector('.empty-project-illustration');
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
 export const taskNameInput = taskEditor.querySelector('#task-editor .task-name-input');

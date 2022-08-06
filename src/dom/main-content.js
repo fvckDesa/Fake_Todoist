@@ -8,7 +8,8 @@ import {
   taskEditor,
   editProjectBtn,
   deleteProjectBtn,
-  inboxProject
+  inboxProject,
+  emptyProject
 } from "./elements.js";
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
@@ -17,6 +18,7 @@ import activeProjectForm from "./project-form";
 import activeDeleteWarning from "./delete-warning.js";
 import { updateProject, deleteProject, changeNumTask } from "./project.js";
 import { addTask } from "./task";
+import { setRandomIllustration } from "./empty-project.js";
 
 let currentProject;
 
@@ -73,6 +75,9 @@ function setProject(project) {
       .filterTask((task) => task.complete)
       .map(createTaskElement)
   );
+
+  emptyProject.hidden = currentProject.tasks.length > 0;
+  setRandomIllustration();
 }
 
 function setTitle(title) {
@@ -85,6 +90,8 @@ function setTitle(title) {
 function setTask(task) {
   changeNumTask(todoList.taskProject(task.id));
   taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
+
+  showEmptyProject();
 }
 
 function setUpdatedTask(taskEl, project) {
@@ -95,20 +102,36 @@ function setUpdatedTask(taskEl, project) {
     return;
   }
   taskContainer.replaceChild(taskEl, taskEditor);
+
+  showEmptyProject();
 }
 
-function toggleTask(id, complete) {
-  const taskEl = mainContent.querySelector(`[data-id="${id}"]`);
+function toggleTask(taskEl, { complete, id }) {
   taskEl.remove();
   complete 
     ? completedTaskContainer.appendChild(taskEl)
     : taskContainer.insertBefore(taskEl, taskContainer.lastElementChild);
   
     changeNumTask(todoList.taskProject(id));
+
+    showEmptyProject();
+}
+
+function deleteTask(taskEl, project) {
+  taskEl.remove();
+  changeNumTask(project);
+
+  showEmptyProject();
+}
+
+function showEmptyProject() {
+  emptyProject.hidden = currentProject.tasks.length > 0;
+
+  if(currentProject.tasks.length === 0) taskContainer.lastElementChild.replaceWith(addTaskBtn);
 }
 
 function getCurrentProject() {
   return currentProject;
 }
 
-export { setProject, setTask, getCurrentProject, setUpdatedTask, toggleTask };
+export { setProject, setTask, getCurrentProject, setUpdatedTask, toggleTask, deleteTask };

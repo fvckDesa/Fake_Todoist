@@ -8,7 +8,7 @@ import {
   openProjectForm,
   projectHeader
 } from "./elements";
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
 import { formatTaskDescription } from "./task-editor";
 import activeProjectForm from "./project-form";
 import todoList from "../module/todo-list";

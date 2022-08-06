@@ -7,7 +7,7 @@ import {
 } from "./elements";
 import { createProjectElement, renderProjects } from "./project";
 import todoList from "../module/todo-list";
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
 import { getCurrentProject } from "./main-content";
 
 let projectPick;

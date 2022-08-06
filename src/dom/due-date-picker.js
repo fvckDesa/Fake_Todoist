@@ -50,7 +50,7 @@ import {
 } from "date-fns";
 import todoList from "../module/todo-list";
 import activeTimePicker from "./time-picker";
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
 import { formatTimeString, getTime } from "../utils/time";
 
 let dueDatePick;

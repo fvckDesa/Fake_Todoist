@@ -1,5 +1,5 @@
 import Colors from "../assets/colors.json";
-import Icons from "../assets/svg";
+import Icons from "../assets/icons";
 import {
   projectForm,
   colorSelector,

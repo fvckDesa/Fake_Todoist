@@ -457,6 +457,23 @@ ul {
   color: var(--white-text);
 }
 
+.empty-project {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-inline: 55px;
+  margin-top: 36px;
+}
+
+.empty-project-illustration {
+  width: 220px;
+  height: 200px;
+  margin: auto;
+}
+
 /* Form project */
 .project-form-container,
 .form-header,
