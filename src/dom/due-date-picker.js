@@ -30,7 +30,7 @@ import {
   isNextWeek,
   isEndOfDay,
   formatDateString,
-} from "../utilities/due-date";
+} from "../utils/due-date";
 import {
   format,
   nextMonday,
@@ -51,7 +51,7 @@ import {
 import todoList from "../module/todo-list";
 import activeTimePicker from "./time-picker";
 import Icons from "../assets/svg";
-import { formatTimeString, getTime } from "../utilities/time";
+import { formatTimeString, getTime } from "../utils/time";
 
 let dueDatePick;
 let submitCb;

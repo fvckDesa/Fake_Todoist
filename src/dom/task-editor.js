@@ -11,7 +11,7 @@ import Icons from "../assets/svg";
 import { getCurrentProject } from "./main-content";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
-import { getDueDateInfo } from "../utilities/due-date";
+import { getDueDateInfo } from "../utils/due-date";
 
 let lastElement;
 let project;

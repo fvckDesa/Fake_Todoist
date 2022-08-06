@@ -76,7 +76,7 @@ export function getMonths(maxDate) {
 
 export function parseDueDateString(dueDateStr) {
   const timeRegex =
-    /[0-9]{1,2}((:[0-9]{2} (am|AM|pm|PM))|(:[0-9]{2})|( (am|AM|pm|PM))){1}/;
+    /[0-9]{1,2}((:[0-9]{2} (am|AM|pm|PM))|(:[0-9]{2})|( ?(am|AM|pm|PM))){1}/;
   // get time from dueDateStr
   const timeStr = dueDateStr.match(timeRegex)?.[0];
 

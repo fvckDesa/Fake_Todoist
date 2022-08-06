@@ -4,7 +4,7 @@ import {
   timePickerInput,
   timePickerSubmit,
 } from "./elements";
-import { parseTime, checkTimeValidity, formatTimeString } from "../utilities/time";
+import { parseTime, checkTimeValidity, formatTimeString } from "../utils/time";
 
 let submitCb;
 
