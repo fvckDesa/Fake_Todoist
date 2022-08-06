@@ -11,13 +11,11 @@ import {
   parse,
   isMatch,
   startOfToday,
-  nextSaturday,
   isWeekend,
   isBefore,
   addDays,
   nextMonday,
   isSameWeek,
-  addYears,
   isThisYear,
   isYesterday,
   isThisWeek,
@@ -29,9 +27,26 @@ import {
   endOfDay,
   endOfToday,
   set,
+  isPast,
 } from "date-fns";
-import { patternsDueDate } from "./constants";
-import { getTime } from "./time";
+import { checkTimeValidity, parseTime } from "./time";
+
+const patternsDate = [
+  "EEEE d MMMM yyyy",
+  "EEEE d MMMM",
+  "EEEE d MMM yyyy",
+  "EEEE d MMM",
+  "EEEE",
+  "EEE d MMMM yyyy",
+  "EEE d MMMM",
+  "EEE d MMM yyyy",
+  "EEE d MMM",
+  "EEE",
+  "d MMMM yyyy",
+  "d MMMM",
+  "d MMM yyyy",
+  "d MMM",
+];
 
 export function getDaysInWeeksFormat(date) {
   return eachDayOfInterval({
@@ -59,23 +74,49 @@ export function getMonths(maxDate) {
   ];
 }
 
-export function parseDueDateString(dateString) {
-  // search date for pattern
-  const pattern = patternsDueDate.find((formatStr) => isMatch(dateString, formatStr));
+export function parseDueDateString(dueDateStr) {
+  const timeRegex =
+    /[0-9]{1,2}((:[0-9]{2} (am|AM|pm|PM))|(:[0-9]{2})|( (am|AM|pm|PM))){1}/;
+  // get time from dueDateStr
+  const timeStr = dueDateStr.match(timeRegex)?.[0];
 
-  if(!pattern) return null;
-  // get date object
-  const date = parse(dateString, pattern, endOfToday());
+  if (timeStr && !checkTimeValidity(timeStr)) return null;
 
-  const timePattern = pattern.replace(/[^kKhHa: m]/g, "").trim();
-  const str = timePattern ? format(date, timePattern).toLowerCase() : "";
-  const time = str && dateString.toLowerCase().includes(str) ? getTime(date) : {};
+  const time = timeStr ? parseTime(timeStr) : {};
+  // get date from dueDateStr and return dueDate
+  const dateStr = dueDateStr.replace(timeRegex, "").trim();
+  
+  switch (dateStr.toLowerCase()) {
+    // only time return next useful occurrence of time
+    case "":
+      if (Object.keys(time).length === 2) {
+        const date = set(endOfToday(), time);
+        return isPast(date) ? addDays(date, 1) : date;
+      }
+      return null;
+    case "today":
+      return set(endOfToday(), time);
+    case "tomorrow":
+      return set(addDays(endOfToday(), 1), time);
+    case "next week":
+      return set(nextMonday(endOfToday()), time);
+    // else return date if it's valid pattern
+    default:
+      const pattern = patternsDate.find((formatStr) =>
+        isMatch(dateStr, formatStr)
+      );
 
-  return set(endOfDay(date), time);
+      if (!pattern) return null;
+      
+      let date = endOfDay(parse(dateStr, pattern, endOfToday()));
+      // set next useful occurrence of week day
+      if(
+        (pattern === "EEEE" || pattern === "EEE") &&
+        isBeforeDay(date, new Date())
+      ) date = addDays(date, 7);
 
-  /* 
-  const timeRegex = /[0-9]{1,2}((:[0-9]{2} (am|AM|pm|PM))|(:[0-9]{2})|( (am|AM|pm|PM))){1}/;
-  */
+      return set(date, time);
+  }
 }
 
 export function isNextWeek(date) {

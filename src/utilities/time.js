@@ -1,5 +1,6 @@
 import { isMatch, parse, getHours, getMinutes } from "date-fns";
-import { patternsTime } from "./constants";
+
+const patternsTime = ["K:mm a", "h:mm a", "K a", "h a", "H:mm", "k:mm"];
 
 export function parseTime(time) {
   if (!checkTimeValidity(time)) {
