@@ -47,6 +47,7 @@ import {
   set,
   endOfToday,
   isEqual,
+  endOfTomorrow,
 } from "date-fns";
 import todoList from "../module/todo-list";
 import activeTimePicker from "./time-picker";
@@ -241,14 +242,19 @@ function formatSuggestions() {
     nextMonday(endOfToday()),
     "EEE d MMM"
   );
+  const thisWeekend = isThisWeekend(endOfToday());
+  dueDatePickerSuggestionThisWeekend.children[1].innerText = thisWeekend
+    ? "Next weekend"
+    : "This weekend";
+
+  dueDatePickerSuggestionThisWeekend.lastChild.innerText = format(
+    nextSaturday(endOfToday()),
+    `EEE${thisWeekend ? " d MMM" : ""}`
+  );
   // remove suggestions if date is set
   dueDatePickerSuggestionToday.hidden = dueDatePick && isToday(dueDatePick);
-  dueDatePickerSuggestionTomorrow.hidden =
-    dueDatePick && isTomorrow(dueDatePick);
-  dueDatePickerSuggestionThisWeekend.hidden =
-    dueDatePick && isThisWeekend(dueDatePick);
-  dueDatePickerSuggestionNextWeek.hidden =
-    dueDatePick && isNextWeek(dueDatePick);
+  dueDatePickerSuggestionTomorrow.hidden = dueDatePick && isTomorrow(dueDatePick);
+  dueDatePickerSuggestionNextWeek.hidden = isEqual(nextMonday(endOfToday()), endOfTomorrow());
   dueDatePickerSuggestionNoDate.hidden = dueDatePick === null;
 }
 

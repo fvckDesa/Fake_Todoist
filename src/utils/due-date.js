@@ -28,6 +28,7 @@ import {
   endOfToday,
   set,
   isPast,
+  isSameDay,
 } from "date-fns";
 import { checkTimeValidity, parseTime } from "./time";
 
@@ -117,10 +118,6 @@ export function parseDueDateString(dueDateStr) {
 
       return set(date, time);
   }
-}
-
-export function isNextWeek(date) {
-  return isSameWeek(date, nextMonday(startOfToday()));
 }
 
 export function isThisWeekend(date) {
