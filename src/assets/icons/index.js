@@ -28,8 +28,10 @@ import Cross from "./cross.svg";
 import Info from "./info.svg";
 import Warning from "./warning.svg";
 import CloseXs from "./close-xs.svg";
+import ShowCompletedTasks from "./show-completed-tasks.svg";
+import HideCompletedTasks from "./hide-completed-tasks.svg";
 
-export default {
+const Icons = {
     Inbox,
     Today,
     Upcoming,
@@ -59,5 +61,9 @@ export default {
     Cross,
     Info,
     Warning,
-    CloseXs
+    CloseXs,
+    ShowCompletedTasks,
+    HideCompletedTasks
 };
+
+export default Icons;

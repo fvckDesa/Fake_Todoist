@@ -28,7 +28,8 @@ import {
   deleteWarningInfoIcon,
   deleteWarningCloseIcon,
   quickAddDueDateIcon,
-  timePickerWarningIcon
+  timePickerWarningIcon,
+  showCompletedTasksIcon
 } from "./elements";
 
 function setIcons() {
@@ -59,6 +60,7 @@ function setIcons() {
   deleteWarningCloseIcon.src = Icons.Close;
   quickAddDueDateIcon.src = Icons.DueDate;
   timePickerWarningIcon.src = Icons.Warning;
+  showCompletedTasksIcon.src = Icons.ShowCompletedTasks;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
 }

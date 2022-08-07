@@ -9,8 +9,11 @@ import {
   editProjectBtn,
   deleteProjectBtn,
   inboxProject,
-  emptyProject
+  emptyProject,
+  showCompletedTasksBtn,
+  showCompletedTasksIcon
 } from "./elements.js";
+import Icons from "../assets/icons";
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
 import activeTaskEditor, { updateProjectTaskEditor } from "./task-editor";
@@ -47,6 +50,8 @@ deleteProjectBtn.addEventListener("click", () => {
   });
 });
 
+showCompletedTasksBtn.addEventListener("click", () => toggleCompletedTasks());
+
 addTaskBtn.addEventListener("click", () => {
   activeTaskEditor(addTaskBtn, null, addTask);
 });
@@ -76,7 +81,7 @@ function setProject(project) {
       .map(createTaskElement)
   );
 
-  emptyProject.hidden = currentProject.tasks.length > 0;
+  toggleCompletedTasks(true);
   setRandomIllustration();
 }
 
@@ -125,9 +130,22 @@ function deleteTask(taskEl, project) {
 }
 
 function showEmptyProject() {
-  emptyProject.hidden = currentProject.tasks.length > 0;
+  const numTasks = completedTaskContainer.classList.contains("hidden")
+  ? currentProject.filterTask((task) => !task.complete).length
+  : currentProject.tasks.length;
 
-  if(currentProject.tasks.length === 0) taskContainer.lastElementChild.replaceWith(addTaskBtn);
+  emptyProject.hidden = numTasks > 0;
+
+  if(numTasks === 0) taskContainer.lastElementChild.replaceWith(addTaskBtn);
+}
+
+function toggleCompletedTasks(force) {
+  completedTaskContainer.classList.toggle("hidden", force);
+  showCompletedTasksIcon.src = completedTaskContainer.classList.contains("hidden")
+    ? Icons.ShowCompletedTasks
+    : Icons.HideCompletedTasks;
+
+  showEmptyProject();
 }
 
 function getCurrentProject() {

@@ -16,6 +16,7 @@ export const helpIcon = document.querySelector('#help-icon');
 export const addTaskIcon = document.querySelector('#add-task-icon');
 export const editProjectIcon = document.querySelector('#edit-project-icon');
 export const deleteProjectIcon = document.querySelector('#delete-project-icon');
+export const showCompletedTasksIcon = document.querySelector('#show-completed-tasks-icon');
 //Due Date Picker icons
 export const pickerTodayIcon = document.querySelector("#date-suggestions-icon-today");
 export const pickerTomorrowIcon = document.querySelector("#date-suggestions-icon-tomorrow");
@@ -54,6 +55,7 @@ export const completedTaskContainer = document.querySelector('#completed-task-co
 export const addTaskBtn = document.querySelector('.add-task');
 export const editProjectBtn = document.querySelector('#edit-project');
 export const deleteProjectBtn = document.querySelector('#delete-project');
+export const showCompletedTasksBtn = document.querySelector('#show-completed-tasks');
 export const emptyProject = document.querySelector('.empty-project');
 export const emptyProjectIllustration = document.querySelector('.empty-project-illustration');
 //Task Editor elements
