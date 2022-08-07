@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<style>
-    svg {
-        color: #246fe0;
-    }
-</style>
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>
+        svg {
+            color: #246fe0;
+        }
+    </style>
     <g fill="currentColor" fill-rule="nonzero">
         <path d="M10 14.5a2 2 0 104 0h5.5V18a1.5 1.5 0 01-1.5 1.5H6A1.5 1.5 0 014.5 18v-3.5H10z" opacity="0.1"></path>
         <path

@@ -4,10 +4,11 @@ import activeDueDatePicker from "./due-date-picker";
 import activeTaskEditor from "./task-editor";
 import { getDueDateInfo } from "../utils/due-date";
 import todoList from "../module/todo-list";
-import { deleteTask, setUpdatedTask, toggleTask } from "./main-content";
+import { deleteTask, setUpdatedTask, toggleTask, setProject } from "./main-content";
 import activeDeleteWarning from "./delete-warning";
 import { changeNumTask } from "./project";
 import { getCurrentProject, setTask } from "./main-content.js";
+import { createTaskProject } from "../utils/dom";
 
 function createTaskElement(task) {
     let { name, id, dueDate, complete } = task;
@@ -16,7 +17,8 @@ function createTaskElement(task) {
     const taskEl = taskTemplate.cloneNode(true).firstElementChild;
     const [ checkboxBtn, content, actionContainer] = taskEl.children;
     const tic = checkboxBtn.querySelector("#tic-icon");
-    const [ taskName, taskDescription, taskDueDate ] = content.children;
+    const [ taskName, taskDescription, taskInfo ] = content.children;
+    const [ taskDueDate, taskProject ] = taskInfo.children;
     const [ dueDateIcon, dueDateText ] = taskDueDate.children;
     const [ editTask, changeDueDate, comment, deleteTaskBtn ] = actionContainer.children;
     // set svg
@@ -28,6 +30,7 @@ function createTaskElement(task) {
     deleteTaskBtn.querySelector("svg-loader").setAttribute("src", Icons.GarbageContainer);
     // set attributes
     setTaskProps(task);
+    taskProject.replaceChildren(...(project !== getCurrentProject() ? createTaskProject(project) : []));
     // events
     const changeDueDateEvent = (date) => {
         dueDate = date;
@@ -50,6 +53,10 @@ function createTaskElement(task) {
             if(complete) return;
             changeDueDateEvent(date);
         });
+    });
+
+    taskProject.addEventListener("click", () => {
+        setProject(project);
     });
     // task actions
     editTask.addEventListener("click", () => {

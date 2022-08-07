@@ -44,13 +44,13 @@
   font-family: -apple-system, system-ui, "Segoe UI", Roboto, Noto, Oxygen-Sans,
     Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 13px;
 }
 
 body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  font-size: 13px;
 }
 
 /* Text */
@@ -466,6 +466,7 @@ ul {
   width: 100%;
   padding-inline: 55px;
   margin-top: 36px;
+  overflow: hidden;
 }
 
 .empty-project-illustration {
@@ -618,7 +619,9 @@ ul {
 
 /* Task */
 .task,
-.task-due-date {
+.task-due-date,
+.task-info,
+.task-project {
   display: flex;
   align-items: center;
 }
@@ -700,8 +703,22 @@ ul {
   color: var(--grey);
 }
 
-.task-due-date > #due-date-icon {
-  margin: 0 2px 0 0;
+.task-due-date,
+.task-project {
+  gap: 2px;
+}
+
+.task-project {
+  flex-direction: row-reverse;
+  margin-left: auto;
+  margin-right: -30px;
+  color: var(--grey);
+  cursor: pointer;
+}
+
+.task-project > svg-loader {
+  width: 12px;
+  height: 12px;
 }
 
 .task-action-container {
