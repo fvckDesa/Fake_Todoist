@@ -28,25 +28,26 @@ import {
   endOfToday,
   set,
   isPast,
-  isSameDay,
+  nextSaturday,
+  endOfYesterday,
+  addYears,
 } from "date-fns";
 import { checkTimeValidity, parseTime } from "./time";
 
 const patternsDate = [
   "EEEE d MMMM yyyy",
   "EEEE d MMMM",
-  "EEEE d MMM yyyy",
-  "EEEE d MMM",
+  "EEEE d/M/yyyy",
+  "EEEE d/M",
+  "EEEE d-M-yyyy",
+  "EEEE d-M",
   "EEEE",
-  "EEE d MMMM yyyy",
-  "EEE d MMMM",
-  "EEE d MMM yyyy",
-  "EEE d MMM",
-  "EEE",
   "d MMMM yyyy",
   "d MMMM",
-  "d MMM yyyy",
-  "d MMM",
+  "d/M/yyyy",
+  "d/M",
+  "d-M-yyyy",
+  "d-M"
 ];
 
 export function getDaysInWeeksFormat(date) {
@@ -86,38 +87,67 @@ export function parseDueDateString(dueDateStr) {
   const time = timeStr ? parseTime(timeStr) : {};
   // get date from dueDateStr and return dueDate
   const dateStr = dueDateStr.replace(timeRegex, "").trim();
-  
+
+
+  // only time return next useful occurrence of time
+  if (dateStr.length === 0) {
+    if (Object.keys(time).length !== 2) return null;
+
+    const dueDate = set(endOfToday(), time);
+    return isPast(dueDate) ? addDays(dueDate, 1) : dueDate;
+  }
+
+  let date;
+
   switch (dateStr.toLowerCase()) {
-    // only time return next useful occurrence of time
-    case "":
-      if (Object.keys(time).length === 2) {
-        const date = set(endOfToday(), time);
-        return isPast(date) ? addDays(date, 1) : date;
-      }
-      return null;
     case "today":
-      return set(endOfToday(), time);
+      date = endOfToday();
+      break;
     case "tomorrow":
-      return set(addDays(endOfToday(), 1), time);
+      date = addDays(endOfToday(), 1);
+      break;
     case "next week":
-      return set(nextMonday(endOfToday()), time);
+      date = nextMonday(endOfToday());
+      break;
+    case "this weekend":
+      date = nextSaturday(endOfToday());
+      break;
+    case "next weekend":
+      date = nextSaturday(nextSaturday(endOfToday()));
+      break;
+    case "yesterday":
+      date = endOfYesterday();
+      break;
+    case "next month":
+      date = addMonths(endOfToday(), 1);
+      break;
+    case "next year":
+      date = addYears(endOfToday(), 1);
+      break;
     // else return date if it's valid pattern
     default:
-      const pattern = patternsDate.find((formatStr) =>
-        isMatch(dateStr, formatStr)
-      );
+      date = parseDateString(dateStr);
 
-      if (!pattern) return null;
-      
-      let date = endOfDay(parse(dateStr, pattern, endOfToday()));
+      if(!date) return null;
       // set next useful occurrence of week day
-      if(
+      if (
         (pattern === "EEEE" || pattern === "EEE") &&
         isBeforeDay(date, new Date())
       ) date = addDays(date, 7);
 
-      return set(date, time);
+      break;
   }
+  return set(date, time);
+}
+
+function parseDateString(dateStr) {
+  const pattern = patternsDate.find((formatStr) =>
+    isMatch(dateStr, formatStr)
+  );
+
+  if (!pattern) return null;
+
+  return endOfDay(parse(dateStr, pattern, endOfToday()));
 }
 
 export function isThisWeekend(date) {
