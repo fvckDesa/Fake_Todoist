@@ -12,6 +12,7 @@ import {
   showCompletedTasksIcon,
   overdueTaskContainer,
   overdueTaskSection,
+  rescheduleBtn,
 } from "./elements.js";
 import Icons from "../assets/icons";
 import todoList from "../module/todo-list";
@@ -23,6 +24,7 @@ import { updateProject, deleteProject, changeNumTask } from "./project.js";
 import { setRandomIllustration } from "./empty-project.js";
 import { createTaskSection } from "./task-section.js";
 import { projectFilter, overdueFilter } from "../utils/filters";
+import activeDueDatePicker from "./due-date-picker.js";
 
 let currentProject;
 let completedTaskListArr;
@@ -65,7 +67,27 @@ deleteProjectBtn.addEventListener("click", () => {
 
 showCompletedTasksBtn.addEventListener("click", () => toggleCompletedTasks());
 
-function setProject(project, filtersPar = [{ filter: projectFilter }], options = {}) {
+rescheduleBtn.addEventListener("click", () => {
+  activeDueDatePicker(rescheduleBtn, null, (dueDate) => {
+    const tasks = todoList.today.filterTask(
+      (task) => !task.complete && overdueFilter(task)
+    );
+    for (const task of tasks) {
+      todoList.updateTask(task.id, { dueDate });
+      setUpdatedTask(
+        task,
+        overdueTaskContainer.querySelector(`[data-id="${task.id}"]`),
+        todoList.taskProject(task.id)
+      );
+    }
+  });
+});
+
+function setProject(
+  project,
+  filtersPar = [{ filter: projectFilter }],
+  options = {}
+) {
   if (project === currentProject || !project) return;
 
   mainContent.classList.toggle("inbox", project === todoList.inbox);
@@ -73,7 +95,7 @@ function setProject(project, filtersPar = [{ filter: projectFilter }], options =
 
   currentProject = project;
   projectOptions = { dueDate: null, project, ...options };
-  filters = filtersPar.map(par => par.filter);
+  filters = filtersPar.map((par) => par.filter);
 
   setTitle(project.name);
 
@@ -81,7 +103,9 @@ function setProject(project, filtersPar = [{ filter: projectFilter }], options =
     ...filtersPar.map(({ title, filter }) => {
       if (filter === overdueFilter) {
         overdueTaskContainer.replaceChildren(
-          ...project.filterTask(task => !task.complete && overdueFilter(task)).map(createTaskElement)
+          ...project
+            .filterTask((task) => !task.complete && overdueFilter(task))
+            .map(createTaskElement)
         );
         overdueTaskSection.hidden = !overdueTaskContainer.hasChildNodes();
         return overdueTaskSection;
@@ -157,7 +181,7 @@ function toggleTask(taskEl, { complete, id }) {
 
   changeNumTask(todoList.taskProject(id));
   overdueTaskSection.hidden = !overdueTaskContainer.hasChildNodes();
-  if(taskSection === overdueTaskSection) return;
+  if (taskSection === overdueTaskSection) return;
 
   const [_, taskContainer, completedTaskContainer] = taskSection.children;
   complete

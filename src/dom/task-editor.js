@@ -64,7 +64,7 @@ function resetTaskEditor() {
   taskDescriptionInput.value = "";
   // reset buttons
   setTaskProject(getProjectOptions().project);
-  setTaskDueDate(null);
+  setTaskDueDate(getProjectOptions().dueDate);
   
   taskEditorSubmit.disabled = true;
 }

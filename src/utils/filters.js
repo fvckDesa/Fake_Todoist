@@ -1,6 +1,5 @@
-import { isToday } from "date-fns/esm";
+import { isBefore, isToday } from "date-fns/esm";
 import { getCurrentProject } from "../dom/main-content";
-import { isBeforeDay } from "./due-date";
 import todoList from "../module/todo-list";
 
 export function projectFilter({ id }) {
@@ -8,9 +7,9 @@ export function projectFilter({ id }) {
 }
 
 export function todayFilter({ dueDate }) {
-    return isToday(dueDate);
+    return !isBefore(dueDate, new Date()) && isToday(dueDate);
 }
 
 export function overdueFilter({ dueDate }) {
-    return isBeforeDay(dueDate, new Date());
+    return isBefore(dueDate, new Date());
 }

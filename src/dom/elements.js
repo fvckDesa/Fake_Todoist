@@ -59,6 +59,7 @@ export const emptyProjectIllustration = document.querySelector('.empty-project-i
 export const taskSectionList = document.querySelector('.task-section-list');
 export const overdueTaskSection = document.querySelector(".task-section.overdue")
 export const overdueTaskContainer = document.querySelector("#overdue-task-list");
+export const rescheduleBtn = document.querySelector(".reschedule-btn");
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
 export const taskNameInput = taskEditor.querySelector('#task-editor .task-name-input');

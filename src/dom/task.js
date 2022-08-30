@@ -31,6 +31,7 @@ function createTaskElement(task) {
     // set attributes
     setTaskProps(task);
     taskProject.replaceChildren(...(project !== getCurrentProject() ? createTaskProject(project) : []));
+    taskEl.setAttribute("data-id", id);
     // events
     const changeDueDateEvent = (date) => {
         dueDate = date;
