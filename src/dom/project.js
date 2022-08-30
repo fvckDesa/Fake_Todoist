@@ -1,6 +1,9 @@
-import { projectTemplate, userProjects, sidebar } from "./elements";
+import { projectTemplate, userProjects, todayProject } from "./elements";
 import Icons from "../assets/icons";
 import { setProject } from "./main-content";
+import { changeProject } from "./sidebar";
+import todoList from "../module/todo-list";
+import { overdueFilter } from "../utils/filters";
 
 function createProjectElement(project) {
     const { name, color, id, tasks } = project;
@@ -14,16 +17,12 @@ function createProjectElement(project) {
     projectIcon.style.color = color;
     projectNum.setAttribute("data-num", tasks.filter(({complete}) => !complete).length);
     // set project click event
-    projectEl.addEventListener("click", () => projectClick(project, projectEl));
+    projectEl.addEventListener("click", () => {
+        setProject(project);
+        changeProject(id);
+    });
     // return element
     return projectEl;
-}
-
-function projectClick(project, projectEl) {
-    setProject(project);
-    // change current project on sidebar
-    sidebar.querySelector(".project.current")?.classList.remove("current");
-    projectEl.classList.add("current");
 }
 
 function renderProjects(...projects) {
@@ -45,12 +44,22 @@ function deleteProject(id) {
 function changeNumTask(project) {
     const projectEl = document.querySelector(`[data-id="${project.id}"]`);
     projectEl.lastElementChild.dataset.num = project.tasks.filter(({complete}) => !complete).length;
+    changeTodayNumTask();
+}
+
+function changeTodayNumTask() {
+    let hasOverdueTask = false;
+    const num = todoList.today.filterTask(task => {
+        if(!task.complete && overdueFilter(task)) hasOverdueTask = true;
+        return !task.complete;
+    }).length;
+    todayProject.lastElementChild.dataset.num = num;
+    todayProject.lastElementChild.classList.toggle("has-overdue", hasOverdueTask);
 }
 
 export {
     createProjectElement,
     renderProjects,
-    projectClick,
     updateProject,
     deleteProject,
     changeNumTask

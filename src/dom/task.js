@@ -4,11 +4,11 @@ import activeDueDatePicker from "./due-date-picker";
 import activeTaskEditor from "./task-editor";
 import { getDueDateInfo } from "../utils/due-date";
 import todoList from "../module/todo-list";
-import { deleteTask, setUpdatedTask, toggleTask, setProject } from "./main-content";
+import { deleteTask, setProject, setUpdatedTask  } from "./main-content";
 import activeDeleteWarning from "./delete-warning";
-import { changeNumTask } from "./project";
-import { getCurrentProject, setTask } from "./main-content.js";
+import { getCurrentProject, setTask, toggleTask } from "./main-content.js";
 import { createTaskProject } from "../utils/dom";
+import { changeProject } from "./sidebar";
 
 function createTaskElement(task) {
     let { name, id, dueDate, complete } = task;
@@ -36,6 +36,7 @@ function createTaskElement(task) {
         dueDate = date;
         todoList.updateTask(id, { dueDate });
         setDueDate(date);
+        setUpdatedTask(task, taskEl, project);
     };
     
     checkboxBtn.addEventListener("click", () => {
@@ -57,13 +58,14 @@ function createTaskElement(task) {
 
     taskProject.addEventListener("click", () => {
         setProject(project);
+        changeProject(project.id);
     });
     // task actions
     editTask.addEventListener("click", () => {
-        activeTaskEditor(taskEl,  task, (project, task) => {
-            setTaskProps(task);
-            todoList.updateTask(id, task, project === getCurrentProject() ? null : project);
-            setUpdatedTask(taskEl, project);
+        activeTaskEditor(taskEl,  task, (newProject, taskProps) => {
+            setTaskProps(taskProps);
+            todoList.updateTask(id, taskProps, newProject === project ? null : newProject);
+            setUpdatedTask(task, taskEl, project);
     
             dueDate = task.dueDate;
         });
@@ -117,9 +119,7 @@ function createTaskElement(task) {
 
 function addTask(project, taskAttr) {
   const task = todoList.addTask(project, taskAttr);
-  project === getCurrentProject()
-    ? setTask(task)
-    : changeNumTask(project);
+  setTask(task);
 }
 
 export {

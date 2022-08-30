@@ -2,31 +2,41 @@ import {
   mainContent,
   mainHeader,
   mainTitle,
-  taskContainer,
-  completedTaskContainer,
-  addTaskBtn,
+  taskSectionList,
   taskEditor,
   editProjectBtn,
   deleteProjectBtn,
   inboxProject,
   emptyProject,
   showCompletedTasksBtn,
-  showCompletedTasksIcon
+  showCompletedTasksIcon,
+  overdueTaskContainer,
+  overdueTaskSection,
 } from "./elements.js";
 import Icons from "../assets/icons";
 import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
-import activeTaskEditor, { updateProjectTaskEditor } from "./task-editor";
+import { removeTaskEditor, updateProjectTaskEditor } from "./task-editor";
 import activeProjectForm from "./project-form";
 import activeDeleteWarning from "./delete-warning.js";
 import { updateProject, deleteProject, changeNumTask } from "./project.js";
-import { addTask } from "./task";
 import { setRandomIllustration } from "./empty-project.js";
+import { createTaskSection } from "./task-section.js";
+import { projectFilter, overdueFilter } from "../utils/filters";
 
 let currentProject;
+let completedTaskListArr;
+let filters = [];
+let projectOptions = {};
+
+overdueTaskSection.remove();
+
+mainContent.style.cssText = `--main-header-height: ${mainHeader.clientHeight}px;`;
 
 mainContent.addEventListener("scroll", () => {
-  if (mainContent.scrollTop > 0) {
+  const { marginTop } = getComputedStyle(taskSectionList.firstElementChild);
+
+  if (mainContent.scrollTop >= parseInt(marginTop)) {
     mainHeader.classList.add("scrolled");
   } else {
     mainHeader.classList.remove("scrolled");
@@ -35,7 +45,10 @@ mainContent.addEventListener("scroll", () => {
 
 editProjectBtn.addEventListener("click", () => {
   activeProjectForm(currentProject, (name, color) => {
-    const updatedProject = todoList.updateProject(currentProject.id, { name, color });
+    const updatedProject = todoList.updateProject(currentProject.id, {
+      name,
+      color,
+    });
     updateProject(updatedProject);
     updateProjectTaskEditor(updatedProject);
     setTitle(updatedProject.name);
@@ -52,37 +65,42 @@ deleteProjectBtn.addEventListener("click", () => {
 
 showCompletedTasksBtn.addEventListener("click", () => toggleCompletedTasks());
 
-addTaskBtn.addEventListener("click", () => {
-  activeTaskEditor(addTaskBtn, null, addTask);
-});
+function setProject(project, filtersPar = [{ filter: projectFilter }], options = {}) {
+  if (project === currentProject || !project) return;
 
-function setProject(project) {
-  if(project === currentProject || !project) return;
-  
-  [editProjectBtn, deleteProjectBtn].forEach(el => el.classList.toggle("invisible", project === todoList.inbox));
+  mainContent.classList.toggle("inbox", project === todoList.inbox);
+  mainContent.classList.toggle("today", project === todoList.today);
 
   currentProject = project;
+  projectOptions = { dueDate: null, project, ...options };
+  filters = filtersPar.map(par => par.filter);
 
   setTitle(project.name);
 
-  // set tasks
-  taskContainer.replaceChildren(
-    ...project
-    // get uncompleted tasks and create their elements
-      .filterTask((task) => !task.complete)
-      .map(createTaskElement)
-      // add "add task" button at the end
-      .concat(addTaskBtn)
+  taskSectionList.replaceChildren(
+    ...filtersPar.map(({ title, filter }) => {
+      if (filter === overdueFilter) {
+        overdueTaskContainer.replaceChildren(
+          ...project.filterTask(task => !task.complete && overdueFilter(task)).map(createTaskElement)
+        );
+        overdueTaskSection.hidden = !overdueTaskContainer.hasChildNodes();
+        return overdueTaskSection;
+      }
+      return createTaskSection({
+        title,
+        tasks: project.filterTask(filter),
+      });
+    })
   );
-  completedTaskContainer.replaceChildren(
-    ...project
-    // get completed tasks and create their elements
-      .filterTask((task) => task.complete)
-      .map(createTaskElement)
+
+  completedTaskListArr = taskSectionList.querySelectorAll(
+    ".task-list.completed"
   );
 
   toggleCompletedTasks(true);
   setRandomIllustration();
+
+  mainContent.scrollTop = 0;
 }
 
 function setTitle(title) {
@@ -94,32 +112,59 @@ function setTitle(title) {
 
 function setTask(task) {
   changeNumTask(todoList.taskProject(task.id));
-  taskContainer.insertBefore(createTaskElement(task), taskContainer.lastElementChild);
+
+  const index = filters.findIndex((filter) => filter(task));
+  if (index >= 0) {
+    const taskSection = taskSectionList.children[index];
+    const taskEl = createTaskElement(task);
+
+    const [_, taskContainer, completedTaskContainer] = taskSection.children;
+    task.complete
+      ? completedTaskContainer.appendChild(taskEl)
+      : taskContainer.insertBefore(taskEl, taskContainer.lastElementChild);
+  }
+
+  overdueTaskSection.hidden = !overdueTaskContainer.hasChildNodes();
 
   showEmptyProject();
 }
 
-function setUpdatedTask(taskEl, project) {
+function setUpdatedTask(task, taskEl, project) {
   changeNumTask(project);
   changeNumTask(currentProject);
-  if(project !== currentProject) {
-    taskEditor.remove();
-    return;
+
+  let index = [...taskSectionList.children].findIndex(
+    (taskSection) =>
+      taskSection.contains(taskEl) || taskSection.contains(taskEditor)
+  );
+  const filter = filters[index];
+
+  if (!filter(task)) {
+    taskSectionList.children[index].contains(taskEl)
+      ? taskEl.remove()
+      : taskEditor.remove();
+    setTask(task);
+  } else {
+    removeTaskEditor();
   }
-  taskContainer.replaceChild(taskEl, taskEditor);
 
   showEmptyProject();
 }
 
 function toggleTask(taskEl, { complete, id }) {
+  const taskSection = taskEl.parentElement.parentElement;
   taskEl.remove();
-  complete 
+
+  changeNumTask(todoList.taskProject(id));
+  overdueTaskSection.hidden = !overdueTaskContainer.hasChildNodes();
+  if(taskSection === overdueTaskSection) return;
+
+  const [_, taskContainer, completedTaskContainer] = taskSection.children;
+  complete
     ? completedTaskContainer.appendChild(taskEl)
     : taskContainer.insertBefore(taskEl, taskContainer.lastElementChild);
-  
-    changeNumTask(todoList.taskProject(id));
 
-    showEmptyProject();
+  showEmptyProject();
 }
 
 function deleteTask(taskEl, project) {
@@ -130,18 +175,20 @@ function deleteTask(taskEl, project) {
 }
 
 function showEmptyProject() {
-  const numTasks = completedTaskContainer.classList.contains("hidden")
-  ? currentProject.filterTask((task) => !task.complete).length
-  : currentProject.tasks.length;
+  const numTasks = taskSectionList.querySelectorAll(
+    ".task-list:not(.hidden) .task"
+  ).length;
 
   emptyProject.hidden = numTasks > 0;
-
-  if(numTasks === 0) taskContainer.lastElementChild.replaceWith(addTaskBtn);
 }
 
 function toggleCompletedTasks(force) {
-  completedTaskContainer.classList.toggle("hidden", force);
-  showCompletedTasksIcon.src = completedTaskContainer.classList.contains("hidden")
+  completedTaskListArr.forEach((completedTaskList) => {
+    completedTaskList.classList.toggle("hidden", force);
+  });
+  showCompletedTasksIcon.src = completedTaskListArr[0]?.classList.contains(
+    "hidden"
+  )
     ? Icons.ShowCompletedTasks
     : Icons.HideCompletedTasks;
 
@@ -152,4 +199,16 @@ function getCurrentProject() {
   return currentProject;
 }
 
-export { setProject, setTask, getCurrentProject, setUpdatedTask, toggleTask, deleteTask };
+function getProjectOptions() {
+  return projectOptions;
+}
+
+export {
+  setProject,
+  setTask,
+  getCurrentProject,
+  setUpdatedTask,
+  toggleTask,
+  deleteTask,
+  getProjectOptions,
+};

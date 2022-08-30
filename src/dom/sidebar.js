@@ -37,3 +37,9 @@ openProjectForm.addEventListener("click", (e) => {
     renderProjects(createProjectElement(newProject));
   });
 });
+
+export function changeProject(id) {
+  // change current project on sidebar
+  sidebar.querySelector(".project.current")?.classList.remove("current");
+  sidebar.querySelector(`[data-id="${id}"]`).classList.add("current");
+}

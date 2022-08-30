@@ -59,7 +59,13 @@ export function getDaysInWeeksFormat(date) {
 
 export function isBeforeDay(day1, day2) {
   return (
-    getDayOfYear(day1) < getDayOfYear(day2) && getYear(day1) === getYear(day2)
+    day1 && day2 && getDayOfYear(day1) < getDayOfYear(day2) && getYear(day1) === getYear(day2)
+  );
+}
+
+export function isAfterDay(day1, day2) {
+  return (
+    day1 && day2 && getDayOfYear(day1) > getDayOfYear(day2) && getYear(day1) === getYear(day2)
   );
 }
 

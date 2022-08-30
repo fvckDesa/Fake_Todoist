@@ -1,4 +1,5 @@
 import Project from "./project";
+import today from "../module/today";
 import { parseJSON, isSameDay } from "date-fns";
 
 const todoList = (() => {
@@ -14,7 +15,7 @@ const todoList = (() => {
   );
   // add default project if none exists
   if (projects.length === 0) addProject("Inbox");
-
+  
   // public
   function addProject(name, color) {
     // create new project
@@ -66,12 +67,10 @@ const todoList = (() => {
     // find project
     const project = taskProject(id);
     // update task
-    let task;
+    let task = project.updateTask(id, taskAttributes);
     if(newProject) {
       project.removeTask(id);
-      task = newProject.addTask(taskAttributes);
-    } else {
-      task = project.updateTask(id, taskAttributes);
+      task = newProject.addTask(task);
     }
     // save project to local storage
     _saveProjects();
@@ -116,7 +115,8 @@ const todoList = (() => {
     },
     get inbox() {
       return projects[0];
-    }
+    },
+    today
   };
 })();
 

@@ -1,5 +1,4 @@
 import Icons from "../assets/icons";
-import Illustrations from "../assets/illustrations";
 import {
   sidebarIcon,
   homeIcon,
@@ -12,7 +11,6 @@ import {
   arrowIcon,
   helpIcon,
   openProjectIcon,
-  addTaskIcon,
   taskDueDate,
   pickerNoDateIcon,
   pickerTodayIcon,
@@ -44,7 +42,6 @@ function setIcons() {
   arrowIcon.src = Icons.Arrow;
   helpIcon.src = Icons.Help;
   openProjectIcon.src = Icons.PlusBold;
-  addTaskIcon.src =  Icons.PlusBold;
   pickerNoDateIcon.src = Icons.NoDate;
   pickerTodayIcon.src = Icons.Today;
   pickerTomorrowIcon.src = Icons.Tomorrow;

@@ -13,7 +13,6 @@ export const openProjectIcon = document.querySelector('#open-project-icon');
 //Project form icons
 export const helpIcon = document.querySelector('#help-icon');
 //Main content icons
-export const addTaskIcon = document.querySelector('#add-task-icon');
 export const editProjectIcon = document.querySelector('#edit-project-icon');
 export const deleteProjectIcon = document.querySelector('#delete-project-icon');
 export const showCompletedTasksIcon = document.querySelector('#show-completed-tasks-icon');
@@ -40,9 +39,11 @@ export const sidebarBtn = document.querySelector('.sidebar-btn');
 export const searchBar = document.querySelector('.search-bar');
 export const searchInput = document.querySelector('#search-input');
 export const quickAddBtn = document.querySelector('.quick-add-btn');
+export const homeBtn = document.querySelector(".home-btn");
 //Side Bar elements
 export const sidebar = document.querySelector('.side-bar');
 export const inboxProject = document.querySelector("#inbox-project");
+export const todayProject = document.querySelector("#today-project");
 export const userProjects = document.querySelector('#user-projects');
 export const projectHeader = document.querySelector('.project-header');
 export const openProjectForm = document.querySelector('#open-project-form');
@@ -50,20 +51,20 @@ export const openProjectForm = document.querySelector('#open-project-form');
 export const mainContent = document.querySelector('.main-content');
 export const mainHeader = document.querySelector('.main-header');
 export const mainTitle = document.querySelector(".main-header .title");
-export const taskContainer = document.querySelector('#task-container');
-export const completedTaskContainer = document.querySelector('#completed-task-container');
-export const addTaskBtn = document.querySelector('.add-task');
 export const editProjectBtn = document.querySelector('#edit-project');
 export const deleteProjectBtn = document.querySelector('#delete-project');
 export const showCompletedTasksBtn = document.querySelector('#show-completed-tasks');
 export const emptyProject = document.querySelector('.empty-project');
 export const emptyProjectIllustration = document.querySelector('.empty-project-illustration');
+export const taskSectionList = document.querySelector('.task-section-list');
+export const overdueTaskSection = document.querySelector(".task-section.overdue")
+export const overdueTaskContainer = document.querySelector("#overdue-task-list");
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
 export const taskNameInput = taskEditor.querySelector('#task-editor .task-name-input');
 export const taskDescriptionInput = taskEditor.querySelector('#task-editor .task-description-input');
-export const taskDueDate = taskEditor.querySelector('#task-editor .task-due-date');
-export const taskProject = taskEditor.querySelector('#task-editor .task-project');
+export const taskDueDate = taskEditor.querySelector('#task-editor #task-due-date');
+export const taskProject = taskEditor.querySelector('#task-editor #project-btn');
 export const taskEditorCancel = taskEditor.querySelector('#task-editor .cancel-btn');
 export const taskEditorSubmit = taskEditor.querySelector('#task-editor .submit-btn');
 //Project Picker elements
@@ -109,6 +110,7 @@ export const addProjectBtn = document.querySelector('#add-project-btn');
 //Templates
 export const projectTemplate = document.querySelector('#project-template').content;
 export const taskTemplate = document.querySelector('#task-template').content;
+export const taskSectionTemplate = document.querySelector('#task-section-template').content;
 //Loading screen
 export const loadScreen = document.querySelector(".load-screen");
 //Delete warning
@@ -120,6 +122,6 @@ export const quickAddContainer = document.querySelector(".quick-add-container");
 export const quickAdd = document.querySelector(".quick-add");
 export const quickAddNameInput = document.querySelector(".quick-add .task-name-input");
 export const quickAddDescriptionInput = document.querySelector(".quick-add .task-description-input");
-export const quickAddDueDate = document.querySelector(".quick-add .task-due-date");
-export const quickAddProject = document.querySelector(".quick-add .task-project");
+export const quickAddDueDate = document.querySelector(".quick-add #task-due-date");
+export const quickAddProject = document.querySelector(".quick-add #task-project");
 export const quickAddSubmitBtn = document.querySelector(".quick-add .submit-btn");

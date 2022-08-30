@@ -1,17 +1,18 @@
 import {
-  taskContainer,
   taskEditor,
   taskNameInput,
   taskDescriptionInput,
   taskEditorSubmit,
   taskProject,
-  taskDueDate
+  taskDueDate,
+  mainContent
 } from "./elements";
-import { getCurrentProject } from "./main-content";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
 import { getDueDateInfo } from "../utils/due-date";
 import { createTaskProject } from "../utils/dom";
+import todoList from "../module/todo-list";
+import { getProjectOptions } from "./main-content";
 
 let lastElement;
 let project;
@@ -47,11 +48,11 @@ taskEditor.addEventListener("reset", () => {
 
 function activeTaskEditor(el, taskPar, next = () => {}) {
   // render task editor
-  if (taskContainer.contains(taskEditor)) removeTaskEditor();
-  taskContainer.replaceChild(taskEditor, el);
+  if (mainContent.contains(taskEditor)) removeTaskEditor();
+  el.replaceWith(taskEditor);
   // change state
   lastElement = el;
-  project = getCurrentProject();
+  project = taskPar?.id ? todoList.taskProject(taskPar.id) : getProjectOptions().project;
   submitCb = next;
 
   setTaskEditor(taskPar ?? {});
@@ -62,22 +63,22 @@ function resetTaskEditor() {
   taskNameInput.value = "";
   taskDescriptionInput.value = "";
   // reset buttons
-  setTaskProject(getCurrentProject());
+  setTaskProject(getProjectOptions().project);
   setTaskDueDate(null);
   
   taskEditorSubmit.disabled = true;
 }
 
 function removeTaskEditor() {
-  taskContainer.replaceChild(lastElement, taskEditor);
+  taskEditor.replaceWith(lastElement);
 }
 
-function setTaskEditor({ name = "", description = "", dueDate = null }) {
+function setTaskEditor({ name = "", description = "", dueDate = getProjectOptions().dueDate }) {
   // set input values
   taskNameInput.value = name;
   taskDescriptionInput.value = description;
   // set current project
-  setTaskProject(getCurrentProject());
+  setTaskProject(project);
   // set due date
   setTaskDueDate(dueDate);
   // disable submit button
@@ -114,12 +115,12 @@ function formatTaskDescription() {
   taskDescriptionInput.style.cssText = `--height: ${numNewLine * lineHeight}px`;
 }
 
-function updateProjectTaskEditor(project) {
-  if(project !== getCurrentProject()) return;
+function updateProjectTaskEditor(newProject) {
+  if(project?.id !== newProject.id) return;
 
-  setTaskProject(project);
+  setTaskProject(newProject);
 }
 
 export default activeTaskEditor;
 
-export { formatTaskDescription, updateProjectTaskEditor };
+export { formatTaskDescription, updateProjectTaskEditor, removeTaskEditor };

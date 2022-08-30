@@ -7,11 +7,11 @@ import {
   quickAddProject,
   quickAddSubmitBtn
 } from "./elements";
-import { getCurrentProject } from "./main-content";
 import { getDueDateInfo } from "../utils/due-date";
 import { createTaskProject } from "../utils/dom";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
+import { getProjectOptions } from "./main-content";
 
 let project;
 let dueDate;
@@ -60,8 +60,8 @@ function activeQuickAdd(next = () => {}) {
   quickAddContainer.classList.remove("hidden", "disappear");
 
   submitCb = next;
-  project = getCurrentProject();
-  dueDate = null;
+  project = getProjectOptions().project;
+  dueDate = getProjectOptions().dueDate;
 
   setTaskProject(project);
   setTaskDueDate(dueDate);

@@ -314,6 +314,10 @@ ul {
   color: var(--num-text);
 }
 
+.project-num.has-overdue::before {
+  color: #dd4b39;
+}
+
 .project-num[data-num="0"] {
   visibility: hidden;
 }
@@ -329,8 +333,11 @@ ul {
 
 /* Main content */
 .main-content,
-.task-container,
 .main-header,
+.task-section-list,
+.task-section,
+.task-section-header,
+.task-list,
 .add-task {
   display: flex;
   flex-direction: column;
@@ -351,39 +358,79 @@ ul {
   margin-left: var(--sidebar-width);
 }
 
-.task-container {
+.task-section-list {
   width: 100%;
   padding-inline: 55px;
 }
 
-.task-container:not(.completed) .task:hover .task-action {
+.task-section {
+  width: min(100%, 800px);
+}
+
+.task-section:first-child .task-section-header {
+  margin-top: 24px;
+}
+
+.task-section:first-child:not(.overdue) .task-section-header,
+.task-section.overdue[hidden] + .task-section .task-section-header {
+  display: none;
+}
+
+.task-section-header {
+  position: sticky;
+  top: var(--main-header-height);
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 0;
+  border-bottom: solid 1px var(--form-border-color);
+  background-color: var(--white);
+  z-index: 1;
+}
+
+.task-section-header .title {
+  font-weight: 700;
+}
+
+.task-section-header .reschedule-btn {
+  border: none;
+  background-color: transparent;
+  color: var(--red);
+  cursor: pointer;
+}
+
+.task-section-header .reschedule-btn:hover {
+  text-decoration: underline;
+}
+
+.task-list {
+  width: 100%;
+}
+
+.task-list:not(.completed) .task:hover .task-action {
   opacity: 1;
 }
 
-.task-container.completed  .task-checkbox {
+.task-list.completed  .task-checkbox {
   background-color: gray;
   color: var(--white-text);
 }
 
-.task-container.completed #tic-icon {
+.task-list.completed #tic-icon {
   opacity: 1;
 }
 
-.task-container.completed .task-name {
+.task-list.completed .task-name {
   text-decoration: line-through;
   color: gray;
 }
 
-.task-container.completed .task-action {
+.task-list.completed .task-action {
   opacity: 0;
 }
 
-.task-container.completed .task:hover .task-action:last-child {
+.task-list.completed .task:hover .task-action:last-child {
   opacity: 1;
-}
-
-.task-container > * {
-  width: min(100%, 800px);
 }
 
 .main-header {
@@ -394,7 +441,7 @@ ul {
   padding-inline: 55px;
   padding-top: 35px;
   background-color: var(--white);
-  z-index: 1;
+  z-index: 2;
 }
 
 .main-header-content {
@@ -416,10 +463,6 @@ ul {
 
 .project-action {
   color: gray;
-}
-
-.project-action.invisible {
-  visibility: hidden;
 }
 
 .project-action:hover {
@@ -448,7 +491,7 @@ ul {
   border: solid 2px transparent;
 }
 
-.icon-container > #add-task-icon {
+.icon-container > .add-task-icon {
   transform: scale(0.864);
 }
 
@@ -473,6 +516,24 @@ ul {
   width: 220px;
   height: 200px;
   margin: auto;
+}
+
+/* Default projects */
+.main-content.inbox .project-action:not(#show-completed-tasks) {
+  visibility: hidden;
+}
+
+.overdue {
+  display: none;
+  margin-bottom: 30px;
+}
+
+.main-content.today .project-action {
+  visibility: hidden;
+}
+
+.main-content.today .overdue {
+  display: flex;
 }
 
 /* Form project */

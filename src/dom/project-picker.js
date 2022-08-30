@@ -8,7 +8,7 @@ import {
 import { createProjectElement, renderProjects } from "./project";
 import todoList from "../module/todo-list";
 import Icons from "../assets/icons";
-import { getCurrentProject } from "./main-content";
+import { getProjectOptions } from "./main-content";
 
 let projectPick;
 
@@ -45,7 +45,7 @@ function activeProjectPicker(el, project, next = () => {}) {
     // render project picker
     projectPickerContainer.classList.remove("hidden");
 
-    projectPick = project ?? getCurrentProject();
+    projectPick = project ?? getProjectOptions().project;
 
     submitCb = next;
     element = el;
