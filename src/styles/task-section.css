@@ -1,0 +1,104 @@
+.task-section {
+  width: min(100%, 800px);
+}
+
+.task-section.overdue {
+  display: none;
+  margin-bottom: 30px;
+}
+
+.task-section:first-child .task-section-header {
+  margin-top: 24px;
+}
+
+.task-section:first-child:not(.overdue) .task-section-header,
+.task-section.overdue[hidden] + .task-section .task-section-header {
+  display: none;
+}
+
+.task-section-header {
+  position: sticky;
+  top: var(--main-header-height);
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 0;
+  border-bottom: solid 1px var(--light-border);
+  background-color: var(--bg);
+  z-index: 1;
+}
+
+.task-section-header .title {
+  font-weight: 700;
+}
+
+.task-section-header .reschedule-btn {
+  border: none;
+  background-color: transparent;
+  color: var(--red);
+  cursor: pointer;
+}
+
+.task-section-header .reschedule-btn:hover {
+  text-decoration: underline;
+}
+
+.task-list {
+  width: 100%;
+}
+
+.task-list:not(.completed) .task:hover .task-action {
+  opacity: 1;
+}
+
+.task-list.completed .task-checkbox {
+  background-color: gray;
+  color: var(--white-text);
+}
+
+.task-list.completed #tic-icon {
+  opacity: 1;
+}
+
+.task-list.completed .task-name {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.task-list.completed .task-action {
+  opacity: 0;
+}
+
+.task-list.completed .task:hover .task-action:last-child {
+  opacity: 1;
+}
+
+.add-task {
+  flex-direction: row;
+  width: min(100%, 800px);
+  padding: 8px 0;
+  color: gray;
+}
+
+.add-task:hover {
+  color: var(--secondary-color);
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: var(--secondary-color);
+  border: solid 2px transparent;
+}
+
+.icon-container > .add-task-icon {
+  transform: scale(0.864);
+}
+
+.add-task:hover .icon-container {
+  background-color: var(--secondary-color);
+  color: #fff;
+}

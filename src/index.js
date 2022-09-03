@@ -1,5 +1,22 @@
 // style
-import "./style.css";
+import "./styles/global.css";
+import "./styles/themes.css";
+import "./styles/top-bar.css";
+import "./styles/side-bar.css";
+import "./styles/main-content.css";
+import "./styles/task-section.css";
+import "./styles/project-form.css";
+import "./styles/task.css";
+import "./styles/task-editor.css";
+import "./styles/load-screen.css";
+import "./styles/project-picker.css";
+import "./styles/due-date-picker.css";
+import "./styles/delete-warning.css";
+import "./styles/quick-add.css";
+import "./styles/settings.css";
+import "./styles/theme-page.css";
+// app settings
+import "./settings";
 // active events
 import "./dom/default-project";
 import "./dom/sidebar";
@@ -12,11 +29,8 @@ import { renderProjects, createProjectElement } from "./dom/project";
 import { setProject } from "./dom/main-content";
 import { loadScreen } from "./dom/elements";
 import todoList from "./module/todo-list";
-import configApp from "./config/config";
 // render icons on document
 setIcons();
-// set config
-configApp();
 // render projects save in localStorage (not Inbox)
 renderProjects(...todoList.projects.slice(1).map(createProjectElement));
 // set Inbox how start project

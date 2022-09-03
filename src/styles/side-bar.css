@@ -1,0 +1,130 @@
+.side-bar,
+.project-header,
+.project-container,
+.project {
+  display: flex;
+  align-items: center;
+}
+
+.side-bar,
+.project-container {
+  flex-direction: column;
+}
+
+.side-bar {
+  position: fixed;
+  top: var(--topbar-height);
+  left: calc(var(--sidebar-width) * -1);
+  gap: 30px;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--topbar-height));
+  padding: 35px 45px 35px 35px;
+  background-color: var(--secondary-bg);
+  transition: left 0.3s ease;
+}
+
+.side-bar.open {
+  left: 0;
+}
+
+.side-bar:hover #open-project-form {
+  visibility: visible;
+}
+
+.user-project-container {
+  width: 100%;
+}
+
+#arrow-icon {
+  transition: transform 0.3s ease;
+}
+
+#arrow-icon.rotate {
+  transform: rotate(-90deg);
+}
+
+#open-project-form {
+  color: #666;
+}
+
+#open-project-form:hover {
+  color: var(--text) !important;
+}
+
+.project-container {
+  gap: 10px;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+#user-projects {
+  padding-right: 5px;
+  width: calc(100% + 10px);
+  height: 250px;
+  transition: height 0.3s ease;
+}
+
+#user-projects.close {
+  overflow: hidden;
+  height: 0;
+}
+
+#user-projects .project {
+  max-width: 205px;
+}
+
+.project,
+.project-header {
+  gap: 10px;
+  width: 100%;
+  height: 34px;
+  padding: 5px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.project.current,
+.project:hover {
+  background-color: var(--hover);
+}
+
+.project-name,
+.project-header > h3 {
+  width: 65%;
+}
+
+.project-num::before {
+  content: attr(data-num);
+  color: var(--secondary-text);
+}
+
+.project-num.has-overdue::before {
+  color: #dd4b39;
+}
+
+.project-num[data-num="0"] {
+  visibility: hidden;
+}
+
+.project-header > #open-project-form {
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.project-header > #open-project-form:hover {
+  background-color: var(--hover);
+}
+
+.project-header > h3 {
+  font-weight: 600;
+}
+
+/* Themes */
+.dark #arrow-icon,
+.dark #open-project-form {
+  color: hsla(0, 0%, 100%, 0.56);
+}
+
+.dark .project-num.has-overdue::before {
+  color: #ff7f74;
+}

@@ -1,0 +1,123 @@
+.task-editor,
+.task-editor-container,
+.task-editor-extra-field,
+.task-editor-extra-field-btn-container,
+.task-editor-btn,
+.task-editor-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.task-editor {
+  flex-direction: column;
+  width: 100%;
+  padding-top: 4px;
+}
+
+.task-editor > *,
+.task-editor-container > * {
+  width: min(100%, 800px);
+}
+
+.task-editor-container {
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: var(--radius-xl);
+  border: solid 1px #e5e5e5;
+}
+
+.task-editor-container:focus-within {
+  border-color: #ccc;
+}
+
+.task-editor-field {
+  border: none;
+}
+
+.task-name-input {
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.task-name-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.task-description-input {
+  --height: 36px;
+  resize: none;
+  line-height: 18px;
+  font-size: 13px;
+  font-weight: 400;
+  height: clamp(40px, var(--height) + 4px, 202px);
+  padding: 1px;
+  overflow: auto;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.task-description-input::placeholder {
+  color: gray;
+  font-weight: 100;
+}
+
+.task-editor-extra-field {
+  justify-content: space-between;
+  height: 28px;
+}
+
+.task-editor-extra-field-btn-container {
+  gap: 8px;
+}
+
+.task-editor-btn {
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding-inline: 8px;
+  border-radius: var(--radius);
+  border: solid 1px #ccc;
+  background-color: transparent;
+  cursor: pointer;
+  color: #555;
+}
+
+.task-editor-btn svg-loader {
+  width: 16px;
+  height: 16px;
+}
+
+.task-editor-btn:hover {
+  background-color: var(--hover);
+}
+
+.task-editor-btn-text {
+  font-size: 13px;
+}
+
+.task-editor-footer {
+  justify-content: flex-end;
+}
+
+/* Themes */
+.dark .task-editor-container {
+  border-color: #363636;
+}
+
+.dark .task-editor-container:focus-within {
+  border-color: #484848;
+}
+
+.dark .task-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.dark .task-editor-btn {
+  border-color: #555;
+  color: hsla(0, 0%, 100%, 0.6);
+}

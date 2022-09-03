@@ -1,0 +1,121 @@
+.settings-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 32px;
+  background-color: var(--opaque-bg);
+  z-index: 2;
+}
+
+.settings {
+  display: flex;
+  width: min(95%, 1060px);
+  height: 100%;
+  background-color: var(--bg);
+  border-radius: var(--radius-xl);
+  margin: auto;
+  color: var(--text);
+  overflow: hidden;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 16%);
+}
+
+.settings-side-bar,
+.settings-list,
+.setting {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-side-bar {
+  width: 220px;
+  background-color: var(--secondary-bg);
+}
+
+.settings-side-bar > * {
+  padding: 12px;
+}
+
+.settings-list {
+  gap: 4px;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  padding: 4px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.settings-item:hover {
+  background-color: var(--secondary-hover);
+}
+
+.settings-item.active {
+  background-color: var(--hover);
+}
+
+.settings-item > h3 {
+  text-transform: capitalize;
+}
+
+.settings-item-icon {
+  opacity: 0.56;
+}
+
+.setting {
+  flex: 1;
+}
+
+.setting-header,
+.setting-footer {
+  display: flex;
+  align-items: center;
+}
+
+.setting-header {
+  justify-content: space-between;
+  height: 49px;
+  padding: 8px;
+  padding-left: 16px;
+  border-bottom: solid 1px var(--light-border);
+}
+
+.setting-header > h2 {
+  text-transform: capitalize;
+}
+
+.close-settings {
+  color: var(--secondary-text);
+}
+
+.close-settings:hover {
+  color: var(--text);
+  background-color: var(--hover);
+}
+
+.setting-content {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 24px;
+  overflow: auto;
+}
+
+.setting-footer {
+  position: relative;
+  top: 100%;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 12px;
+  border-top: solid 1px var(--light-border);
+  transition: top 0.1s ease;
+}
+
+.setting-footer.active {
+  top: 0;
+}

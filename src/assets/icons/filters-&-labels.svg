@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style>
     svg {
-        color: #eb8909;
+        color: var(--orange);
     }
 </style>
 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"

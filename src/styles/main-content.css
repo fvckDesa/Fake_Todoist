@@ -1,0 +1,100 @@
+/* Main content */
+.main-content,
+.main-header,
+.task-section-list,
+.task-section,
+.task-section-header,
+.task-list,
+.add-task {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-content {
+  position: relative;
+  flex-grow: 1;
+  min-height: 380px;
+  max-height: calc(100vh - var(--topbar-height));
+  padding-bottom: 120px;
+  overflow: hidden auto;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.reduced {
+  margin-left: var(--sidebar-width);
+}
+
+.task-section-list {
+  width: 100%;
+  padding-inline: 55px;
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-inline: 55px;
+  padding-top: 35px;
+  background-color: var(--bg);
+  z-index: 2;
+}
+
+.main-header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(100%, 800px);
+  height: 100%;
+  padding-bottom: 8px;
+}
+
+.main-header.scrolled .main-header-content {
+  border-bottom: solid 1px var(--light-border);
+}
+
+.main-header-content .title {
+  margin-right: auto;
+}
+
+.project-action {
+  color: gray;
+}
+
+.project-action:hover {
+  background-color: var(--hover);
+  color: var(--text);
+}
+
+.empty-project {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-inline: 55px;
+  margin-top: 36px;
+  overflow: hidden;
+  filter: drop-shadow(0 0 2em var(--text));
+}
+
+.empty-project-illustration {
+  width: 220px;
+  height: 200px;
+  margin: auto;
+}
+
+/* Default projects */
+.main-content.inbox .project-action:not(#show-completed-tasks) {
+  visibility: hidden;
+}
+
+.main-content.today .project-action {
+  visibility: hidden;
+}
+
+.main-content.today .overdue {
+  display: flex;
+}

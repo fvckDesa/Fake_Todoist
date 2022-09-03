@@ -3,6 +3,7 @@ export const sidebarIcon = document.querySelector('#sidebar-icon');
 export const homeIcon = document.querySelector('#home-icon');
 export const searchIcon = document.querySelector('#search-icon');
 export const topBarAddIcon = document.querySelector('#top-bar-add-icon');
+export const themeTopBarIcon = document.querySelector("#top-bar-theme-icon");
 //Side Bar icons
 export const inboxIcon = document.querySelector('#inbox-icon');
 export const todayIcon = document.querySelector('#today-icon'); 
@@ -33,6 +34,8 @@ export const deleteWarningInfoIcon = document.querySelector("#delete-warning-inf
 export const deleteWarningCloseIcon = document.querySelector("#delete-warning-close-icon");
 //Quick Add icons
 export const quickAddDueDateIcon = document.querySelector(".quick-add .task-editor-btn-icon");
+//Settings icons
+export const closeSettingsIcon = document.querySelector("#close-settings-icon");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');
@@ -40,6 +43,7 @@ export const searchBar = document.querySelector('.search-bar');
 export const searchInput = document.querySelector('#search-input');
 export const quickAddBtn = document.querySelector('.quick-add-btn');
 export const homeBtn = document.querySelector(".home-btn");
+export const themeBtn = document.querySelector(".theme-btn");
 //Side Bar elements
 export const sidebar = document.querySelector('.side-bar');
 export const inboxProject = document.querySelector("#inbox-project");
@@ -112,6 +116,7 @@ export const addProjectBtn = document.querySelector('#add-project-btn');
 export const projectTemplate = document.querySelector('#project-template').content;
 export const taskTemplate = document.querySelector('#task-template').content;
 export const taskSectionTemplate = document.querySelector('#task-section-template').content;
+export const themePageTemplate = document.querySelector('#theme-template').content;
 //Loading screen
 export const loadScreen = document.querySelector(".load-screen");
 //Delete warning
@@ -126,3 +131,12 @@ export const quickAddDescriptionInput = document.querySelector(".quick-add .task
 export const quickAddDueDate = document.querySelector(".quick-add #task-due-date");
 export const quickAddProject = document.querySelector(".quick-add #task-project");
 export const quickAddSubmitBtn = document.querySelector(".quick-add .submit-btn");
+//Settings
+export const settingsContainer = document.querySelector(".settings-container");
+export const settings = document.querySelector(".settings");
+export const settingsList = document.querySelector(".settings-list");
+export const setting = document.querySelector(".setting");
+export const settingName = document.querySelector(".setting-header > h2");
+export const settingContent = document.querySelector(".setting-content");
+export const settingFooter = document.querySelector(".setting-footer");
+export const closeSettingsBtn = document.querySelector(".close-settings");

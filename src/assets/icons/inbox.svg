@@ -3,7 +3,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>
         svg {
-            color: #246fe0;
+            color: var(--blue);
         }
     </style>
     <g fill="currentColor" fill-rule="nonzero">

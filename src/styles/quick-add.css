@@ -1,0 +1,47 @@
+.quick-add-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  z-index: 3;
+  animation: modal-appear 0.1s cubic-bezier(.165,.84,.44,1) both;
+}
+
+.quick-add-container.disappear {
+  animation: modal-disappear 0.1s cubic-bezier(.165,.84,.44,1) both;
+}
+
+@keyframes modal-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modal-disappear {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.quick-add {
+  width: min(100%, 550px);
+  padding: 16px;
+  margin-top: calc(13vh - 32px);
+  background-color: var(--bg);
+  box-shadow: 0 15px 50px 0 rgb(0 0 0 / 35%);
+}

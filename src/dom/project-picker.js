@@ -95,7 +95,7 @@ function createProjectPickerEmpty() {
     const projectPickerEmpty = document.createElement("li");
     projectPickerEmpty.classList.add("project-picker-empty");
     projectPickerEmpty.innerHTML = `
-        <span>No projects found</span>
+        <span>Project not found</span>
         <div class="project-picker-item">
             <svg-loader src="${ Icons.Plus }"></svg-loader>
             <span>Create project "${projectPickerSearch.value}"</span>

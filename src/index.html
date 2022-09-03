@@ -10,10 +10,10 @@
     <div class="load-screen">
         <svg class="logo" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fill-rule="evenodd">
-                <path class="logo_bg"
+                <path class="logo-bg"
                     d="M56.000016 0h-48c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V8c0-4.4-3.6-8-8-8"
                     fill="#E44332"></path>
-                <g class="logo_stripe" fill="#FFF">
+                <g class="logo-stripe" fill="#FFF">
                     <path
                         d="M13.672368 29.985936c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32016.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
                                 12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048">
@@ -31,10 +31,10 @@
         </svg>
         <svg class="loader" width="24" height="24" viewBox="0 0 24 24">
             <g fill="none" fill-rule="nonzero">
-                <path class="ring_thumb" fill="#E44331"
+                <path class="ring-thumb" fill="#E44331"
                     d="M17.945 3.958A9.955 9.955 0 0 0 12 2c-2.19 0-4.217.705-5.865 1.9L5.131 2.16A11.945 11.945 0 0 1 12 0c2.59 0 4.99.82 6.95 2.217l-1.005 1.741z">
                 </path>
-                <path class="ring_track" fill="#FCECEA"
+                <path class="ring-track" fill="#FCECEA"
                     d="M5.13 2.16L6.136 3.9A9.987 9.987 0 0 0 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10a9.986 9.986 0 0 0-4.055-8.042l1.006-1.741A11.985 11.985 0 0 1 24 12c0 6.627-5.373 12-12 12S0 18.627 0 12c0-4.073 2.029-7.671 5.13-9.84z">
                 </path>
             </g>
@@ -56,6 +56,9 @@
         <div class="right-side">
             <button class="quick-add-btn third-btn">
                 <svg-loader id="top-bar-add-icon" src=""></svg-loader>
+            </button>
+            <button class="theme-btn third-btn">
+                <svg-loader id="top-bar-theme-icon" src=""></svg-loader>
             </button>
         </div>
     </header>
@@ -304,6 +307,31 @@
         </form>
     </div>
 
+    <div class="settings-container hidden">
+        <div class="settings">
+            <div class="settings-side-bar">
+                <header class="settings-side-bar-header">
+                    <h2>Settings</h2>
+                </header>
+                <ul class="settings-list">
+                </ul>
+            </div>
+            <form class="setting">
+                <header class="setting-header">
+                    <h2>theme</h2>
+                    <button type="button" class="close-settings third-btn">
+                        <svg-loader id="close-settings-icon"></svg-loader>
+                    </button>
+                </header>
+                <div class="setting-content"></div>
+                <footer class="setting-footer">
+                    <button type="reset" class="secondary-btn">Cancel</button>
+                    <button type="submit" class="primary-btn">Update</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
     <template id="task-editor-template">
         <form class="task-editor" id="task-editor">
             <div class="task-editor-container">
@@ -388,6 +416,30 @@
             </ul>
             <ul class="task-list completed hidden"></ul>
         </section>
+    </template>
+
+    <template id="theme-template">
+        <div class="theme-page">
+            <div class="personalize-app">
+                <h3>Personalize your Todoist with colors to match your style, mood, and personality. 
+                    <a href="https://todoist.com/help/articles/change-color-themes" target="_blank">Learn more</a>
+                .</h3>
+                <div class="auto-dark-mode">
+                    <div class="toggle-field">
+                        <label class="switch">
+                            <input type="checkbox" id="auto-dark-mode">
+                            <span class="slider round"></span>
+                        </label>
+                        <h3>Auto Dark Mode</h3>
+                    </div>
+                    <h4>Automatically switch between light and dark themes when your system does.</h4>
+                </div>
+            </div>
+            <div class="themes">
+                <h2>Your Themes</h2>
+                <div class="themes-container"></div>
+            </div>
+        </div>
     </template>
 </body>
 </html>

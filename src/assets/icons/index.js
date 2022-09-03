@@ -30,6 +30,8 @@ import Warning from "./warning.svg";
 import CloseXs from "./close-xs.svg";
 import ShowCompletedTasks from "./show-completed-tasks.svg";
 import HideCompletedTasks from "./hide-completed-tasks.svg";
+import Theme from "./theme.svg";
+import General from "./general.svg";
 
 const Icons = {
     Inbox,
@@ -63,7 +65,9 @@ const Icons = {
     Warning,
     CloseXs,
     ShowCompletedTasks,
-    HideCompletedTasks
+    HideCompletedTasks,
+    Theme,
+    General
 };
 
 export default Icons;

@@ -1,0 +1,143 @@
+.task,
+.task-due-date,
+.task-info,
+.task-project {
+  display: flex;
+  align-items: center;
+}
+
+.task {
+  position: relative;
+  align-items: stretch;
+  width: min(100%, 800px);
+  border-bottom: solid 1px var(--light-border);
+  cursor: pointer;
+}
+
+.task-checkbox,
+.task-checkbox-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-checkbox-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  margin: 8px 6px 0 -3px;
+  background-color: transparent;
+  overflow: hidden;
+  color: grey;
+  cursor: pointer;
+}
+
+.task-checkbox-btn.checked .task-checkbox {
+  animation: check-animation 0.2s cubic-bezier(1,0,0,1);
+}
+
+@keyframes check-animation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    background-color: grey;
+    color: white;
+    transform: scale(1.2);
+  }
+}
+
+#tic-icon {
+  opacity: 0;
+  transition: opacity 0.15s cubic-bezier(.4,0,1,1);
+}
+
+.task-checkbox-btn:hover #tic-icon {
+  opacity: 1;
+}
+
+.task-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: solid 1px grey;
+}
+
+.task-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-grow: 1;
+  padding-block: 8px;
+  margin-right: 30px;
+}
+
+.task-description {
+  margin-bottom: 3px;
+  color: #808080;
+}
+
+.task-due-date {
+  font-size: 12px;
+  line-height: 12px;
+  color: gray;
+}
+
+.task-due-date,
+.task-project {
+  gap: 2px;
+}
+
+.task-project {
+  flex-direction: row-reverse;
+  margin-left: auto;
+  margin-right: -30px;
+  color: grey;
+  cursor: pointer;
+}
+
+.task-project > svg-loader {
+  width: 12px;
+  height: 12px;
+}
+
+.task-action-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  margin-right: -30px;
+}
+
+.task-action {
+  width: 24px;
+  height: 24px;
+  color: grey;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.task-action.active {
+  opacity: 1;
+}
+
+.task-action:hover {
+  color: #000;
+  background-color: #eee;
+}
+
+/* Themes */
+.dark .task-project {
+  color: #ffffff99;
+}
+
+.dark .task-action {
+  color: hsla(0, 0%, 100%, 0.56);
+}
+
+.dark .task-action:hover {
+  color: hsla(0, 0%, 100%, 0.87);
+  background-color: #4d4d4d;
+}
