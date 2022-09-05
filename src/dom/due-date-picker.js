@@ -27,7 +27,6 @@ import {
   getMonths,
   parseDueDateString,
   isThisWeekend,
-  isNextWeek,
   isEndOfDay,
   formatDateString,
   nextWeek,
@@ -35,12 +34,9 @@ import {
 } from "../utils/due-date";
 import {
   format,
-  nextMonday,
-  nextSaturday,
   isToday,
   isTomorrow,
   isSameDay,
-  isThisYear,
   addDays,
   addMonths,
   startOfMonth,
@@ -50,6 +46,8 @@ import {
   endOfToday,
   isEqual,
   endOfTomorrow,
+  isSameMonth,
+  isBefore,
 } from "date-fns";
 import todoList from "../module/todo-list";
 import activeTimePicker from "./time-picker";
@@ -104,10 +102,8 @@ dueDatePickerInput.addEventListener("input", () => {
   const [previewDay, previewTime] =
     dueDatePickerPreviewDate.firstElementChild.children;
   previewDay.innerText = formatDateString(date, "eee");
-  
-  previewTime.innerText = !isEndOfDay(date)
-    ? formatTimeString(date)
-    : "";
+
+  previewTime.innerText = !isEndOfDay(date) ? formatTimeString(date) : "";
 
   const numTasks = todoList.getTaskFromDate(date).length;
   dueDatePickerPreviewDate.lastElementChild.innerText =
@@ -126,7 +122,9 @@ pickerCrossIcon.addEventListener("click", () => {
 });
 
 dueDatePickerPreview.addEventListener("click", () => {
-  dueDatePick = parseDueDateString(dueDatePickerPreview.getAttribute("data-dueDate"));
+  dueDatePick = parseDueDateString(
+    dueDatePickerPreview.getAttribute("data-dueDate")
+  );
 });
 
 dueDatePickerSuggestionToday.addEventListener("click", () =>
@@ -198,7 +196,12 @@ dueDatePickerAddTime.addEventListener("click", () => {
   activeTimePicker(dueDatePickerAddTime, null, setTimePick);
 });
 
-function activeDueDatePicker(el, dueDate = null, next = () => {}, close = () => {}) {
+function activeDueDatePicker(
+  el,
+  dueDate = null,
+  next = () => {},
+  close = () => {}
+) {
   // render due date picker
   dueDatePickerContainer.classList.remove("hidden");
   // set states
@@ -250,13 +253,19 @@ function formatSuggestions() {
     : format(nextWeekend(), "EEE");
   // remove suggestions if date is set
   dueDatePickerSuggestionToday.hidden = dueDatePick && isToday(dueDatePick);
-  dueDatePickerSuggestionTomorrow.hidden = dueDatePick && isTomorrow(dueDatePick);
+  dueDatePickerSuggestionTomorrow.hidden =
+    dueDatePick && isTomorrow(dueDatePick);
   dueDatePickerSuggestionNextWeek.hidden = isEqual(nextWeek(), endOfTomorrow());
   dueDatePickerSuggestionNoDate.hidden = dueDatePick === null;
 }
 
 function renderStartCalendarList(maxDatePar) {
-  maxDate = addMonths(maxDatePar ?? addMonths(endOfToday(), 4), 1);
+  maxDate = maxDatePar;
+  if (isSameMonth(new Date(), maxDatePar)) {
+    maxDate = addMonths(maxDatePar, 4);
+  } else if(!maxDatePar || isBeforeDay(maxDatePar, new Date())) {
+    maxDate = addMonths(endOfToday(), 4);
+  }
   maxDate = startOfMonth(maxDate);
 
   dueDatePickerMonthList.replaceChildren(
@@ -265,10 +274,9 @@ function renderStartCalendarList(maxDatePar) {
 
   scrollTo(
     [...dueDatePickerMonthList.children].find((calendar) => {
-      return (
-        format(maxDatePar ?? endOfToday(), "MMM yyyy") ===
-        calendar.getAttribute("data-month")
-      );
+      const callDate = startOfMonth(maxDatePar ?? endOfToday());
+      const calendarDate = startOfMonth(parse("1 " + calendar.getAttribute("data-month"), "d MMM yyyy", new Date()));
+      return isBefore(callDate, calendarDate) || isEqual(callDate, calendarDate);
     })
   );
 }
@@ -327,7 +335,8 @@ function createDaysElements(days) {
     }
 
     dayElement.addEventListener("click", () => {
-      dayElement.type = dueDatePick && !isEndOfDay(dueDatePick) ? "button" : "submit";
+      dayElement.type =
+        dueDatePick && !isEndOfDay(dueDatePick) ? "button" : "submit";
 
       setDatePick(day);
 
@@ -435,7 +444,8 @@ function setTimePick(time) {
     time ? createTimeElement(time) : dueDatePickerAddTime
   );
   // render save btn
-  dueDatePickerSave.hidden = JSON.stringify(startDueDate) === JSON.stringify(dueDatePick);
+  dueDatePickerSave.hidden =
+    JSON.stringify(startDueDate) === JSON.stringify(dueDatePick);
 }
 
 function createTimeElement(time) {
@@ -463,13 +473,14 @@ function createTimeElement(time) {
 }
 
 function setDueDateInInput(dueDate) {
-  if(!dueDate) {
+  if (!dueDate) {
     dueDatePickerInput.value = "";
     return;
   }
   dueDatePickerInput.value = formatDateString(dueDate);
 
-  if(!isEndOfDay(dueDate)) dueDatePickerInput.value += ` ${formatTimeString(dueDate)}`;
+  if (!isEndOfDay(dueDate))
+    dueDatePickerInput.value += ` ${formatTimeString(dueDate)}`;
 }
 
 function changeDaySelected(dayEl) {
@@ -481,9 +492,11 @@ function setDatePick(date) {
   // set day
   const dayPick = date ? endOfDay(date) : null;
   // set time
-  dueDatePick = dayPick && dueDatePick ? set(dayPick, getTime(dueDatePick)) : dayPick;
+  dueDatePick =
+    dayPick && dueDatePick ? set(dayPick, getTime(dueDatePick)) : dayPick;
   // render save btn
-  dueDatePickerSave.hidden = JSON.stringify(startDueDate) === JSON.stringify(dueDatePick);
+  dueDatePickerSave.hidden =
+    JSON.stringify(startDueDate) === JSON.stringify(dueDatePick);
 
   setDueDateInInput(dueDatePick);
 }

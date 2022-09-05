@@ -37,13 +37,7 @@ overdueTaskSection.remove();
 mainContent.style.cssText = `--main-header-height: ${mainHeader.clientHeight}px;`;
 
 mainContent.addEventListener("scroll", () => {
-  const { marginTop } = getComputedStyle(taskSectionList.firstElementChild);
-
-  if (mainContent.scrollTop >= parseInt(marginTop)) {
-    mainHeader.classList.add("scrolled");
-  } else {
-    mainHeader.classList.remove("scrolled");
-  }
+  mainHeader.classList.toggle("scrolled", mainContent.scrollTop > 0);
 });
 
 editProjectBtn.addEventListener("click", () => {

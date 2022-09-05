@@ -89,9 +89,6 @@ export function isAfterDay(day1, day2) {
 }
 
 export function getMonths(maxDate) {
-  if (isSameMonth(addMonths(endOfToday(), 1), maxDate)) {
-    maxDate = addMonths(maxDate, 4);
-  }
   return [
     endOfToday(),
     ...eachMonthOfInterval({
