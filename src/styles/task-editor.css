@@ -49,12 +49,12 @@
 }
 
 .task-description-input {
-  --height: 36px;
   resize: none;
   line-height: 18px;
   font-size: 13px;
   font-weight: 400;
-  height: clamp(40px, var(--height) + 4px, 202px);
+  min-height: 40px;
+  max-height: 202px;
   padding: 1px;
   overflow: auto;
   background-color: var(--bg);

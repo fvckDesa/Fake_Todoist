@@ -19,6 +19,9 @@ let project;
 let dueDate = null;
 let submitCb;
 
+const resizeObserver = new ResizeObserver(formatTaskDescription);
+resizeObserver.observe(taskDescriptionInput);
+
 taskNameInput.addEventListener("input", () => {
   taskEditorSubmit.disabled = !taskNameInput.value;
 });
@@ -102,17 +105,8 @@ function setTaskDueDate(date) {
 }
 
 function formatTaskDescription() {
-  const lineHeight = parseInt(
-    getComputedStyle(taskDescriptionInput).getPropertyValue("line-height")
-  );
-  const numNewLine = taskDescriptionInput.value
-    .split("\n")
-    .map((el) =>
-      Math.ceil(el.length / (taskDescriptionInput.scrollWidth / 5.6))
-    )
-    .reduce((sum, n) => sum + n, taskDescriptionInput.value.split("\n").length);
-
-  taskDescriptionInput.style.cssText = `--height: ${numNewLine * lineHeight}px`;
+  taskDescriptionInput.style.height = 'auto';
+  taskDescriptionInput.style.height = `${taskDescriptionInput.scrollHeight}px`;
 }
 
 function updateProjectTaskEditor(newProject) {
@@ -123,4 +117,4 @@ function updateProjectTaskEditor(newProject) {
 
 export default activeTaskEditor;
 
-export { formatTaskDescription, updateProjectTaskEditor, removeTaskEditor };
+export { updateProjectTaskEditor, removeTaskEditor };

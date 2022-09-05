@@ -9,7 +9,6 @@ import {
   projectHeader
 } from "./elements";
 import Icons from "../assets/icons";
-import { formatTaskDescription } from "./task-editor";
 import activeProjectForm from "./project-form";
 import todoList from "../module/todo-list";
 import { renderProjects, createProjectElement } from "./project";
@@ -17,7 +16,6 @@ import { renderProjects, createProjectElement } from "./project";
 sidebarBtn.addEventListener("click", () => {
   sidebar.classList.toggle("open");
   mainContent.classList.toggle("reduced");
-  formatTaskDescription();
 
   sidebarIcon.src = sidebar.classList.contains("open")
     ? Icons.Close
