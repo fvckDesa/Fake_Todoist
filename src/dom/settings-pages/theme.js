@@ -1,9 +1,9 @@
 import { themePageTemplate } from "../elements";
 import * as Themes from "../../assets/themes";
-import { handleChange } from "../settings";
 import { changeSettings } from "../../settings";
 
 let themePick = null;
+let handleChange;
 
 const themePage = themePageTemplate.cloneNode(true).firstElementChild;
 const autoDarkMode = themePage.querySelector("#auto-dark-mode");
@@ -17,7 +17,7 @@ themePage.querySelector(".themes-container").replaceChildren(
         theme.dataset.theme = name;
 
         theme.addEventListener("click", () => {
-            themePick = document.body.classList.contains(name) ? null : name;
+            themePick = name;
             setTheme(name);
             handleChange("theme", themePick);
         });
@@ -37,21 +37,18 @@ darkScheme.addEventListener("change", (e) => {
     setTheme(e.matches ? "dark" : "todoist");
 });
 
-function getValue() {
-    return [
-        {
-            setting: "theme",
-            value: themePick
-        }
-    ]
+export default function activeThemePage(change) {
+    handleChange = change ?? (() => {});
+    return {
+        page: themePage,
+        getValue: () => ([
+            {
+                setting: "theme",
+                value: themePick
+            }
+        ])
+    }
 }
-
-const theme = {
-    page: themePage,
-    getValue
-}
-
-export default theme;
 
 export function setTheme(theme) {
     document.body.className = "";

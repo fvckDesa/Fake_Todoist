@@ -26,6 +26,10 @@
   gap: 8px;
 }
 
+.personalize-app h4 {
+  color: rgba(0, 0, 0, 0.56);
+}
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;

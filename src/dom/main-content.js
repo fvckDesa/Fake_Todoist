@@ -25,6 +25,7 @@ import { setRandomIllustration } from "./empty-project.js";
 import { createTaskSection } from "./task-section.js";
 import { projectFilter, overdueFilter } from "../utils/filters";
 import activeDueDatePicker from "./due-date-picker.js";
+import { changeProject } from "./sidebar";
 
 let currentProject;
 let completedTaskListArr;
@@ -88,7 +89,11 @@ function setProject(
   filtersPar = [{ filter: projectFilter }],
   options = {}
 ) {
-  if (project === currentProject || !project) return;
+  if(!project) {
+    throw new Error("Project is undefined");
+  }
+  if (project === currentProject) return;
+  changeProject(project.id);
 
   mainContent.classList.toggle("inbox", project === todoList.inbox);
   mainContent.classList.toggle("today", project === todoList.today);
@@ -98,7 +103,6 @@ function setProject(
   filters = filtersPar.map((par) => par.filter);
 
   setTitle(project.name);
-
   taskSectionList.replaceChildren(
     ...filtersPar.map(({ title, filter }) => {
       if (filter === overdueFilter) {
@@ -120,7 +124,7 @@ function setProject(
   completedTaskListArr = taskSectionList.querySelectorAll(
     ".task-list.completed"
   );
-
+  
   toggleCompletedTasks(true);
   setRandomIllustration();
 

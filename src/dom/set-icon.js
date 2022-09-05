@@ -29,7 +29,8 @@ import {
   timePickerWarningIcon,
   showCompletedTasksIcon,
   themeTopBarIcon,
-  closeSettingsIcon
+  closeSettingsIcon,
+  generalTopBarIcon
 } from "./elements";
 
 function setIcons() {
@@ -62,6 +63,7 @@ function setIcons() {
   showCompletedTasksIcon.src = Icons.ShowCompletedTasks;
   themeTopBarIcon.src = Icons.Theme;
   closeSettingsIcon.src = Icons.Close;
+  generalTopBarIcon.src = Icons.General;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
 }

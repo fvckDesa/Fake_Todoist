@@ -3,7 +3,11 @@ import Project from "./project";
 import { overdueFilter, todayFilter } from "../utils/filters";
 
 const today = (() => {
+  const todayId = localStorage.getItem("today-id");
   const project = new Project("Today");
+
+  if(todayId) project.id = +todayId;
+  else localStorage.setItem("today-id", project.id);
 
   return {
     ...project,

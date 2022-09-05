@@ -12,9 +12,11 @@ specifiers:
   webpack-dev-server: ^4.7.4
   webpack-merge: ^5.8.0
 
+dependencies:
+  date-fns: 2.29.1
+
 devDependencies:
   css-loader: 6.6.0_webpack@5.69.1
-  date-fns: 2.29.1
   file-loader: 6.2.0_webpack@5.69.1
   html-webpack-plugin: 5.5.0_webpack@5.69.1
   mini-css-extract-plugin: 2.5.3_webpack@5.69.1
@@ -814,7 +816,7 @@ packages:
   /date-fns/2.29.1:
     resolution: {integrity: sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==}
     engines: {node: '>=0.11'}
-    dev: true
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

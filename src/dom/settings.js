@@ -1,17 +1,14 @@
 import { settings, settingsContainer, setting, settingsList, settingContent, settingName, settingFooter, closeSettingsBtn } from "./elements";
 import getSettingPage from "./settings-pages";
-import { settingsType } from "../settings/type";
-import { changeSettings } from "../settings";
-import { getDefaultOptions } from "date-fns";
+import { settingsType } from "../settings/data";
+import appSettings, { changeSettings } from "../settings";
 
 let handleSubmit = () => {};
 
 let settingSelect;
+let isChange = false;
 
-settingsContainer.addEventListener("click", () => {
-    settingsContainer.classList.add("hidden");
-    resetSettings();
-});
+settingsContainer.addEventListener("click", closeSettings);
 
 settings.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -30,10 +27,7 @@ setting.addEventListener("reset", (e) => {
     resetSettings();
 });
 
-closeSettingsBtn.addEventListener("click", () => {
-    settingsContainer.classList.add("hidden");
-    resetSettings();
-});
+closeSettingsBtn.addEventListener("click", closeSettings);
 
 createSettings();
 
@@ -60,8 +54,9 @@ function createSettings() {
             settingsItem.append(iconEl, name);
 
             settingsItem.addEventListener("click", () => {
+                isChange = false;
                 settingSelect = setting;
-                const { page, getValue } = getSettingPage(setting);
+                const { page, getValue } = getSettingPage(setting, handleChange);
 
                 handleSubmit = getValue;
                 settingContent.replaceChildren(page);
@@ -79,11 +74,15 @@ function createSettings() {
 
 function resetSettings() {
     settingFooter.classList.remove("active");
-    for(const [name, value] of Object.entries(getDefaultOptions())) {
-        changeSettings(name, value);
-    }
+    if(settingSelect === "theme") changeSettings("theme", appSettings["theme"]);
 }
 
-export function handleChange(name, value) {
-    settingFooter.classList.toggle("active", getDefaultOptions()[name] !== value);
+function handleChange(name, value) {
+    isChange = appSettings[name] !== value;
+    settingFooter.classList.toggle("active", isChange);
+}
+
+function closeSettings() {
+    settingsContainer.classList.add("hidden");
+    resetSettings();
 }

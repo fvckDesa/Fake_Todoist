@@ -30,6 +30,8 @@ import {
   isNextWeek,
   isEndOfDay,
   formatDateString,
+  nextWeek,
+  nextWeekend,
 } from "../utils/due-date";
 import {
   format,
@@ -101,10 +103,7 @@ dueDatePickerInput.addEventListener("input", () => {
   // set info
   const [previewDay, previewTime] =
     dueDatePickerPreviewDate.firstElementChild.children;
-  previewDay.innerText = format(
-    date,
-    `eee d MMM ${isThisYear(date) ? "" : "yyyy"}`
-  );
+  previewDay.innerText = formatDateString(date, "eee");
   
   previewTime.innerText = !isEndOfDay(date)
     ? formatTimeString(date)
@@ -139,11 +138,11 @@ dueDatePickerSuggestionTomorrow.addEventListener("click", () =>
 );
 
 dueDatePickerSuggestionThisWeekend.addEventListener("click", () =>
-  setDatePick(nextSaturday(endOfToday()))
+  setDatePick(nextWeekend())
 );
 
 dueDatePickerSuggestionNextWeek.addEventListener("click", () =>
-  setDatePick(nextMonday(endOfToday()))
+  setDatePick(nextWeek())
 );
 
 dueDatePickerSuggestionNoDate.addEventListener("click", () => {
@@ -238,23 +237,21 @@ function formatSuggestions() {
     addDays(endOfToday(), 1),
     "EEE"
   );
-  dueDatePickerSuggestionNextWeek.lastChild.innerText = format(
-    nextMonday(endOfToday()),
-    "EEE d MMM"
+  dueDatePickerSuggestionNextWeek.lastChild.innerText = formatDateString(
+    nextWeek(),
+    "EEE"
   );
   const thisWeekend = isThisWeekend(endOfToday());
   dueDatePickerSuggestionThisWeekend.children[1].innerText = thisWeekend
     ? "Next weekend"
     : "This weekend";
-
-  dueDatePickerSuggestionThisWeekend.lastChild.innerText = format(
-    nextSaturday(endOfToday()),
-    `EEE${thisWeekend ? " d MMM" : ""}`
-  );
+  dueDatePickerSuggestionThisWeekend.lastChild.innerText = thisWeekend
+    ? formatDateString(nextWeekend(), "EEE")
+    : format(nextWeekend(), "EEE");
   // remove suggestions if date is set
   dueDatePickerSuggestionToday.hidden = dueDatePick && isToday(dueDatePick);
   dueDatePickerSuggestionTomorrow.hidden = dueDatePick && isTomorrow(dueDatePick);
-  dueDatePickerSuggestionNextWeek.hidden = isEqual(nextMonday(endOfToday()), endOfTomorrow());
+  dueDatePickerSuggestionNextWeek.hidden = isEqual(nextWeek(), endOfTomorrow());
   dueDatePickerSuggestionNoDate.hidden = dueDatePick === null;
 }
 
@@ -347,10 +344,7 @@ function createDaysElements(days) {
         if (isScroll) return;
         const [counterInfo, counterBar] = dueDatePickerTaskCounter.children;
         // date
-        counterInfo.firstElementChild.innerText = format(
-          day,
-          `eee d MMM ${isThisYear(day) ? "" : "yyyy"}`
-        );
+        counterInfo.firstElementChild.innerText = formatDateString(day, "eee");
         // num tasks
         counterInfo.lastElementChild.innerText = `${taskInThisDay.length} tasks due`;
 

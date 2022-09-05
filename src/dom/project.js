@@ -1,7 +1,6 @@
 import { projectTemplate, userProjects, todayProject } from "./elements";
 import Icons from "../assets/icons";
 import { setProject } from "./main-content";
-import { changeProject } from "./sidebar";
 import todoList from "../module/todo-list";
 import { overdueFilter } from "../utils/filters";
 
@@ -17,10 +16,7 @@ function createProjectElement(project) {
     projectIcon.style.color = color;
     projectNum.setAttribute("data-num", tasks.filter(({complete}) => !complete).length);
     // set project click event
-    projectEl.addEventListener("click", () => {
-        setProject(project);
-        changeProject(id);
-    });
+    projectEl.addEventListener("click", () => setProject(project));
     // return element
     return projectEl;
 }

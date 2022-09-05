@@ -1,4 +1,5 @@
-import { isMatch, parse, getHours, getMinutes } from "date-fns";
+import { isMatch, parse, getHours, getMinutes, set, format } from "date-fns";
+import appSettings from "../settings";
 
 const patternsTime = ["K:mm a", "h:mm a", "K a", "h a", "K:mm a", "h:mma", "Ka", "ha", "H:mm", "k:mm"];
 
@@ -21,10 +22,8 @@ export function checkTimeValidity(time) {
 }
 
 export function formatTimeString(date) {
-  const time = date instanceof Date ? getTime(date) : date;
-  const { hours, minutes } = time;
-
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  const time = date instanceof Date ? date : set(new Date(), date);
+  return format(time, appSettings.timeFormat);
 }
 
 export function getTime(date) {

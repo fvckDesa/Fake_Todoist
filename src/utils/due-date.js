@@ -11,14 +11,11 @@ import {
   parse,
   isMatch,
   startOfToday,
-  isWeekend,
   isBefore,
   addDays,
-  nextMonday,
   isSameWeek,
   isThisYear,
   isYesterday,
-  isThisWeek,
   isTomorrow,
   isToday,
   format,
@@ -28,12 +25,15 @@ import {
   endOfToday,
   set,
   isPast,
-  nextSaturday,
   endOfYesterday,
   addYears,
+  nextDay,
+  getDay,
 } from "date-fns";
-import { checkTimeValidity, parseTime } from "./time";
+import { checkTimeValidity, formatTimeString, parseTime } from "./time";
+import appSettings from "../settings";
 
+const MAX_NUM_DAY = 6;
 const patternsDate = [
   "EEEE d MMMM yyyy",
   "EEEE d MMMM",
@@ -47,7 +47,20 @@ const patternsDate = [
   "d/M/yyyy",
   "d/M",
   "d-M-yyyy",
-  "d-M"
+  "d-M",
+  "EEEE MMMM d yyyy",
+  "EEEE MMMM d",
+  "EEEE M/d/yyyy",
+  "EEEE M/d",
+  "EEEE M-d-yyyy",
+  "EEEE M-d",
+  "EEEE",
+  "MMMM d yyyy",
+  "MMMM d",
+  "M/d/yyyy",
+  "M/d",
+  "M-d-yyyy",
+  "M-d",
 ];
 
 export function getDaysInWeeksFormat(date) {
@@ -59,13 +72,19 @@ export function getDaysInWeeksFormat(date) {
 
 export function isBeforeDay(day1, day2) {
   return (
-    day1 && day2 && getDayOfYear(day1) < getDayOfYear(day2) && getYear(day1) === getYear(day2)
+    day1 &&
+    day2 &&
+    getDayOfYear(day1) < getDayOfYear(day2) &&
+    getYear(day1) === getYear(day2)
   );
 }
 
 export function isAfterDay(day1, day2) {
   return (
-    day1 && day2 && getDayOfYear(day1) > getDayOfYear(day2) && getYear(day1) === getYear(day2)
+    day1 &&
+    day2 &&
+    getDayOfYear(day1) > getDayOfYear(day2) &&
+    getYear(day1) === getYear(day2)
   );
 }
 
@@ -94,7 +113,6 @@ export function parseDueDateString(dueDateStr) {
   // get date from dueDateStr and return dueDate
   const dateStr = dueDateStr.replace(timeRegex, "").trim();
 
-
   // only time return next useful occurrence of time
   if (dateStr.length === 0) {
     if (Object.keys(time).length !== 2) return null;
@@ -113,13 +131,13 @@ export function parseDueDateString(dueDateStr) {
       date = addDays(endOfToday(), 1);
       break;
     case "next week":
-      date = nextMonday(endOfToday());
+      date = nextWeek();
       break;
     case "this weekend":
-      date = nextSaturday(endOfToday());
+      date = nextWeekend();
       break;
     case "next weekend":
-      date = nextSaturday(nextSaturday(endOfToday()));
+      date = nextWeekend(nextWeekend());
       break;
     case "yesterday":
       date = endOfYesterday();
@@ -134,12 +152,13 @@ export function parseDueDateString(dueDateStr) {
     default:
       date = parseDateString(dateStr);
 
-      if(!date) return null;
+      if (!date) return null;
       // set next useful occurrence of week day
       if (
-        (pattern === "EEEE" || pattern === "EEE") &&
+        (dateStr === "EEEE" || dateStr === "EEE") &&
         isBeforeDay(date, new Date())
-      ) date = addDays(date, 7);
+      )
+        date = addDays(date, 7);
 
       break;
   }
@@ -147,9 +166,7 @@ export function parseDueDateString(dueDateStr) {
 }
 
 function parseDateString(dateStr) {
-  const pattern = patternsDate.find((formatStr) =>
-    isMatch(dateStr, formatStr)
-  );
+  const pattern = patternsDate.find((formatStr) => isMatch(dateStr, formatStr));
 
   if (!pattern) return null;
 
@@ -157,7 +174,11 @@ function parseDateString(dateStr) {
 }
 
 export function isThisWeekend(date) {
-  return isSameWeek(date, startOfToday()) && isWeekend(date);
+  return (
+    isSameWeek(date, startOfToday()) &&
+    (getDay(date) === appSettings.weekend ||
+      getDay(date) === (appSettings.weekend === MAX_NUM_DAY ? 0 : appSettings.weekend + 1))
+  );
 }
 
 export function getDueDateInfo(date) {
@@ -180,7 +201,7 @@ export function getDueDateInfo(date) {
     color = "--purple";
     text = format(date, "eeee");
   }
-  if (date && isThisWeek(date) && isWeekend(date)) {
+  if (date && isThisWeekend(date)) {
     color = "--blue";
     text = format(date, "eeee");
   }
@@ -194,11 +215,11 @@ export function getDueDateInfo(date) {
   }
   if (date && isBefore(date, new Date())) {
     color = "--red";
-    text = isYesterday(date) ? "Yesterday" : formatDateString(date);
+    text = isYesterday(date) ? "Yesterday" : text;
     text = isToday(date) ? "Today" : text;
   }
 
-  if (date && !isEndOfDay(date)) text = `${text} ${format(date, "HH:mm")}`;
+  if (date && !isEndOfDay(date)) text = `${text} ${formatTimeString(date)}`;
 
   return { text, color };
 }
@@ -207,6 +228,20 @@ export function isEndOfDay(date) {
   return isEqual(date, endOfDay(date));
 }
 
-export function formatDateString(date) {
-  return format(date, `d MMM${isThisYear(date) ? "" : " yyyy"}`);
+export function formatDateString(date, extra = "") {
+  const dateFormat = appSettings.dateFormat
+    .replace(/-/g, " ")
+    .replace(/yyyy/, (match) => {
+      return isThisYear(date) ? "" : match;
+    });
+
+  return format(date, extra + " " + dateFormat).trim();
+}
+
+export function nextWeek(date = endOfToday()) {
+  return nextDay(date, appSettings.nextWeek);
+}
+
+export function nextWeekend(date = endOfToday()) {
+  return nextDay(date, appSettings.weekend);
 }

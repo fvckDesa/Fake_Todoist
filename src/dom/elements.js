@@ -4,6 +4,7 @@ export const homeIcon = document.querySelector('#home-icon');
 export const searchIcon = document.querySelector('#search-icon');
 export const topBarAddIcon = document.querySelector('#top-bar-add-icon');
 export const themeTopBarIcon = document.querySelector("#top-bar-theme-icon");
+export const generalTopBarIcon = document.querySelector("#top-bar-general-icon");
 //Side Bar icons
 export const inboxIcon = document.querySelector('#inbox-icon');
 export const todayIcon = document.querySelector('#today-icon'); 
@@ -44,6 +45,7 @@ export const searchInput = document.querySelector('#search-input');
 export const quickAddBtn = document.querySelector('.quick-add-btn');
 export const homeBtn = document.querySelector(".home-btn");
 export const themeBtn = document.querySelector(".theme-btn");
+export const generalBtn = document.querySelector(".general-btn");
 //Side Bar elements
 export const sidebar = document.querySelector('.side-bar');
 export const inboxProject = document.querySelector("#inbox-project");
@@ -99,6 +101,7 @@ export const dueDatePickerTaskCounter = document.querySelector(".task-counter");
 export const dueDatePickerActions = document.querySelector(".date-actions");
 export const dueDatePickerAddTime = document.querySelector(".date-actions-add-time");
 export const dueDatePickerSave = document.querySelector(".date-actions-save");
+export const dueDatePickerWeekDayList = document.querySelector(".date-picker-week-day-list");
 //Time picker elements
 export const timePickerContainer = document.querySelector(".time-picker-container");
 export const timePicker = document.querySelector(".time-picker");
@@ -116,7 +119,8 @@ export const addProjectBtn = document.querySelector('#add-project-btn');
 export const projectTemplate = document.querySelector('#project-template').content;
 export const taskTemplate = document.querySelector('#task-template').content;
 export const taskSectionTemplate = document.querySelector('#task-section-template').content;
-export const themePageTemplate = document.querySelector('#theme-template').content;
+export const themePageTemplate = document.querySelector('#theme-page-template').content;
+export const generalPageTemplate = document.querySelector("#general-page-template").content;
 //Loading screen
 export const loadScreen = document.querySelector(".load-screen");
 //Delete warning

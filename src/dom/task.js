@@ -8,7 +8,6 @@ import { deleteTask, setProject, setUpdatedTask  } from "./main-content";
 import activeDeleteWarning from "./delete-warning";
 import { getCurrentProject, setTask, toggleTask } from "./main-content.js";
 import { createTaskProject } from "../utils/dom";
-import { changeProject } from "./sidebar";
 
 function createTaskElement(task) {
     let { name, id, dueDate, complete } = task;
@@ -57,10 +56,7 @@ function createTaskElement(task) {
         });
     });
 
-    taskProject.addEventListener("click", () => {
-        setProject(project);
-        changeProject(project.id);
-    });
+    taskProject.addEventListener("click", () => setProject(project));
     // task actions
     editTask.addEventListener("click", () => {
         activeTaskEditor(taskEl,  task, (newProject, taskProps) => {

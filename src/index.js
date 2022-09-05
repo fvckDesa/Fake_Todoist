@@ -15,8 +15,9 @@ import "./styles/delete-warning.css";
 import "./styles/quick-add.css";
 import "./styles/settings.css";
 import "./styles/theme-page.css";
+import "./styles/general-page.css";
 // app settings
-import "./settings";
+import appSettings from "./settings";
 // active events
 import "./dom/default-project";
 import "./dom/sidebar";
@@ -26,21 +27,27 @@ import "./dom/project-form";
 // start app
 import setIcons from "./dom/set-icon";
 import { renderProjects, createProjectElement } from "./dom/project";
-import { setProject } from "./dom/main-content";
 import { loadScreen } from "./dom/elements";
 import todoList from "./module/todo-list";
+import { setTodayProject } from "./dom/default-project";
+import { setProject } from "./dom/main-content";
 // render icons on document
 setIcons();
 // render projects save in localStorage (not Inbox)
 renderProjects(...todoList.projects.slice(1).map(createProjectElement));
 // set Inbox how start project
-setProject(todoList.inbox);
+if (todoList.today.id === appSettings.homeView) {
+  setTodayProject();
+} else {
+  setProject(todoList.searchProjectById(appSettings.homeView));
+}
 // remove load screen when all svg are loaded
 Promise.all(
   [...document.querySelectorAll("svg-loader")].map((icon) => {
     return new Promise((res, rej) => {
       icon.onLoadSvg = res;
       icon.onErrorSvg = rej;
+      setTimeout(() => rej("timeout"), 10000);
     });
   })
 ).finally(() => {

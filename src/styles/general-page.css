@@ -1,0 +1,59 @@
+.general-page,
+.general-field,
+.general-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.general-page,
+.general-section {
+  gap: 24px;
+}
+
+.general-section {
+  width: 100%;
+  border-bottom: solid 1px var(--strong-border);
+  padding-bottom: 24px;
+}
+
+.general-section:last-child {
+  border: none;
+}
+
+.general-field {
+  gap: 14px;
+  width: min(100%, 400px);
+  margin-right: auto;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.general-field label {
+  font-weight: 700;
+}
+
+.general-field select {
+  padding: 7px 30px 7px 10px;
+  border: solid 1px #e5e5e5;
+  border-radius: var(--radius);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.general-field select:focus {
+  border-color: #ccc;
+}
+
+.general-field h4 {
+  color: rgba(0, 0, 0, 0.56);
+}
+
+/* Themes */
+.dark .general-field select {
+  border-color: #363636;
+}
+
+.dark .general-field select:focus {
+  border-color: #484848;
+}

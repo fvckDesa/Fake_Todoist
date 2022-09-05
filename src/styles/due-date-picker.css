@@ -281,8 +281,11 @@
 .date-picker-month-list {
   position: relative;
   height: 180px;
-  margin-right: -17px;
   overflow: hidden scroll;
+}
+
+.date-picker-month-list::-webkit-scrollbar {
+  width: 0;
 }
 
 .date-picker-calendar {
@@ -572,9 +575,9 @@
 
 .dark .date-picker-header-action:hover,
 .dark .date-picker-calendar-day:not(.empty, .past, .selected):hover
-.date-picker-calendar-day-bg,
-.date-actions-time-label:hover,
-.date-actions-time-remove:hover {
+.dark .date-picker-calendar-day-bg,
+.dark .date-actions-time-label:hover,
+.dark .date-actions-time-remove:hover {
   background-color: #4d4d4d;
 }
 
