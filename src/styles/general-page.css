@@ -33,12 +33,15 @@
 }
 
 .general-field select {
+  color: var(--text);
+  background-color: var(--bg);
   padding: 7px 30px 7px 10px;
   border: solid 1px #e5e5e5;
   border-radius: var(--radius);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  transition: border 0.3s ease;
 }
 
 .general-field select:focus {
@@ -51,9 +54,13 @@
 
 /* Themes */
 .dark .general-field select {
-  border-color: #363636;
+  border-color: var(--light-border);
 }
 
 .dark .general-field select:focus {
   border-color: #484848;
+}
+
+.dark .general-field h4 {
+  color: rgba(255, 255, 255, 0.56);
 }
