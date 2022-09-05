@@ -29,21 +29,17 @@ import setIcons from "./dom/set-icon";
 import { renderProjects, createProjectElement } from "./dom/project";
 import { loadScreen } from "./dom/elements";
 import todoList from "./module/todo-list";
-import { setTodayProject } from "./dom/default-project";
-import { setProject } from "./dom/main-content";
+import { setHomeViewProject } from "./utils/dom";
 // render icons on document
 setIcons();
 // render projects save in localStorage (not Inbox)
 renderProjects(...todoList.projects.slice(1).map(createProjectElement));
-// set Inbox how start project
-if (todoList.today.id === appSettings.homeView) {
-  setTodayProject();
-} else {
-  setProject(todoList.searchProjectById(appSettings.homeView));
-}
+// set home view project
+setHomeViewProject();
 // remove load screen when all svg are loaded
 Promise.all(
   [...document.querySelectorAll("svg-loader")].map((icon) => {
+    icon.className === "not-found-illustration" && console.log(icon);
     return new Promise((res, rej) => {
       icon.onLoadSvg = res;
       icon.onErrorSvg = rej;

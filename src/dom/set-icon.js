@@ -30,8 +30,11 @@ import {
   showCompletedTasksIcon,
   themeTopBarIcon,
   closeSettingsIcon,
-  generalTopBarIcon
+  generalTopBarIcon,
+  notFoundIllustration
 } from "./elements";
+
+import NotFound from "../assets/illustrations/not-found.svg";
 
 function setIcons() {
   sidebarIcon.src = Icons.Close;
@@ -64,6 +67,7 @@ function setIcons() {
   themeTopBarIcon.src = Icons.Theme;
   closeSettingsIcon.src = Icons.Close;
   generalTopBarIcon.src = Icons.General;
+  notFoundIllustration.src = NotFound;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
 }

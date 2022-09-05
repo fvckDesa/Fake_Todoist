@@ -18,6 +18,7 @@ export const helpIcon = document.querySelector('#help-icon');
 export const editProjectIcon = document.querySelector('#edit-project-icon');
 export const deleteProjectIcon = document.querySelector('#delete-project-icon');
 export const showCompletedTasksIcon = document.querySelector('#show-completed-tasks-icon');
+export const notFoundIllustration = document.querySelector(".not-found-illustration");
 //Due Date Picker icons
 export const pickerTodayIcon = document.querySelector("#date-suggestions-icon-today");
 export const pickerTomorrowIcon = document.querySelector("#date-suggestions-icon-tomorrow");
@@ -66,6 +67,8 @@ export const taskSectionList = document.querySelector('.task-section-list');
 export const overdueTaskSection = document.querySelector(".task-section.overdue")
 export const overdueTaskContainer = document.querySelector("#overdue-task-list");
 export const rescheduleBtn = document.querySelector(".reschedule-btn");
+export const notFound = document.querySelector(".not-found");
+export const notFoundBackHomeView = document.querySelector(".not-found > button");
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
 export const taskNameInput = taskEditor.querySelector('#task-editor .task-name-input');

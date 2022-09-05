@@ -2,6 +2,10 @@ import Icons from "../assets/icons";
 import { getDueDateInfo, parseDueDateString } from "./due-date";
 import { dueDatePickerWeekDayList } from "../dom/elements";
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
+import { setTodayProject } from "../dom/default-project";
+import { setProject } from "../dom/main-content";
+import appSettings from "../settings";
+import todoList from "../module/todo-list";
 
 export function createTaskProject({ name, color }) {
   const icon = document.createElement("svg-loader");
@@ -39,4 +43,12 @@ export function changeWeekStart() {
       return dayEl;
     })
   );
+}
+
+export function setHomeViewProject() {
+  if (todoList.today.id === appSettings.homeView) {
+    setTodayProject();
+  } else {
+    setProject(todoList.searchProjectById(appSettings.homeView));
+  }
 }

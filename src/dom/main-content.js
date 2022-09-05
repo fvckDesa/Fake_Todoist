@@ -6,13 +6,14 @@ import {
   taskEditor,
   editProjectBtn,
   deleteProjectBtn,
-  inboxProject,
   emptyProject,
   showCompletedTasksBtn,
   showCompletedTasksIcon,
   overdueTaskContainer,
   overdueTaskSection,
   rescheduleBtn,
+  notFound,
+  notFoundBackHomeView
 } from "./elements.js";
 import Icons from "../assets/icons";
 import todoList from "../module/todo-list";
@@ -26,6 +27,8 @@ import { createTaskSection } from "./task-section.js";
 import { projectFilter, overdueFilter } from "../utils/filters";
 import activeDueDatePicker from "./due-date-picker.js";
 import { changeProject } from "./sidebar";
+import { setHomeViewProject } from "../utils/dom.js";
+import appSettings, { changeSettings } from "../settings/index.js";
 
 let currentProject;
 let completedTaskListArr;
@@ -80,13 +83,22 @@ rescheduleBtn.addEventListener("click", () => {
   });
 });
 
+notFoundBackHomeView.addEventListener("click", () => {
+  if(!todoList.searchProjectById(appSettings.homeView)) {
+    changeSettings("homeView", todoList.today.id);
+  }
+  setHomeViewProject();
+});
+
 function setProject(
   project,
   filtersPar = [{ filter: projectFilter }],
   options = {}
 ) {
+  notFound.hidden = project;
   if(!project) {
-    throw new Error("Project is undefined");
+    document.title = "Todoist";
+    return;
   }
   if (project === currentProject) return;
   changeProject(project.id);
@@ -230,7 +242,7 @@ function getProjectOptions() {
 function deleteProjectCb () {
   todoList.deleteProject(currentProject.id);
   deleteProject(currentProject.id);
-  inboxProject.click();
+  setHomeViewProject();
 }
 
 export {
