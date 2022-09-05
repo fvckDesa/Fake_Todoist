@@ -19,7 +19,7 @@ import todoList from "../module/todo-list";
 import { createTaskElement } from "./task.js";
 import { removeTaskEditor, updateProjectTaskEditor } from "./task-editor";
 import activeProjectForm from "./project-form";
-import activeDeleteWarning from "./delete-warning.js";
+import activeInfoPopUp from "./info-pop-up";
 import { updateProject, deleteProject, changeNumTask } from "./project.js";
 import { setRandomIllustration } from "./empty-project.js";
 import { createTaskSection } from "./task-section.js";
@@ -53,11 +53,13 @@ editProjectBtn.addEventListener("click", () => {
 });
 
 deleteProjectBtn.addEventListener("click", () => {
-  activeDeleteWarning(currentProject.name, () => {
-    todoList.deleteProject(currentProject.id);
-    deleteProject(currentProject.id);
-    inboxProject.click();
-  });
+  activeInfoPopUp(
+    "Delete project?",
+    `Are you sure you want to delete ${currentProject.name}?`,
+    "Delete",
+    [currentProject.name],
+    deleteProjectCb
+  );
 });
 
 showCompletedTasksBtn.addEventListener("click", () => toggleCompletedTasks());
@@ -223,6 +225,12 @@ function getCurrentProject() {
 
 function getProjectOptions() {
   return projectOptions;
+}
+
+function deleteProjectCb () {
+  todoList.deleteProject(currentProject.id);
+  deleteProject(currentProject.id);
+  inboxProject.click();
 }
 
 export {

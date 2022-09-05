@@ -270,20 +270,21 @@
         </div>
     </div>
 
-    <div class="delete-warning-container hidden">
-        <form class="delete-warning">
+    <div class="info-pop-up-container hidden">
+        <form class="info-pop-up">
             <header>
-                <svg-loader id="delete-warning-info-icon"></svg-loader>
-                <button type="reset" class="third-btn delete-warning-close">
-                    <svg-loader id="delete-warning-close-icon"></svg-loader>
+                <svg-loader id="pop-up-info-icon"></svg-loader>
+                <h2 class="pop-up-title"></h2>
+                <button type="reset" class="third-btn pop-up-close">
+                    <svg-loader id="pop-up-close-icon"></svg-loader>
                 </button>
             </header>
-            <div class="delete-warning-content">
-                <h3>Are you sure you want to delete <span class="delete-warning-name">name</span> ?</h3>
+            <div class="pop-up-content">
+                <h3 class="pop-up-text"></h3>
             </div>
             <footer class="form-footer">
                 <button type="reset" class="secondary-btn">Cancel</button>
-                <button type="submit" class="primary-btn">Delete</button>
+                <button type="submit" class="primary-btn" id="pop-up-submit">Delete</button>
             </footer>
         </form>
     </div>

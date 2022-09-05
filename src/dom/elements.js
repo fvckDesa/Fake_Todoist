@@ -31,8 +31,8 @@ export const pickerCrossIcon = document.querySelector("#cross-icon");
 //Time Picker icons
 export const timePickerWarningIcon = document.querySelector(".warning-icon");
 //Delete Warning icons
-export const deleteWarningInfoIcon = document.querySelector("#delete-warning-info-icon");
-export const deleteWarningCloseIcon = document.querySelector("#delete-warning-close-icon");
+export const infoPopUpInfoIcon = document.querySelector("#pop-up-info-icon");
+export const infoPopUpCloseIcon = document.querySelector("#pop-up-close-icon");
 //Quick Add icons
 export const quickAddDueDateIcon = document.querySelector(".quick-add .task-editor-btn-icon");
 //Settings icons
@@ -123,10 +123,12 @@ export const themePageTemplate = document.querySelector('#theme-page-template').
 export const generalPageTemplate = document.querySelector("#general-page-template").content;
 //Loading screen
 export const loadScreen = document.querySelector(".load-screen");
-//Delete warning
-export const deleteWarningContainer = document.querySelector(".delete-warning-container");
-export const deleteWarning = document.querySelector(".delete-warning");
-export const deleteWarningName = document.querySelector(".delete-warning-name");
+//Info pop up
+export const infoPopUpContainer = document.querySelector(".info-pop-up-container");
+export const infoPopUp = document.querySelector(".info-pop-up");
+export const infoPopUpTitle = document.querySelector(".pop-up-title");
+export const infoPopUpText = document.querySelector(".pop-up-text");
+export const infoPopUpSubmit = document.querySelector("#pop-up-submit");
 //Quick add
 export const quickAddContainer = document.querySelector(".quick-add-container");
 export const quickAdd = document.querySelector(".quick-add");

@@ -23,8 +23,8 @@ import {
   pickerCrossIcon,
   editProjectIcon,
   deleteProjectIcon,
-  deleteWarningInfoIcon,
-  deleteWarningCloseIcon,
+  infoPopUpInfoIcon,
+  infoPopUpCloseIcon,
   quickAddDueDateIcon,
   timePickerWarningIcon,
   showCompletedTasksIcon,
@@ -56,8 +56,8 @@ function setIcons() {
   pickerCrossIcon.src = Icons.Cross;
   editProjectIcon.src = Icons.Edit;
   deleteProjectIcon.src = Icons.GarbageContainer;
-  deleteWarningInfoIcon.src = Icons.Info;
-  deleteWarningCloseIcon.src = Icons.Close;
+  infoPopUpInfoIcon.src = Icons.Info;
+  infoPopUpCloseIcon.src = Icons.Close;
   quickAddDueDateIcon.src = Icons.DueDate;
   timePickerWarningIcon.src = Icons.Warning;
   showCompletedTasksIcon.src = Icons.ShowCompletedTasks;

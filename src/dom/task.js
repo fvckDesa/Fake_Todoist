@@ -5,7 +5,7 @@ import activeTaskEditor from "./task-editor";
 import { getDueDateInfo } from "../utils/due-date";
 import todoList from "../module/todo-list";
 import { deleteTask, setProject, setUpdatedTask  } from "./main-content";
-import activeDeleteWarning from "./delete-warning";
+import activeInfoPopUp from "./info-pop-up";
 import { getCurrentProject, setTask, toggleTask } from "./main-content.js";
 import { createTaskProject } from "../utils/dom";
 
@@ -83,10 +83,16 @@ function createTaskElement(task) {
     });
 
     deleteTaskBtn.addEventListener("click", () => {
-        activeDeleteWarning(name, () => {
-            todoList.deleteTask(id);
-            deleteTask(taskEl, project);
-        });
+        activeInfoPopUp(
+            "Delete task?",
+            `Are you sure you want to delete ${name}?`,
+            "Delete",
+            [name],
+            () => {
+                todoList.deleteTask(id);
+                deleteTask(taskEl, project);
+            }
+        );
     });
 
     taskEl.setAttribute("data-id", id);

@@ -11,7 +11,7 @@ import "./styles/task-editor.css";
 import "./styles/load-screen.css";
 import "./styles/project-picker.css";
 import "./styles/due-date-picker.css";
-import "./styles/delete-warning.css";
+import "./styles/info-pop-up.css";
 import "./styles/quick-add.css";
 import "./styles/settings.css";
 import "./styles/theme-page.css";
