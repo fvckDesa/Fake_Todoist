@@ -19,6 +19,8 @@ export const editProjectIcon = document.querySelector('#edit-project-icon');
 export const deleteProjectIcon = document.querySelector('#delete-project-icon');
 export const showCompletedTasksIcon = document.querySelector('#show-completed-tasks-icon');
 export const notFoundIllustration = document.querySelector(".not-found-illustration");
+export const exportProjectIcon = document.querySelector("#export-project-icon");
+export const importProjectIcon = document.querySelector("#import-project-icon");
 //Due Date Picker icons
 export const pickerTodayIcon = document.querySelector("#date-suggestions-icon-today");
 export const pickerTomorrowIcon = document.querySelector("#date-suggestions-icon-tomorrow");
@@ -38,6 +40,12 @@ export const infoPopUpCloseIcon = document.querySelector("#pop-up-close-icon");
 export const quickAddDueDateIcon = document.querySelector(".quick-add .task-editor-btn-icon");
 //Settings icons
 export const closeSettingsIcon = document.querySelector("#close-settings-icon");
+//Export project icons
+export const closeExportModal = document.querySelector("#close-export-modal-icon");
+export const csvIcon = document.querySelector("#csv-icon");
+export const jsonIcon = document.querySelector("#json-icon");
+//Import project icons
+export const closeImportModal = document.querySelector("#close-import-modal-icon");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');
@@ -69,6 +77,8 @@ export const overdueTaskContainer = document.querySelector("#overdue-task-list")
 export const rescheduleBtn = document.querySelector(".reschedule-btn");
 export const notFound = document.querySelector(".not-found");
 export const notFoundBackHomeView = document.querySelector(".not-found > button");
+export const exportProjectBtn = document.querySelector("#export-project");
+export const importProjectBtn = document.querySelector("#import-project");
 //Task Editor elements
 export const taskEditor = document.querySelector("#task-editor-template").content.cloneNode(true).firstElementChild;
 export const taskNameInput = taskEditor.querySelector('#task-editor .task-name-input');
@@ -149,3 +159,17 @@ export const settingName = document.querySelector(".setting-header > h2");
 export const settingContent = document.querySelector(".setting-content");
 export const settingFooter = document.querySelector(".setting-footer");
 export const closeSettingsBtn = document.querySelector(".close-settings");
+//Export project
+export const exportProjectContainer = document.querySelector(".export-project-container");
+export const exportProject = document.querySelector(".export-project");
+export const closeExportProject = document.querySelector(".close-export-modal");
+export const exportCSV = document.querySelector("#export-csv");
+export const exportJSON = document.querySelector("#export-json");
+//Import project
+export const importProjectContainer = document.querySelector(".import-project-container");
+export const importProject = document.querySelector(".import-project");
+export const closeImportProject = document.querySelector(".close-import-modal");
+export const importProjectDragAndDropArea = document.querySelector(".drag-and-drop-area");
+export const importProjectInput = document.querySelector("#import-input");
+//Drag over screen
+export const dragOverScreen = document.querySelector(".drag-over-screen");

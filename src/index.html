@@ -104,11 +104,17 @@
                 <button class="third-btn project-action" id="edit-project">
                     <svg-loader id="edit-project-icon"></svg-loader>
                 </button>
-                <button class="third-btn project-action" id="delete-project">
-                    <svg-loader id="delete-project-icon"></svg-loader>
+                <button class="third-btn project-action" id="import-project">
+                    <svg-loader id="import-project-icon"></svg-loader>
+                </button>
+                <button class="third-btn project-action" id="export-project">
+                    <svg-loader id="export-project-icon"></svg-loader>
                 </button>
                 <button class="third-btn project-action" id="show-completed-tasks">
                     <svg-loader id="show-completed-tasks-icon"></svg-loader>
+                </button>
+                <button class="third-btn project-action" id="delete-project">
+                    <svg-loader id="delete-project-icon"></svg-loader>
                 </button>
             </div>
         </header>
@@ -338,6 +344,66 @@
                     <button type="submit" class="primary-btn">Update</button>
                 </footer>
             </form>
+        </div>
+    </div>
+
+    <div class="export-project-container hidden">
+        <div class="export-project">
+            <header>
+                <h1>Export as a template</h1>
+                <button type="button" class="close-export-modal third-btn">
+                    <svg-loader id="close-export-modal-icon"></svg-loader>
+                </button>
+            </header>
+            <main>
+                <h3>Please pick the template type:</h3>
+                <div class="downloads">
+                    <button class="download-btn primary-btn" id="export-csv">
+                        <svg-loader id="csv-icon"></svg-loader>
+                        <span>Export as CSV file</span>
+                    </button>
+                    <button class="download-btn primary-btn" id="export-json">
+                        <svg-loader id="json-icon"></svg-loader>
+                        <span>Export as JSON file</span>
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="import-project-container hidden">
+        <div class="import-project">
+            <header>
+                <h1>Import from template</h1>
+                <button type="button" class="close-import-modal third-btn">
+                    <svg-loader id="close-import-modal-icon"></svg-loader>
+                </button>
+            </header>
+            <main>
+                <div class="drag-and-drop-area">
+                    <h3>Drag and drop a CSV o JSON file</h3>
+                    <label for="import-input" class="upload">Upload from your computer</label>
+                    <input id="import-input" type="file" accept=".csv, .json" class="visually-hidden"/>
+                </div>
+                <h3 class="info-text">
+                    Import tasks from a template, use this to create a new project by duplicating an existing one.
+                    <br/>
+                    <br/>
+                    Your CSV file must be UTF-8 encoded.
+                    <a
+                    href="https://todoist.com/help/articles/how-to-format-your-csv-file-so-you-can-import-it-into-todoist"
+                    target="_blank"
+                    >
+                        Learn more.
+                    </a>
+                </h3>
+            </main>
+        </div>
+    </div>
+
+    <div class="drag-over-screen hidden">
+        <div class="box">
+            <h1>Import from template</h1>
         </div>
     </div>
 

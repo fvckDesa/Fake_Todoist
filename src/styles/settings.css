@@ -7,7 +7,7 @@
   height: 100vh;
   padding: 32px;
   background-color: var(--opaque-bg);
-  z-index: 2;
+  z-index: 10;
 }
 
 .settings {

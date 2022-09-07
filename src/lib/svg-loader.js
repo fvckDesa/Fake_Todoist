@@ -3,8 +3,8 @@
 class SvgLoader extends HTMLElement {
   #src = "";
   #isConnected = false;
-  onLoadSvg = () => {};
-  onErrorSvg = () => {};
+  #onLoadSvg = () => {};
+  #onErrorSvg = () => {};
   constructor() {
     super();
     // create shadow root
@@ -39,11 +39,11 @@ class SvgLoader extends HTMLElement {
           if (name.match(/^svg:/)) this.svg.setAttribute(name.slice(4), value);
         }
         // call onLoadSvg callback
-        this.onLoadSvg(this.svg);
+        this.#onLoadSvg(this.svg);
       })
       .catch((err) => {
         console.error(err);
-        this.onErrorSvg(err);
+        this.#onErrorSvg(err);
       });
   }
 
@@ -83,6 +83,16 @@ class SvgLoader extends HTMLElement {
 
   get src() {
     return this.#src;
+  }
+
+  set onLoadSvg(cb) {
+    if(this.#isConnected) cb(this.svg);
+    this.#onLoadSvg = cb;
+  }
+
+  set onErrorSvg(cb) {
+    if(this.#isConnected) cb(this.svg);
+    this.#onErrorSvg = cb;
   }
 }
 

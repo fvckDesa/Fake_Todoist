@@ -14,7 +14,7 @@
   padding: 32px;
   padding-top: 13vh;
   background-color: var(--opaque-bg);
-  z-index: 3;
+  z-index: 30;
 }
 
 .info-pop-up {

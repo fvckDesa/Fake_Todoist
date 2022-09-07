@@ -13,7 +13,11 @@ import {
   overdueTaskSection,
   rescheduleBtn,
   notFound,
-  notFoundBackHomeView
+  notFoundBackHomeView,
+  importProjectBtn,
+  exportProjectBtn,
+  dragOverScreen,
+  importProjectContainer
 } from "./elements.js";
 import Icons from "../assets/icons";
 import todoList from "../module/todo-list";
@@ -29,15 +33,50 @@ import activeDueDatePicker from "./due-date-picker.js";
 import { changeProject } from "./sidebar";
 import { setHomeViewProject } from "../utils/dom.js";
 import appSettings, { changeSettings } from "../settings/index.js";
+import activeExportProject from "./export-project.js";
+import activeImportProject from "./import-project.js";
+import { filterTask } from "../utils/task.js";
+import { parseFile } from "../utils/file";
 
 let currentProject;
 let completedTaskListArr;
 let filters = [];
 let projectOptions = {};
+let dragOverTimeout;
 
 overdueTaskSection.remove();
 
 mainContent.style.cssText = `--main-header-height: ${mainHeader.clientHeight}px;`;
+
+document.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if(currentProject === todoList.today) return;
+
+  dragOverScreen.classList.remove("hidden");
+
+  clearTimeout(dragOverTimeout);
+  dragOverTimeout = setTimeout(() => {
+    dragOverScreen.classList.add("hidden");
+  }, 300);
+}, false);
+
+document.addEventListener("drop", async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if(currentProject === todoList.today) return;
+
+  e.dataTransfer.dropEffect = "copy";
+  for(const task of (await parseFile(e.dataTransfer.files[0]))) {
+    const newTask = todoList.addTask(currentProject, task);
+      setTask(newTask);
+  }
+
+  dragOverScreen.classList.add("hidden");
+  importProjectContainer.classList.add("hidden");
+}, false);
 
 mainContent.addEventListener("scroll", () => {
   mainHeader.classList.toggle("scrolled", mainContent.scrollTop > 0);
@@ -88,6 +127,22 @@ notFoundBackHomeView.addEventListener("click", () => {
     changeSettings("homeView", todoList.today.id);
   }
   setHomeViewProject();
+});
+
+exportProjectBtn.addEventListener("click", () => {
+  activeExportProject(
+    currentProject.name,
+    currentProject.tasks.map(filterTask)
+  );
+});
+
+importProjectBtn.addEventListener("click", () => {
+  activeImportProject((tasks) => {
+    for(const task of tasks) {
+      const newTask = todoList.addTask(currentProject, task);
+      setTask(newTask);
+    }
+  });
 });
 
 function setProject(

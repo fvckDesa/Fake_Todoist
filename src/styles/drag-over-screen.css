@@ -1,0 +1,29 @@
+.drag-over-screen,
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drag-over-screen {
+  position: absolute;
+  top: var(--topbar-height);
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - var(--topbar-height));
+  padding: var(--topbar-height);
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 5;
+}
+
+.box {
+  width: 100%;
+  height: 100%;
+  border: dashed 3px rgba(68, 68, 68, 0.6);
+}
+
+.box > h1 {
+  font-size: 25px;
+  font-weight: 400;
+  opacity: 0.6;
+}

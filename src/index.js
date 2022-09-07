@@ -16,6 +16,9 @@ import "./styles/quick-add.css";
 import "./styles/settings.css";
 import "./styles/theme-page.css";
 import "./styles/general-page.css";
+import "./styles/export-project.css";
+import "./styles/import-project.css";
+import "./styles/drag-over-screen.css";
 // app settings
 import appSettings from "./settings";
 // active events
@@ -39,7 +42,6 @@ setHomeViewProject();
 // remove load screen when all svg are loaded
 Promise.all(
   [...document.querySelectorAll("svg-loader")].map((icon) => {
-    icon.className === "not-found-illustration" && console.log(icon);
     return new Promise((res, rej) => {
       icon.onLoadSvg = res;
       icon.onErrorSvg = rej;

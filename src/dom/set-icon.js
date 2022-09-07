@@ -31,7 +31,13 @@ import {
   themeTopBarIcon,
   closeSettingsIcon,
   generalTopBarIcon,
-  notFoundIllustration
+  notFoundIllustration,
+  exportProjectIcon,
+  importProjectIcon,
+  closeExportModal,
+  csvIcon,
+  jsonIcon,
+  closeImportModal
 } from "./elements";
 
 import NotFound from "../assets/illustrations/not-found.svg";
@@ -68,6 +74,12 @@ function setIcons() {
   closeSettingsIcon.src = Icons.Close;
   generalTopBarIcon.src = Icons.General;
   notFoundIllustration.src = NotFound;
+  exportProjectIcon.src = Icons.Export;
+  importProjectIcon.src = Icons.Import;
+  closeExportModal.src = Icons.Close;
+  csvIcon.src = Icons.File;
+  jsonIcon.src = Icons.File;
+  closeImportModal.src = Icons.Close;
   // set default icon on task editor
   taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
 }

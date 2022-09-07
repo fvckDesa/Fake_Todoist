@@ -32,6 +32,9 @@ import ShowCompletedTasks from "./show-completed-tasks.svg";
 import HideCompletedTasks from "./hide-completed-tasks.svg";
 import Theme from "./theme.svg";
 import General from "./general.svg";
+import Export from "./export.svg";
+import Import from "./import.svg";
+import File from "./file.svg";
 
 const Icons = {
     Inbox,
@@ -67,7 +70,10 @@ const Icons = {
     ShowCompletedTasks,
     HideCompletedTasks,
     Theme,
-    General
+    General,
+    Export,
+    Import,
+    File,
 };
 
 export default Icons;
