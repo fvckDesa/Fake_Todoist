@@ -1,24 +1,5 @@
 // style
-import "./styles/global.css";
-import "./styles/themes.css";
-import "./styles/top-bar.css";
-import "./styles/side-bar.css";
-import "./styles/main-content.css";
-import "./styles/task-section.css";
-import "./styles/project-form.css";
-import "./styles/task.css";
-import "./styles/task-editor.css";
-import "./styles/load-screen.css";
-import "./styles/project-picker.css";
-import "./styles/due-date-picker.css";
-import "./styles/info-pop-up.css";
-import "./styles/quick-add.css";
-import "./styles/settings.css";
-import "./styles/theme-page.css";
-import "./styles/general-page.css";
-import "./styles/export-project.css";
-import "./styles/import-project.css";
-import "./styles/drag-over-screen.css";
+import "./index.css";
 // app settings
 import appSettings from "./settings";
 // active events
