@@ -51,8 +51,8 @@ export default function activeThemePage(change) {
 }
 
 export function setTheme(theme) {
-    document.body.className = "";
-    document.body.classList.add(theme);
+    document.documentElement.className = "";
+    document.documentElement.classList.add(theme);
     
     themePage.querySelector(".active")?.classList.remove("active");
     themePage.querySelector(`[data-theme="${theme}"]`).classList.add("active");

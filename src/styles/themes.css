@@ -1,3 +1,5 @@
+/*! CSS themes are in html document for a instant load */
+/*!  this file isn't present in the final code */
 body.todoist {
   --primary-color: #db4c3f;
   --secondary-color: #db4c3f;

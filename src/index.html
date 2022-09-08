@@ -1,586 +1,862 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todoist</title>
-</head>
-<body>
+    <script>
+      const defaultThemeSettings = { theme: "todoist", autoDarkMode: true };
+      // set theme
+      const { theme, autoDarkMode } = JSON.parse(localStorage.getItem("settings") ?? "") || defaultThemeSettings;
+      document.documentElement.classList.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : theme);
+    </script>
+    <!-- critical CSS -->
+    <style>
+      .load-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg);
+        z-index: 30;
+        opacity: 1;
+        transition: opacity;
+      }
+
+      .load-screen.start-animation {
+        animation: fade-out 1s cubic-bezier(0.4, 0, 1, 1);
+      }
+
+      .logo-stripe {
+        fill: var(--bg);
+      }
+
+      .loader {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes fade-out {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Themes */
+      .dark .logo-bg,
+      .dark .ring-thumb {
+        fill: hsla(0, 0%, 100%, 0.87);
+      }
+
+      .dark .ring-track {
+        fill: hsla(0, 0%, 100%, 0.4);
+      }
+
+      .todoist {
+        --primary-color: #db4c3f;
+        --secondary-color: #db4c3f;
+        --secondary-color-hover: #b03d32;
+        --bg: #fff;
+        --secondary-bg: #fafafa;
+        --text: #202020;
+        --secondary-text: #969696;
+        --hover: #eee;
+        --secondary-hover: #f2f2f2;
+        --top-bar-icon-color: #fff;
+        --light-border: #f0f0f0;
+        --strong-border: #ddd;
+      }
+
+      .noir {
+        --primary-color: #3d3d3d;
+        --secondary-color: #3d3d3d;
+        --secondary-color-hover: #121212;
+        --bg: #fff;
+        --secondary-bg: #fafafa;
+        --text: #202020;
+        --secondary-text: #969696;
+        --hover: #eee;
+        --secondary-hover: #f2f2f2;
+        --top-bar-icon-color: #fff;
+        --light-border: #f0f0f0;
+        --strong-border: #ddd;
+      }
+
+      .dark {
+        --primary-color: #282828;
+        --secondary-color: #de4c3a;
+        --secondary-color-hover: #c53727;
+        --bg: #1f1f1f;
+        --secondary-bg: #242424;
+        --text: hsla(0, 0%, 100%, 0.87);
+        --secondary-text: #969696;
+        --hover: #363636;
+        --secondary-hover: #1f1f1f;
+        --top-bar-icon-color: #fff;
+        --light-border: hsla(0, 0%, 100%, 0.1);
+        --strong-border: #333;
+        --red: #ff7066;
+        --green: #25b84c;
+        --blue: #5297ff;
+        --purple: #a970ff;
+        --orange: #ff9a14;
+      }
+
+      .neutral {
+        --primary-color: #f7f7f7;
+        --secondary-color: #db4c3f;
+        --secondary-color-hover: #b03d32;
+        --bg: #fff;
+        --secondary-bg: #fafafa;
+        --text: #202020;
+        --secondary-text: #969696;
+        --hover: #eee;
+        --secondary-hover: #f2f2f2;
+        --top-bar-icon-color: #484b4c;
+        --light-border: #f0f0f0;
+        --strong-border: #ddd;
+      }
+
+      .tangerine {
+        --primary-color: #ff9000;
+        --secondary-color: #ff9000;
+        --secondary-color-hover: #ff9000;
+        --bg: #fff;
+        --secondary-bg: #fafafa;
+        --text: #202020;
+        --secondary-text: #969696;
+        --hover: #eee;
+        --secondary-hover: #f2f2f2;
+        --top-bar-icon-color: #fff;
+        --light-border: #f0f0f0;
+        --strong-border: #ddd;
+      }
+    </style>
+  </head>
+  <body>
     <div class="load-screen">
-        <svg class="logo" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-            <g fill="none" fill-rule="evenodd">
-                <path class="logo-bg"
-                    d="M56.000016 0h-48c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V8c0-4.4-3.6-8-8-8"
-                    fill="#E44332"></path>
-                <g class="logo-stripe" fill="#FFF">
-                    <path
-                        d="M13.672368 29.985936c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32016.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
-                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048">
-                    </path>
-                    <path
-                        d="M13.672368 40.76952c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
-                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048">
-                    </path>
-                    <path
-                        d="M13.672368 51.55312c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
-                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048">
-                    </path>
-                </g>
-            </g>
-        </svg>
-        <svg class="loader" width="24" height="24" viewBox="0 0 24 24">
-            <g fill="none" fill-rule="nonzero">
-                <path class="ring-thumb" fill="#E44331"
-                    d="M17.945 3.958A9.955 9.955 0 0 0 12 2c-2.19 0-4.217.705-5.865 1.9L5.131 2.16A11.945 11.945 0 0 1 12 0c2.59 0 4.99.82 6.95 2.217l-1.005 1.741z">
-                </path>
-                <path class="ring-track" fill="#FCECEA"
-                    d="M5.13 2.16L6.136 3.9A9.987 9.987 0 0 0 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10a9.986 9.986 0 0 0-4.055-8.042l1.006-1.741A11.985 11.985 0 0 1 24 12c0 6.627-5.373 12-12 12S0 18.627 0 12c0-4.073 2.029-7.671 5.13-9.84z">
-                </path>
-            </g>
-        </svg>
+      <svg
+        class="logo"
+        width="64"
+        height="64"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g fill="none" fill-rule="evenodd">
+          <path
+            class="logo-bg"
+            d="M56.000016 0h-48c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V8c0-4.4-3.6-8-8-8"
+            fill="#E44332"
+          ></path>
+          <g class="logo-stripe" fill="#FFF">
+            <path
+              d="M13.672368 29.985936c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32016.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
+                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048"
+            ></path>
+            <path
+              d="M13.672368 40.76952c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
+                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048"
+            ></path>
+            <path
+              d="M13.672368 51.55312c1.1304-.65152 25.34368-14.58496 25.89952-14.90592.5544-.32.58224-1.30224-.03824-1.65632-.62096-.35408-1.79984-1.02368-2.23856-1.28048-.44656-.26048-1.24976-.40528-1.99472.02384-.30928.1784-21.00256 12.0768-21.69424
+                                12.46992-.82784.47072-1.85248.4768-2.67744-.0008-.65152-.37696-10.92864-6.3488-10.92864-6.3488v5.39712c2.66016 1.54912 9.2744 5.40128 10.87744 6.30624.95664.54016 1.87232.52688 2.79488-.0048"
+            ></path>
+          </g>
+        </g>
+      </svg>
+      <svg class="loader" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" fill-rule="nonzero">
+          <path
+            class="ring-thumb"
+            fill="#E44331"
+            d="M17.945 3.958A9.955 9.955 0 0 0 12 2c-2.19 0-4.217.705-5.865 1.9L5.131 2.16A11.945 11.945 0 0 1 12 0c2.59 0 4.99.82 6.95 2.217l-1.005 1.741z"
+          ></path>
+          <path
+            class="ring-track"
+            fill="#FCECEA"
+            d="M5.13 2.16L6.136 3.9A9.987 9.987 0 0 0 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10a9.986 9.986 0 0 0-4.055-8.042l1.006-1.741A11.985 11.985 0 0 1 24 12c0 6.627-5.373 12-12 12S0 18.627 0 12c0-4.073 2.029-7.671 5.13-9.84z"
+          ></path>
+        </g>
+      </svg>
     </div>
     <header class="top-bar">
-        <div class="left-side">
-            <button class="sidebar-btn third-btn">
-                <svg-loader id="sidebar-icon" src=""></svg-loader>
-            </button>
-            <button class="home-btn third-btn">
-                <svg-loader id="home-icon" src=""></svg-loader>
-            </button>
-            <div class="search-bar">
-                <svg-loader id="search-icon" src=""></svg-loader>
-                <input type="text" id="search-input" placeholder="Search" autocomplete="off">
-            </div>
+      <div class="left-side">
+        <button class="sidebar-btn third-btn">
+          <svg-loader id="sidebar-icon" src=""></svg-loader>
+        </button>
+        <button class="home-btn third-btn">
+          <svg-loader id="home-icon" src=""></svg-loader>
+        </button>
+        <div class="search-bar">
+          <svg-loader id="search-icon" src=""></svg-loader>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search"
+            autocomplete="off"
+          />
         </div>
-        <div class="right-side">
-            <button class="quick-add-btn third-btn">
-                <svg-loader id="top-bar-add-icon" src=""></svg-loader>
-            </button>
-            <button class="theme-btn third-btn">
-                <svg-loader id="top-bar-theme-icon" src=""></svg-loader>
-            </button>
-            <button class="general-btn third-btn">
-                <svg-loader id="top-bar-general-icon" src=""></svg-loader>
-            </button>
-        </div>
+      </div>
+      <div class="right-side">
+        <button class="quick-add-btn third-btn">
+          <svg-loader id="top-bar-add-icon" src=""></svg-loader>
+        </button>
+        <button class="theme-btn third-btn">
+          <svg-loader id="top-bar-theme-icon" src=""></svg-loader>
+        </button>
+        <button class="general-btn third-btn">
+          <svg-loader id="top-bar-general-icon" src=""></svg-loader>
+        </button>
+      </div>
     </header>
     <div class="side-bar open">
-        <ul class="project-container" id="default-projects">
-            <li class="project current" id="inbox-project">
-                <svg-loader id="inbox-icon" class="project-icon" src=""></svg-loader>
-                <h3 class="project-name">Inbox</h3>
-                <h4 class="project-num" data-num="0"></h4>
-            </li>
-            <li class="project" id="today-project">
-                <svg-loader id="today-icon" class="project-icon" src=""></svg-loader>
-                <h3 class="project-name">Today</h3>
-                <h4 class="project-num" data-num="0"></h4>
-            </li>
-            <li class="project">
-                <svg-loader id="upcoming-icon" class="project-icon" src=""></svg-loader>
-                <h3 class="project-name">Upcoming</h3>
-            </li>
-            <li class="project">
-                <svg-loader id="filters-labels-icon" class="project-icon" src="" ></svg-loader>
-                <h3 class="project-name">Filters & Labels</h3>
-            </li>
-        </ul>
-        <div class="user-project-container">
-            <header class="project-header">
-                <svg-loader id="arrow-icon" src=""></svg-loader>
-                <h3>Projects</h3>
-                <button class="third-btn" id="open-project-form">
-                    <svg-loader id="open-project-icon" src=""></svg-loader>
-                </button>
-            </header>
-            <ul class="project-container" id="user-projects"></ul>
-        </div>
+      <ul class="project-container" id="default-projects">
+        <li class="project current" id="inbox-project">
+          <svg-loader id="inbox-icon" class="project-icon" src=""></svg-loader>
+          <h3 class="project-name">Inbox</h3>
+          <h4 class="project-num" data-num="0"></h4>
+        </li>
+        <li class="project" id="today-project">
+          <svg-loader id="today-icon" class="project-icon" src=""></svg-loader>
+          <h3 class="project-name">Today</h3>
+          <h4 class="project-num" data-num="0"></h4>
+        </li>
+        <li class="project">
+          <svg-loader
+            id="upcoming-icon"
+            class="project-icon"
+            src=""
+          ></svg-loader>
+          <h3 class="project-name">Upcoming</h3>
+        </li>
+        <li class="project">
+          <svg-loader
+            id="filters-labels-icon"
+            class="project-icon"
+            src=""
+          ></svg-loader>
+          <h3 class="project-name">Filters & Labels</h3>
+        </li>
+      </ul>
+      <div class="user-project-container">
+        <header class="project-header">
+          <svg-loader id="arrow-icon" src=""></svg-loader>
+          <h3>Projects</h3>
+          <button class="third-btn" id="open-project-form">
+            <svg-loader id="open-project-icon" src=""></svg-loader>
+          </button>
+        </header>
+        <ul class="project-container" id="user-projects"></ul>
+      </div>
     </div>
     <main class="main-content reduced">
-        <header class="main-header">
-            <div class="main-header-content">
-                <h1 class="title">Inbox</h1>
-                <button class="third-btn project-action" id="edit-project">
-                    <svg-loader id="edit-project-icon"></svg-loader>
-                </button>
-                <button class="third-btn project-action" id="import-project">
-                    <svg-loader id="import-project-icon"></svg-loader>
-                </button>
-                <button class="third-btn project-action" id="export-project">
-                    <svg-loader id="export-project-icon"></svg-loader>
-                </button>
-                <button class="third-btn project-action" id="show-completed-tasks">
-                    <svg-loader id="show-completed-tasks-icon"></svg-loader>
-                </button>
-                <button class="third-btn project-action" id="delete-project">
-                    <svg-loader id="delete-project-icon"></svg-loader>
-                </button>
-            </div>
-        </header>
-        <ul class="task-section-list">
-            <section class="task-section overdue">
-                <header class="task-section-header">
-                    <h3 class="title">Overdue</h3>
-                    <button class="reschedule-btn">
-                        <h3>Reschedule</h3>
-                    </button>
-                </header>
-                <ul class="task-list" id="overdue-task-list"></ul>
-            </section>
-        </ul>
-        <div class="empty-project">
-            <svg-loader class="empty-project-illustration"></svg-loader>
+      <header class="main-header">
+        <div class="main-header-content">
+          <h1 class="title">Inbox</h1>
+          <button class="third-btn project-action" id="edit-project">
+            <svg-loader id="edit-project-icon"></svg-loader>
+          </button>
+          <button class="third-btn project-action" id="import-project">
+            <svg-loader id="import-project-icon"></svg-loader>
+          </button>
+          <button class="third-btn project-action" id="export-project">
+            <svg-loader id="export-project-icon"></svg-loader>
+          </button>
+          <button class="third-btn project-action" id="show-completed-tasks">
+            <svg-loader id="show-completed-tasks-icon"></svg-loader>
+          </button>
+          <button class="third-btn project-action" id="delete-project">
+            <svg-loader id="delete-project-icon"></svg-loader>
+          </button>
         </div>
-        <div class="not-found">
-            <svg-loader class="not-found-illustration" src=""></svg-loader>
-            <h3>Project not found</h3>
-            <button type="button" class="primary-btn">Back to Home view</button>
-        </div>
+      </header>
+      <ul class="task-section-list">
+        <section class="task-section overdue">
+          <header class="task-section-header">
+            <h3 class="title">Overdue</h3>
+            <button class="reschedule-btn">
+              <h3>Reschedule</h3>
+            </button>
+          </header>
+          <ul class="task-list" id="overdue-task-list"></ul>
+        </section>
+      </ul>
+      <div class="empty-project">
+        <svg-loader class="empty-project-illustration"></svg-loader>
+      </div>
+      <div class="not-found">
+        <svg-loader class="not-found-illustration" src=""></svg-loader>
+        <h3>Project not found</h3>
+        <button type="button" class="primary-btn">Back to Home view</button>
+      </div>
     </main>
 
     <div class="project-form-container hidden">
-        <form action="#" class="project-form">
-            <header class="form-header">
-                <h1>Add project</h1>
-                <a href="https://todoist.com/help/articles/how-to-best-use-projects" target="_blank">
-                    <svg-loader id="help-icon" src=""></svg-loader>
-                </a>
-            </header>
-            <div class="field-container">
-                <div class="form-field">
-                    <label for="name-project-input">Name</label>
-                    <input type="text" class="form-input" id="name-project-input" autocomplete="off">
-                </div>
-                <div class="form-field">
-                    <label for="">Color</label>
-                    <button type="button" class="form-input color" id="color-selector">
-                        <div class="color-icon" style="--color: #808080"></div>
-                        <div class="color-name">Gray</div>
-                    </button>
-                    <ul class="color-list hidden"></ul>
-                </div>
-            </div>
-            <footer class="form-footer">
-                <button type="reset" class="secondary-btn" id="cancel-project-btn">Cancel</button>
-                <button disabled type="submit" class="primary-btn" id="add-project-btn">Add</button>
-            </footer>
-        </form>
+      <form action="#" class="project-form">
+        <header class="form-header">
+          <h1>Add project</h1>
+          <a
+            href="https://todoist.com/help/articles/how-to-best-use-projects"
+            target="_blank"
+          >
+            <svg-loader id="help-icon" src=""></svg-loader>
+          </a>
+        </header>
+        <div class="field-container">
+          <div class="form-field">
+            <label for="name-project-input">Name</label>
+            <input
+              type="text"
+              class="form-input"
+              id="name-project-input"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-field">
+            <label for="">Color</label>
+            <button type="button" class="form-input color" id="color-selector">
+              <div class="color-icon" style="--color: #808080"></div>
+              <div class="color-name">Gray</div>
+            </button>
+            <ul class="color-list hidden"></ul>
+          </div>
+        </div>
+        <footer class="form-footer">
+          <button type="reset" class="secondary-btn" id="cancel-project-btn">
+            Cancel
+          </button>
+          <button
+            disabled
+            type="submit"
+            class="primary-btn"
+            id="add-project-btn"
+          >
+            Add
+          </button>
+        </footer>
+      </form>
     </div>
 
     <div class="project-picker-container hidden">
-        <form class="project-picker">
-            <header class="project-picker-header">
-                <input type="text" class="project-picker-search" placeholder="Type a project">
-            </header>
-            <ul class="project-picker-list"></ul>
-            <div class="project-picker-arrow"></div>
-        </form>
+      <form class="project-picker">
+        <header class="project-picker-header">
+          <input
+            type="text"
+            class="project-picker-search"
+            placeholder="Type a project"
+          />
+        </header>
+        <ul class="project-picker-list"></ul>
+        <div class="project-picker-arrow"></div>
+      </form>
     </div>
 
     <div class="due-date-picker-container hidden">
-        <form class="due-date-picker">
-            <div class="date-input">
-                <input type="text" placeholder="Type a due date" spellcheck="false">
-                <svg-loader id="cross-icon" hidden></svg-loader>
-            </div>
-            <div class="date-preview" hidden>
-                <button class="date-preview-content">
-                    <svg-loader class="date-preview-content-icon"></svg-loader>
-                    <div class="date-preview-content-date">
-                        <div class="date-preview-info">
-                            <span class="date-preview-info-date"></span>
-                            <span class="date-preview-info-time"></span>
-                        </div>
-                        <div class="date-preview-tasks"></div>
-                    </div>
-                </button>
-            </div>
-            <div class="date-suggestions">
-                <button class="date-suggestions-item" id="suggestions-today">
-                    <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-today"></svg-loader>
-                    <h3 class="date-suggestions-label">Today</h3>
-                    <h4 class="date-suggestions-weekday">Fri</h4>
-                </button>
-                <button class="date-suggestions-item" id="suggestions-tomorrow">
-                    <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-tomorrow"></svg-loader>
-                    <h3 class="date-suggestions-label">Tomorrow</h3>
-                    <h4 class="date-suggestions-weekday">Sat</h4>
-                </button>
-                <button class="date-suggestions-item" id="suggestions-this-weekend">
-                    <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-weekend"></svg-loader>
-                    <h3 class="date-suggestions-label">This weekend</h3>
-                    <h4 class="date-suggestions-weekday">Sat</h4>
-                </button>
-                <button class="date-suggestions-item" id="suggestions-next-week">
-                    <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-next-week"></svg-loader>
-                    <h3 class="date-suggestions-label">Next week</h3>
-                    <h4 class="date-suggestions-weekday">Mon 25 Jul</h4>
-                </button>
-                <button class="date-suggestions-item" id="suggestions-no-date">
-                    <svg-loader src="" class="date-suggestions-icon" id="date-suggestions-icon-no-date"></svg-loader>
-                    <h3 class="date-suggestions-label">No Date</h3>
-                </button>
-            </div>
-            <div class="date-picker">
-                <header class="date-picker-header">
-                    <span class="date-picker-header-month">Jul 2022</span>
-                    <div class="date-picker-header-action-container">
-                        <button type="button" class="date-picker-header-action" id="previous" disabled="true">
-                            <svg-loader src="" id="previous-icon"></svg-loader>
-                        </button>
-                        <button type="button" class="date-picker-header-action" id="current" disabled="true">
-                            <div id="current-icon"></div>
-                        </button>
-                        <button type="button" class="date-picker-header-action" id="next">
-                            <svg-loader src="" id="next-icon"></svg-loader>
-                        </button>
-                    </div>
-                </header>
-                <div class="date-picker-month-list-header">
-                    <div class="date-picker-week-day-list">
-                        <div class="week-day">M</div>
-                        <div class="week-day">T</div>
-                        <div class="week-day">W</div>
-                        <div class="week-day">T</div>
-                        <div class="week-day">F</div>
-                        <div class="week-day">S</div>
-                        <div class="week-day">S</div>
-                    </div>
-                    <div class="task-counter hidden">
-                        <div class="task-counter-info">
-                            <span class="date-info">Sat 30 Jul</span>
-                            &#8226
-                            <span class="counter-info">2 tasks due</span>
-                        </div>
-                        <div class="task-counter-bar"></div>
-                    </div>
-                </div>
-                <div class="date-picker-month-list"></div>
-            </div>
-            <div class="date-actions">
-                <span class="date-actions-add-time">+ Add time</span>
-                <button type="submit" class="date-actions-save" hidden>Save</button>
-            </div>
-        </form>
-
-        <div class="time-picker-container hidden">
-            <form class="time-picker">
-                <div class="time-picker-field">
-                    <input type="text" class="time-picker-input" placeholder="eg, 14:00" maxlength="8" spellcheck="false">
-                    <div class="time-picker-label">
-                        <label>Time</label>
-                        <svg-loader class="warning-icon"></svg-loader>
-                    </div>
-                </div>
-                <footer class="time-picker-footer">
-                    <button type="reset">Cancel</button>
-                    <button type="submit" disabled>Add</button>
-                </footer>
-            </form>
+      <form class="due-date-picker">
+        <div class="date-input">
+          <input type="text" placeholder="Type a due date" spellcheck="false" />
+          <svg-loader id="cross-icon" hidden></svg-loader>
         </div>
+        <div class="date-preview" hidden>
+          <button class="date-preview-content">
+            <svg-loader class="date-preview-content-icon"></svg-loader>
+            <div class="date-preview-content-date">
+              <div class="date-preview-info">
+                <span class="date-preview-info-date"></span>
+                <span class="date-preview-info-time"></span>
+              </div>
+              <div class="date-preview-tasks"></div>
+            </div>
+          </button>
+        </div>
+        <div class="date-suggestions">
+          <button class="date-suggestions-item" id="suggestions-today">
+            <svg-loader
+              src=""
+              class="date-suggestions-icon"
+              id="date-suggestions-icon-today"
+            ></svg-loader>
+            <h3 class="date-suggestions-label">Today</h3>
+            <h4 class="date-suggestions-weekday">Fri</h4>
+          </button>
+          <button class="date-suggestions-item" id="suggestions-tomorrow">
+            <svg-loader
+              src=""
+              class="date-suggestions-icon"
+              id="date-suggestions-icon-tomorrow"
+            ></svg-loader>
+            <h3 class="date-suggestions-label">Tomorrow</h3>
+            <h4 class="date-suggestions-weekday">Sat</h4>
+          </button>
+          <button class="date-suggestions-item" id="suggestions-this-weekend">
+            <svg-loader
+              src=""
+              class="date-suggestions-icon"
+              id="date-suggestions-icon-weekend"
+            ></svg-loader>
+            <h3 class="date-suggestions-label">This weekend</h3>
+            <h4 class="date-suggestions-weekday">Sat</h4>
+          </button>
+          <button class="date-suggestions-item" id="suggestions-next-week">
+            <svg-loader
+              src=""
+              class="date-suggestions-icon"
+              id="date-suggestions-icon-next-week"
+            ></svg-loader>
+            <h3 class="date-suggestions-label">Next week</h3>
+            <h4 class="date-suggestions-weekday">Mon 25 Jul</h4>
+          </button>
+          <button class="date-suggestions-item" id="suggestions-no-date">
+            <svg-loader
+              src=""
+              class="date-suggestions-icon"
+              id="date-suggestions-icon-no-date"
+            ></svg-loader>
+            <h3 class="date-suggestions-label">No Date</h3>
+          </button>
+        </div>
+        <div class="date-picker">
+          <header class="date-picker-header">
+            <span class="date-picker-header-month">Jul 2022</span>
+            <div class="date-picker-header-action-container">
+              <button
+                type="button"
+                class="date-picker-header-action"
+                id="previous"
+                disabled="true"
+              >
+                <svg-loader src="" id="previous-icon"></svg-loader>
+              </button>
+              <button
+                type="button"
+                class="date-picker-header-action"
+                id="current"
+                disabled="true"
+              >
+                <div id="current-icon"></div>
+              </button>
+              <button type="button" class="date-picker-header-action" id="next">
+                <svg-loader src="" id="next-icon"></svg-loader>
+              </button>
+            </div>
+          </header>
+          <div class="date-picker-month-list-header">
+            <div class="date-picker-week-day-list">
+              <div class="week-day">M</div>
+              <div class="week-day">T</div>
+              <div class="week-day">W</div>
+              <div class="week-day">T</div>
+              <div class="week-day">F</div>
+              <div class="week-day">S</div>
+              <div class="week-day">S</div>
+            </div>
+            <div class="task-counter hidden">
+              <div class="task-counter-info">
+                <span class="date-info">Sat 30 Jul</span>
+                &#8226
+                <span class="counter-info">2 tasks due</span>
+              </div>
+              <div class="task-counter-bar"></div>
+            </div>
+          </div>
+          <div class="date-picker-month-list"></div>
+        </div>
+        <div class="date-actions">
+          <span class="date-actions-add-time">+ Add time</span>
+          <button type="submit" class="date-actions-save" hidden>Save</button>
+        </div>
+      </form>
+
+      <div class="time-picker-container hidden">
+        <form class="time-picker">
+          <div class="time-picker-field">
+            <input
+              type="text"
+              class="time-picker-input"
+              placeholder="eg, 14:00"
+              maxlength="8"
+              spellcheck="false"
+            />
+            <div class="time-picker-label">
+              <label>Time</label>
+              <svg-loader class="warning-icon"></svg-loader>
+            </div>
+          </div>
+          <footer class="time-picker-footer">
+            <button type="reset">Cancel</button>
+            <button type="submit" disabled>Add</button>
+          </footer>
+        </form>
+      </div>
     </div>
 
     <div class="info-pop-up-container hidden">
-        <form class="info-pop-up">
-            <header>
-                <svg-loader id="pop-up-info-icon"></svg-loader>
-                <h2 class="pop-up-title"></h2>
-                <button type="reset" class="third-btn pop-up-close">
-                    <svg-loader id="pop-up-close-icon"></svg-loader>
-                </button>
-            </header>
-            <div class="pop-up-content">
-                <h3 class="pop-up-text"></h3>
-            </div>
-            <footer class="form-footer">
-                <button type="reset" class="secondary-btn">Cancel</button>
-                <button type="submit" class="primary-btn" id="pop-up-submit">Delete</button>
-            </footer>
-        </form>
+      <form class="info-pop-up">
+        <header>
+          <svg-loader id="pop-up-info-icon"></svg-loader>
+          <h2 class="pop-up-title"></h2>
+          <button type="reset" class="third-btn pop-up-close">
+            <svg-loader id="pop-up-close-icon"></svg-loader>
+          </button>
+        </header>
+        <div class="pop-up-content">
+          <h3 class="pop-up-text"></h3>
+        </div>
+        <footer class="form-footer">
+          <button type="reset" class="secondary-btn">Cancel</button>
+          <button type="submit" class="primary-btn" id="pop-up-submit">
+            Delete
+          </button>
+        </footer>
+      </form>
     </div>
 
     <div class="quick-add-container hidden">
-        <form class="quick-add task-editor-container">
-                <input type="text" class="task-editor-field task-name-input" placeholder="Task name" autocomplete="off"/>
-                <textarea type="text" class="task-editor-field task-description-input" placeholder="Description"></textarea>
-                <div class="task-editor-extra-field">
-                    <div class="task-editor-extra-field-btn-container">
-                        <button type="button" class="task-editor-btn" id="task-due-date">
-                            <svg-loader class="task-editor-btn-icon" src=""></svg-loader>
-                            <h4 class="task-editor-btn-text">Due Date</h4>
-                        </button>
-                        <button type="button" class="task-editor-btn" id="task-project">
-                        </button>
-                    </div>
-                    <div class="item-action-container"></div>
-                </div>
-                <div class="task-editor-footer">
-                    <button type="reset" class="secondary-btn cancel-btn">Cancel</button>
-                    <button type="submit" disabled class="primary-btn submit-btn">Add task</button>
-                </div>
-        </form>
+      <form class="quick-add task-editor-container">
+        <input
+          type="text"
+          class="task-editor-field task-name-input"
+          placeholder="Task name"
+          autocomplete="off"
+        />
+        <textarea
+          type="text"
+          class="task-editor-field task-description-input"
+          placeholder="Description"
+        ></textarea>
+        <div class="task-editor-extra-field">
+          <div class="task-editor-extra-field-btn-container">
+            <button type="button" class="task-editor-btn" id="task-due-date">
+              <svg-loader class="task-editor-btn-icon" src=""></svg-loader>
+              <h4 class="task-editor-btn-text">Due Date</h4>
+            </button>
+            <button
+              type="button"
+              class="task-editor-btn"
+              id="task-project"
+            ></button>
+          </div>
+          <div class="item-action-container"></div>
+        </div>
+        <div class="task-editor-footer">
+          <button type="reset" class="secondary-btn cancel-btn">Cancel</button>
+          <button type="submit" disabled class="primary-btn submit-btn">
+            Add task
+          </button>
+        </div>
+      </form>
     </div>
 
     <div class="settings-container hidden">
-        <div class="settings">
-            <div class="settings-side-bar">
-                <header class="settings-side-bar-header">
-                    <h2>Settings</h2>
-                </header>
-                <ul class="settings-list">
-                </ul>
-            </div>
-            <form class="setting">
-                <header class="setting-header">
-                    <h2>theme</h2>
-                    <button type="button" class="close-settings third-btn">
-                        <svg-loader id="close-settings-icon"></svg-loader>
-                    </button>
-                </header>
-                <div class="setting-content"></div>
-                <footer class="setting-footer">
-                    <button type="reset" class="secondary-btn">Cancel</button>
-                    <button type="submit" class="primary-btn">Update</button>
-                </footer>
-            </form>
+      <div class="settings">
+        <div class="settings-side-bar">
+          <header class="settings-side-bar-header">
+            <h2>Settings</h2>
+          </header>
+          <ul class="settings-list"></ul>
         </div>
+        <form class="setting">
+          <header class="setting-header">
+            <h2>theme</h2>
+            <button type="button" class="close-settings third-btn">
+              <svg-loader id="close-settings-icon"></svg-loader>
+            </button>
+          </header>
+          <div class="setting-content"></div>
+          <footer class="setting-footer">
+            <button type="reset" class="secondary-btn">Cancel</button>
+            <button type="submit" class="primary-btn">Update</button>
+          </footer>
+        </form>
+      </div>
     </div>
 
     <div class="export-project-container hidden">
-        <div class="export-project">
-            <header>
-                <h1>Export as a template</h1>
-                <button type="button" class="close-export-modal third-btn">
-                    <svg-loader id="close-export-modal-icon"></svg-loader>
-                </button>
-            </header>
-            <main>
-                <h3>Please pick the template type:</h3>
-                <div class="downloads">
-                    <button class="download-btn primary-btn" id="export-csv">
-                        <svg-loader id="csv-icon"></svg-loader>
-                        <span>Export as CSV file</span>
-                    </button>
-                    <button class="download-btn primary-btn" id="export-json">
-                        <svg-loader id="json-icon"></svg-loader>
-                        <span>Export as JSON file</span>
-                    </button>
-                </div>
-            </main>
-        </div>
+      <div class="export-project">
+        <header>
+          <h1>Export as a template</h1>
+          <button type="button" class="close-export-modal third-btn">
+            <svg-loader id="close-export-modal-icon"></svg-loader>
+          </button>
+        </header>
+        <main>
+          <h3>Please pick the template type:</h3>
+          <div class="downloads">
+            <button class="download-btn primary-btn" id="export-csv">
+              <svg-loader id="csv-icon"></svg-loader>
+              <span>Export as CSV file</span>
+            </button>
+            <button class="download-btn primary-btn" id="export-json">
+              <svg-loader id="json-icon"></svg-loader>
+              <span>Export as JSON file</span>
+            </button>
+          </div>
+        </main>
+      </div>
     </div>
 
     <div class="import-project-container hidden">
-        <div class="import-project">
-            <header>
-                <h1>Import from template</h1>
-                <button type="button" class="close-import-modal third-btn">
-                    <svg-loader id="close-import-modal-icon"></svg-loader>
-                </button>
-            </header>
-            <main>
-                <div class="drag-and-drop-area">
-                    <h3>Drag and drop a CSV o JSON file</h3>
-                    <label for="import-input" class="upload">Upload from your computer</label>
-                    <input id="import-input" type="file" accept=".csv, .json" class="visually-hidden"/>
-                </div>
-                <h3 class="info-text">
-                    Import tasks from a template, use this to create a new project by duplicating an existing one.
-                    <br/>
-                    <br/>
-                    Your CSV file must be UTF-8 encoded.
-                    <a
-                    href="https://todoist.com/help/articles/how-to-format-your-csv-file-so-you-can-import-it-into-todoist"
-                    target="_blank"
-                    >
-                        Learn more.
-                    </a>
-                </h3>
-            </main>
-        </div>
+      <div class="import-project">
+        <header>
+          <h1>Import from template</h1>
+          <button type="button" class="close-import-modal third-btn">
+            <svg-loader id="close-import-modal-icon"></svg-loader>
+          </button>
+        </header>
+        <main>
+          <div class="drag-and-drop-area">
+            <h3>Drag and drop a CSV o JSON file</h3>
+            <label for="import-input" class="upload"
+              >Upload from your computer</label
+            >
+            <input
+              id="import-input"
+              type="file"
+              accept=".csv, .json"
+              class="visually-hidden"
+            />
+          </div>
+          <h3 class="info-text">
+            Import tasks from a template, use this to create a new project by
+            duplicating an existing one.
+            <br />
+            <br />
+            Your CSV file must be UTF-8 encoded.
+            <a
+              href="https://todoist.com/help/articles/how-to-format-your-csv-file-so-you-can-import-it-into-todoist"
+              target="_blank"
+            >
+              Learn more.
+            </a>
+          </h3>
+        </main>
+      </div>
     </div>
 
     <div class="drag-over-screen hidden">
-        <div class="box">
-            <h1>Import from template</h1>
-        </div>
+      <div class="box">
+        <h1>Import from template</h1>
+      </div>
     </div>
 
     <template id="task-editor-template">
-        <form class="task-editor" id="task-editor">
-            <div class="task-editor-container">
-                <input type="text" class="task-editor-field task-name-input" placeholder="Task name" autocomplete="off"/>
-                <textarea type="text" class="task-editor-field task-description-input" placeholder="Description"></textarea>
-                <div class="task-editor-extra-field">
-                    <div class="task-editor-extra-field-btn-container">
-                        <button type="button" class="task-editor-btn" id="task-due-date" dueDate>
-                            <svg-loader class="task-editor-btn-icon" src=""></svg-loader>
-                            <h4 class="task-editor-btn-text" dueDate-text>Due Date</h4>
-                        </button>
-                        <button type="button" class="task-editor-btn" id="project-btn">
-                        </button>
-                    </div>
-                    <div class="item-action-container"></div>
-                </div>
+      <form class="task-editor" id="task-editor">
+        <div class="task-editor-container">
+          <input
+            type="text"
+            class="task-editor-field task-name-input"
+            placeholder="Task name"
+            autocomplete="off"
+          />
+          <textarea
+            type="text"
+            class="task-editor-field task-description-input"
+            placeholder="Description"
+          ></textarea>
+          <div class="task-editor-extra-field">
+            <div class="task-editor-extra-field-btn-container">
+              <button
+                type="button"
+                class="task-editor-btn"
+                id="task-due-date"
+                dueDate
+              >
+                <svg-loader class="task-editor-btn-icon" src=""></svg-loader>
+                <h4 class="task-editor-btn-text" dueDate-text>Due Date</h4>
+              </button>
+              <button
+                type="button"
+                class="task-editor-btn"
+                id="project-btn"
+              ></button>
             </div>
-            <div class="task-editor-footer">
-                <button type="reset" class="secondary-btn cancel-btn">Cancel</button>
-                <button type="submit" disabled class="primary-btn submit-btn">Add task</button>
-            </div>
-        </form>
+            <div class="item-action-container"></div>
+          </div>
+        </div>
+        <div class="task-editor-footer">
+          <button type="reset" class="secondary-btn cancel-btn">Cancel</button>
+          <button type="submit" disabled class="primary-btn submit-btn">
+            Add task
+          </button>
+        </div>
+      </form>
     </template>
 
     <template id="project-template">
-        <li class="project">
-            <svg-loader class="project-icon"></svg-loader>
-            <h3 class="project-name"></h3>
-            <h4 class="project-num" data-num="0"></h4>
-        </li>
+      <li class="project">
+        <svg-loader class="project-icon"></svg-loader>
+        <h3 class="project-name"></h3>
+        <h4 class="project-num" data-num="0"></h4>
+      </li>
     </template>
 
     <template id="task-template">
-        <li class="task">
-            <button class="task-checkbox-btn">
-                <div class="task-checkbox">
-                    <svg-loader src="" id="tic-icon"></svg-loader>
-                </div>
-            </button>
-            <div class="task-content">
-                <h3 class="task-name">task name</h3>
-                <h4 class="task-description">task description</h4>
-                <div class="task-info">
-                    <h4 class="task-due-date" dueDate>
-                        <svg-loader src="" id="due-date-icon"></svg-loader>
-                        <span id="due-date" dueDate-text>Tomorrow</span>
-                    </h4>
-                    <h4 class="task-project">
-                    </h4>
-                </div>
-            </div>
-            <div class="task-action-container">
-                <button class="task-action third-btn">
-                    <svg-loader src=""></svg-loader>
-                </button>
-                <button class="task-action third-btn">
-                    <svg-loader src=""></svg-loader>
-                </button>
-                <button class="task-action third-btn">
-                    <svg-loader src=""></svg-loader>
-                </button>
-                <button class="task-action third-btn">
-                    <svg-loader src=""></svg-loader>
-                </button>
-            </div>
-        </li>
+      <li class="task">
+        <button class="task-checkbox-btn">
+          <div class="task-checkbox">
+            <svg-loader src="" id="tic-icon"></svg-loader>
+          </div>
+        </button>
+        <div class="task-content">
+          <h3 class="task-name">task name</h3>
+          <h4 class="task-description">task description</h4>
+          <div class="task-info">
+            <h4 class="task-due-date" dueDate>
+              <svg-loader src="" id="due-date-icon"></svg-loader>
+              <span id="due-date" dueDate-text>Tomorrow</span>
+            </h4>
+            <h4 class="task-project"></h4>
+          </div>
+        </div>
+        <div class="task-action-container">
+          <button class="task-action third-btn">
+            <svg-loader src=""></svg-loader>
+          </button>
+          <button class="task-action third-btn">
+            <svg-loader src=""></svg-loader>
+          </button>
+          <button class="task-action third-btn">
+            <svg-loader src=""></svg-loader>
+          </button>
+          <button class="task-action third-btn">
+            <svg-loader src=""></svg-loader>
+          </button>
+        </div>
+      </li>
     </template>
 
     <template id="task-section-template">
-        <section class="task-section">
-            <header class="task-section-header">
-                <h3 class="title">Date</h3>
-            </header>
-            <ul class="task-list">
-                <div class="add-task">
-                    <span class="icon-container">
-                        <svg-loader class="add-task-icon">
-                        </svg-loader>
-                    </span>
-                    <h3 class="add-task-text">Add task</h3>
-                </div>
-            </ul>
-            <ul class="task-list completed hidden"></ul>
-        </section>
+      <section class="task-section">
+        <header class="task-section-header">
+          <h3 class="title">Date</h3>
+        </header>
+        <ul class="task-list">
+          <div class="add-task">
+            <span class="icon-container">
+              <svg-loader class="add-task-icon"> </svg-loader>
+            </span>
+            <h3 class="add-task-text">Add task</h3>
+          </div>
+        </ul>
+        <ul class="task-list completed hidden"></ul>
+      </section>
     </template>
 
     <template id="theme-page-template">
-        <div class="theme-page">
-            <div class="personalize-app">
-                <h3>Personalize your Todoist with colors to match your style, mood, and personality. 
-                    <a href="https://todoist.com/help/articles/change-color-themes" target="_blank">Learn more</a>
-                .</h3>
-                <div class="auto-dark-mode">
-                    <div class="toggle-field">
-                        <label class="switch">
-                            <input type="checkbox" id="auto-dark-mode">
-                            <span class="slider round"></span>
-                        </label>
-                        <h3>Auto Dark Mode</h3>
-                    </div>
-                    <h4>Automatically switch between light and dark themes when your system does.</h4>
-                </div>
+      <div class="theme-page">
+        <div class="personalize-app">
+          <h3>
+            Personalize your Todoist with colors to match your style, mood, and
+            personality.
+            <a
+              href="https://todoist.com/help/articles/change-color-themes"
+              target="_blank"
+              >Learn more</a
+            >
+            .
+          </h3>
+          <div class="auto-dark-mode">
+            <div class="toggle-field">
+              <label class="switch">
+                <input type="checkbox" id="auto-dark-mode" />
+                <span class="slider round"></span>
+              </label>
+              <h3>Auto Dark Mode</h3>
             </div>
-            <div class="themes">
-                <h2>Your Themes</h2>
-                <div class="themes-container"></div>
-            </div>
+            <h4>
+              Automatically switch between light and dark themes when your
+              system does.
+            </h4>
+          </div>
         </div>
+        <div class="themes">
+          <h2>Your Themes</h2>
+          <div class="themes-container"></div>
+        </div>
+      </div>
     </template>
 
     <template id="general-page-template">
-        <div class="general-page">
-            <section class="general-section">
-                <div class="general-field">
-                    <label for="homeView">Home view</label>
-                    <select name="homeView" id="home-view"></select>
-                </div>
-            </section>
-            <section class="general-section">
-                <h2>Date & time</h2>
-                <div class="general-field">
-                    <label for="timeFormat">Time format</label>
-                    <select name="timeFormat" id="time-format">
-                        <option value="H:mm" selected>13:00</option>
-                        <option value="h:mm a">1:00 pm</option>
-                    </select>
-                </div>
-                <div class="general-field">
-                    <label for="dateFormat">Date format</label>
-                    <select name="dateFormat" id="date-format">
-                        <option value="d-MMM-yyyy" selected>DD-MM-YYYY</option>
-                        <option value="MMM-d-yyyy">MM-DD-YYYY</option>
-                    </select>
-                </div>
-                <div class="general-field">
-                    <label for="weekStart">Week start</label>
-                    <select name="weekStart" id="week-start">
-                        <option value="1">Monday</option>
-                        <option value="2">Tuesday</option>
-                        <option value="3">Wednesday</option>
-                        <option value="4">Thursday</option>
-                        <option value="5">Friday</option>
-                        <option value="6">Saturday</option>
-                        <option value="0">Sunday</option>
-                    </select>
-                </div>
-                <div class="general-field">
-                    <label for="nextWeek">Next week</label>
-                    <select name="nextWeek" id="next-week">
-                        <option value="1">Monday</option>
-                        <option value="2">Tuesday</option>
-                        <option value="3">Wednesday</option>
-                        <option value="4">Thursday</option>
-                        <option value="5">Friday</option>
-                        <option value="6">Saturday</option>
-                        <option value="0">Sunday</option>
-                    </select>
-                    <h4>Postpone tasks to this day when using “Next week”.</h4>
-                </div>
-                <div class="general-field">
-                    <label for="weekend">Weekend</label>
-                    <select name="weekend" id="weekend">
-                        <option value="1">Monday</option>
-                        <option value="2">Tuesday</option>
-                        <option value="3">Wednesday</option>
-                        <option value="4">Thursday</option>
-                        <option value="5">Friday</option>
-                        <option value="6">Saturday</option>
-                        <option value="0">Sunday</option>
-                    </select>
-                    <h4>Postpone tasks to this day when using “Weekend”.</h4>
-                </div>
-            </section>
-        </div>
+      <div class="general-page">
+        <section class="general-section">
+          <div class="general-field">
+            <label for="homeView">Home view</label>
+            <select name="homeView" id="home-view"></select>
+          </div>
+        </section>
+        <section class="general-section">
+          <h2>Date & time</h2>
+          <div class="general-field">
+            <label for="timeFormat">Time format</label>
+            <select name="timeFormat" id="time-format">
+              <option value="H:mm" selected>13:00</option>
+              <option value="h:mm a">1:00 pm</option>
+            </select>
+          </div>
+          <div class="general-field">
+            <label for="dateFormat">Date format</label>
+            <select name="dateFormat" id="date-format">
+              <option value="d-MMM-yyyy" selected>DD-MM-YYYY</option>
+              <option value="MMM-d-yyyy">MM-DD-YYYY</option>
+            </select>
+          </div>
+          <div class="general-field">
+            <label for="weekStart">Week start</label>
+            <select name="weekStart" id="week-start">
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+              <option value="0">Sunday</option>
+            </select>
+          </div>
+          <div class="general-field">
+            <label for="nextWeek">Next week</label>
+            <select name="nextWeek" id="next-week">
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+              <option value="0">Sunday</option>
+            </select>
+            <h4>Postpone tasks to this day when using “Next week”.</h4>
+          </div>
+          <div class="general-field">
+            <label for="weekend">Weekend</label>
+            <select name="weekend" id="weekend">
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+              <option value="0">Sunday</option>
+            </select>
+            <h4>Postpone tasks to this day when using “Weekend”.</h4>
+          </div>
+        </section>
+      </div>
     </template>
-</body>
+  </body>
 </html>

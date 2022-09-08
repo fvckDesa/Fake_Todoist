@@ -9,7 +9,7 @@ export const defaultSettings = {
   dateFormat: "d-MMM-yyyy",
   weekStart: 1,
   nextWeek: 1,
-  weekend: 5
+  weekend: 6
 }
 
 export const settingsType = [
