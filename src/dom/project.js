@@ -12,7 +12,7 @@ function createProjectElement(project) {
     const [projectIcon, projectName, projectNum] = projectEl.children;
     // set parameters
     projectName.textContent = name;
-    projectIcon.setAttribute("src", Icons.Circle);
+    projectIcon.src = Icons.Circle;
     projectIcon.style.color = color;
     projectNum.setAttribute("data-num", tasks.filter(({complete}) => !complete).length);
     // set project click event

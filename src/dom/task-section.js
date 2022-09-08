@@ -8,7 +8,7 @@ export function createTaskSection({ title = "", tasks = [] }) {
     const [ header, taskList, completedTaskList ] = taskSection.children;
     const [ addTaskBtn ] = taskList.children;
 
-    addTaskBtn.querySelector(".add-task-icon").setAttribute("src", Icons.PlusBold);
+    addTaskBtn.querySelector(".add-task-icon").src = Icons.PlusBold;
 
     header.firstElementChild.textContent = title;
 

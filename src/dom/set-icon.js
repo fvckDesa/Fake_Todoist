@@ -81,7 +81,7 @@ function setIcons() {
   jsonIcon.src = Icons.File;
   closeImportModal.src = Icons.Close;
   // set default icon on task editor
-  taskDueDate.querySelector(".task-editor-btn-icon").setAttribute("src", Icons.DueDate);
+  taskDueDate.querySelector(".task-editor-btn-icon").src = Icons.DueDate;
 }
 
 export default setIcons;

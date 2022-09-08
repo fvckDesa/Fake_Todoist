@@ -21,12 +21,12 @@ function createTaskElement(task) {
     const [ dueDateIcon, dueDateText ] = taskDueDate.children;
     const [ editTask, changeDueDate, comment, deleteTaskBtn ] = actionContainer.children;
     // set svg
-    tic.setAttribute("src", Icons.TaskTic);
-    dueDateIcon.setAttribute("src", Icons.DueDateXs);
-    editTask.querySelector("svg-loader").setAttribute("src", Icons.Edit);
-    changeDueDate.querySelector("svg-loader").setAttribute("src", Icons.DueDateXl);
-    comment.querySelector("svg-loader").setAttribute("src", Icons.Comment);
-    deleteTaskBtn.querySelector("svg-loader").setAttribute("src", Icons.GarbageContainer);
+    tic.src = Icons.TaskTic;
+    dueDateIcon.src = Icons.DueDateXs;
+    editTask.querySelector("svg-loader").src = Icons.Edit;
+    changeDueDate.querySelector("svg-loader").src = Icons.DueDateXl;
+    comment.querySelector("svg-loader").src = Icons.Comment;
+    deleteTaskBtn.querySelector("svg-loader").src = Icons.GarbageContainer;
     // set attributes
     setTaskProps(task);
     taskProject.replaceChildren(...(project !== getCurrentProject() ? createTaskProject(project) : []));
