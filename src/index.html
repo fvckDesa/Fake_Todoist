@@ -8,7 +8,7 @@
     <script>
       const defaultThemeSettings = { theme: "todoist", autoDarkMode: true };
       // set theme
-      const { theme, autoDarkMode } = JSON.parse(localStorage.getItem("settings") ?? "") || defaultThemeSettings;
+      const { theme, autoDarkMode } = JSON.parse(localStorage.getItem("settings") + "") || defaultThemeSettings;
       document.documentElement.classList.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : theme);
     </script>
     <!-- critical CSS -->
