@@ -6,6 +6,7 @@ import {
   importProjectDragAndDropArea,
   importProjectInput,
 } from "./elements";
+import activeInfoPopUp from "./info-pop-up";
 
 let action;
 let dragOverTimeout;
@@ -22,25 +23,33 @@ closeImportProject.addEventListener("click", () => {
   importProjectContainer.classList.add("hidden");
 });
 
-importProjectDragAndDropArea.addEventListener("dragover", (e) => {
-  e.preventDefault();
+importProjectDragAndDropArea.addEventListener(
+  "dragover",
+  (e) => {
+    e.preventDefault();
 
-  importProjectDragAndDropArea.classList.add("drag-over");
+    importProjectDragAndDropArea.classList.add("drag-over");
 
-  clearTimeout(dragOverTimeout);
-  dragOverTimeout = setTimeout(() => {
-    importProjectDragAndDropArea.classList.remove("drag-over");
-  }, 300);
-}, false);
+    clearTimeout(dragOverTimeout);
+    dragOverTimeout = setTimeout(() => {
+      importProjectDragAndDropArea.classList.remove("drag-over");
+    }, 300);
+  },
+  false
+);
 
-importProjectDragAndDropArea.addEventListener("drop", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+importProjectDragAndDropArea.addEventListener(
+  "drop",
+  (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  e.dataTransfer.dropEffect = "copy";
+    e.dataTransfer.dropEffect = "copy";
 
-  handleFile(e.dataTransfer.files[0]);
-}, false);
+    handleFile(e.dataTransfer.files[0]);
+  },
+  false
+);
 
 importProjectInput.addEventListener("change", () => {
   handleFile(importProjectInput.files[0]);
@@ -52,7 +61,27 @@ export default function activeImportProject(cb) {
 }
 
 async function handleFile(file) {
-  const tasks = await parseFile(file);
+  if(!file) return;
+  let tasks;
+  
+  try {
+    tasks = await parseFile(file);
+  } catch (err) {
+    const { message } = err;
+    if (!message.includes("file type is not supported")) {
+      throw new Error(err);
+    }
+    activeInfoPopUp(
+      "Error",
+      message,
+      "Search file",
+      [message.replace("file type is not supported", "")],
+      () => {
+        importProjectInput.click();
+      }
+    );
+    return;
+  }
 
   action(tasks);
 
