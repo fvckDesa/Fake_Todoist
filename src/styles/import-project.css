@@ -73,6 +73,7 @@
   line-height: 28px;
   font-weight: 600;
   transition: background-color 0.3s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
 }
 
 .upload:hover {
@@ -81,7 +82,7 @@
 
 .info-text {
   margin-top: 16px;
-  color: rgba(0, 0, 0, 0.56);
+  color: var(--secondary-text);
 }
 
 .info-text > a {
@@ -91,4 +92,14 @@
 
 .info-text > a:hover {
   text-decoration: underline;
+}
+
+/* Themes */
+.dark .drag-and-drop-area{
+  border-color: hsla(0, 0%, 100%, 0.87);
+  background-color: #292929;
+}
+
+.dark .upload:hover {
+  background-color: #363636;
 }
