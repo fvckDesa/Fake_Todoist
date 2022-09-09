@@ -59,7 +59,7 @@ function formatValue(value) {
     .replace(/""/g, '"')
     .replace(/\\\\n/, "\n");
   formattedValue = formattedValue.slice(1, formattedValue.length - 1);
-  if (!isNaN(formattedValue)) {
+  if (parseFloat(formattedValue) === +formattedValue) {
     formattedValue = Number(formattedValue);
   } else if (formattedValue == "true" || formattedValue == "false") {
     formattedValue = formattedValue == "true";
