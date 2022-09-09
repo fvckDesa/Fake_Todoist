@@ -17,7 +17,8 @@ import {
   importProjectBtn,
   exportProjectBtn,
   dragOverScreen,
-  importProjectContainer
+  importProjectContainer,
+  dragOverFileInput
 } from "./elements.js";
 import Icons from "../assets/icons";
 import todoList from "../module/todo-list";
@@ -62,21 +63,18 @@ document.addEventListener("dragover", (e) => {
   }, 300);
 }, false);
 
-document.addEventListener("drop", async (e) => {
+document.addEventListener("drop", (e) => {
   e.preventDefault();
   e.stopPropagation();
 
   if(currentProject === todoList.today) return;
-
   e.dataTransfer.dropEffect = "copy";
-  for(const task of (await parseFile(e.dataTransfer.files[0]))) {
-    const newTask = todoList.addTask(currentProject, task);
-      setTask(newTask);
-  }
+  const file = e.dataTransfer.files[0];
 
-  dragOverScreen.classList.add("hidden");
-  importProjectContainer.classList.add("hidden");
+  importTasks(file);
 }, false);
+
+dragOverFileInput.addEventListener("change", () => importTasks(dragOverFileInput.files[0]), false);
 
 mainContent.addEventListener("scroll", () => {
   mainHeader.classList.toggle("scrolled", mainContent.scrollTop > 0);
@@ -137,12 +135,7 @@ exportProjectBtn.addEventListener("click", () => {
 });
 
 importProjectBtn.addEventListener("click", () => {
-  activeImportProject((tasks) => {
-    for(const task of tasks) {
-      const newTask = todoList.addTask(currentProject, task);
-      setTask(newTask);
-    }
-  });
+  activeImportProject(setImportedTasks);
 });
 
 function setProject(
@@ -298,6 +291,38 @@ function deleteProjectCb () {
   todoList.deleteProject(currentProject.id);
   deleteProject(currentProject.id);
   setHomeViewProject();
+}
+
+function setImportedTasks(tasks) {
+  for(const task of tasks) {
+    const newTask = todoList.addTask(currentProject, task);
+    setTask(newTask);
+  }
+}
+
+async function importTasks(file) {
+  if(!file) return;
+  
+  try {
+    setImportedTasks(await parseFile(file));
+  } catch (err) {
+    const { message } = err;
+    if (!message.includes("file type is not supported")) {
+      throw new Error(err);
+    }
+    activeInfoPopUp(
+      "Error",
+      message,
+      "Search file",
+      [message.replace("file type is not supported", "")],
+      () => {
+        dragOverFileInput.click();
+      }
+    );
+  }
+
+  dragOverScreen.classList.add("hidden");
+  importProjectContainer.classList.add("hidden");
 }
 
 export {

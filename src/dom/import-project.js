@@ -55,7 +55,7 @@ importProjectInput.addEventListener("change", () => {
   handleFile(importProjectInput.files[0]);
 });
 
-export default function activeImportProject(cb) {
+export default function activeImportProject(cb = () => {}) {
   importProjectContainer.classList.remove("hidden");
   action = cb;
 }

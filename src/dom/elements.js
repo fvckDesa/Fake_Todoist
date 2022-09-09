@@ -173,3 +173,4 @@ export const importProjectDragAndDropArea = document.querySelector(".drag-and-dr
 export const importProjectInput = document.querySelector("#import-input");
 //Drag over screen
 export const dragOverScreen = document.querySelector(".drag-over-screen");
+export const dragOverFileInput = document.querySelector(".drag-over-screen > input");
