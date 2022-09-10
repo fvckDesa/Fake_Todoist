@@ -77,7 +77,7 @@ document.addEventListener("drop", (e) => {
 dragOverFileInput.addEventListener("change", () => importTasks(dragOverFileInput.files[0]), false);
 
 mainContent.addEventListener("scroll", () => {
-  mainHeader.classList.toggle("scrolled", mainContent.scrollTop > 0);
+  mainHeader.classList.toggle("scrolled", parseInt(mainContent.scrollTop) > 0);
 });
 
 editProjectBtn.addEventListener("click", () => {
