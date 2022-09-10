@@ -35,6 +35,8 @@ import General from "./general.svg";
 import Export from "./export.svg";
 import Import from "./import.svg";
 import File from "./file.svg";
+import OutLineFlag from "./outline-flag.svg";
+import LinearFlag from "./linear-flag.svg";
 
 const Icons = {
     Inbox,
@@ -74,6 +76,8 @@ const Icons = {
     Export,
     Import,
     File,
+    OutLineFlag,
+    LinearFlag
 };
 
 export default Icons;

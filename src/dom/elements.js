@@ -38,6 +38,7 @@ export const infoPopUpInfoIcon = document.querySelector("#pop-up-info-icon");
 export const infoPopUpCloseIcon = document.querySelector("#pop-up-close-icon");
 //Quick Add icons
 export const quickAddDueDateIcon = document.querySelector(".quick-add .task-editor-btn-icon");
+export const quickAddPriorityIcon = document.querySelector(".quick-add #priority-icon");
 //Settings icons
 export const closeSettingsIcon = document.querySelector("#close-settings-icon");
 //Export project icons
@@ -46,6 +47,15 @@ export const csvIcon = document.querySelector("#csv-icon");
 export const jsonIcon = document.querySelector("#json-icon");
 //Import project icons
 export const closeImportModal = document.querySelector("#close-import-modal-icon");
+//Priority selector icons
+export const prioritySelector1Flag = document.querySelector("[data-priority=\"1\"] .flag");
+export const prioritySelector2Flag = document.querySelector("[data-priority=\"2\"] .flag");
+export const prioritySelector3Flag = document.querySelector("[data-priority=\"3\"] .flag");
+export const prioritySelector4Flag = document.querySelector("[data-priority=\"4\"] .flag");
+export const prioritySelector1Tic = document.querySelector("[data-priority=\"1\"] .tic");
+export const prioritySelector2Tic = document.querySelector("[data-priority=\"2\"] .tic");
+export const prioritySelector3Tic = document.querySelector("[data-priority=\"3\"] .tic");
+export const prioritySelector4Tic = document.querySelector("[data-priority=\"4\"] .tic");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');
@@ -85,8 +95,12 @@ export const taskNameInput = taskEditor.querySelector('#task-editor .task-name-i
 export const taskDescriptionInput = taskEditor.querySelector('#task-editor .task-description-input');
 export const taskDueDate = taskEditor.querySelector('#task-editor #task-due-date');
 export const taskProject = taskEditor.querySelector('#task-editor #project-btn');
+export const taskPriority = taskEditor.querySelector('#task-editor .priority-btn');
 export const taskEditorCancel = taskEditor.querySelector('#task-editor .cancel-btn');
 export const taskEditorSubmit = taskEditor.querySelector('#task-editor .submit-btn');
+//Task Editor icons
+export const taskDueDateIcon = taskDueDate.querySelector(".task-editor-btn-icon");
+export const taskPriorityIcon = taskPriority.querySelector("#priority-icon");
 //Project Picker elements
 export const projectPickerContainer = document.querySelector(".project-picker-container");
 export const projectPicker = document.querySelector(".project-picker");
@@ -149,6 +163,7 @@ export const quickAddNameInput = document.querySelector(".quick-add .task-name-i
 export const quickAddDescriptionInput = document.querySelector(".quick-add .task-description-input");
 export const quickAddDueDate = document.querySelector(".quick-add #task-due-date");
 export const quickAddProject = document.querySelector(".quick-add #task-project");
+export const quickAddPriority = document.querySelector(".quick-add .priority-btn");
 export const quickAddSubmitBtn = document.querySelector(".quick-add .submit-btn");
 //Settings
 export const settingsContainer = document.querySelector(".settings-container");
@@ -174,3 +189,7 @@ export const importProjectInput = document.querySelector("#import-input");
 //Drag over screen
 export const dragOverScreen = document.querySelector(".drag-over-screen");
 export const dragOverFileInput = document.querySelector(".drag-over-screen > input");
+//Priority selector
+export const prioritySelectorContainer = document.querySelector(".priority-selector-container");
+export const prioritySelector = document.querySelector(".priority-selector");
+export const priorityItems = [...document.querySelectorAll(".priority-item")];

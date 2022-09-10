@@ -75,6 +75,15 @@
   gap: 8px;
 }
 
+.priority-btn {
+  color: grey;
+}
+
+.priority-btn.active,
+.priority-btn:hover {
+  background-color: #eee;
+}
+
 .task-editor-btn {
   align-items: center;
   gap: 4px;

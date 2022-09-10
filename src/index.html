@@ -553,7 +553,11 @@
               id="task-project"
             ></button>
           </div>
-          <div class="item-action-container"></div>
+          <div class="item-action-container">
+            <button type="button" class="third-btn priority-btn">
+              <svg-loader class="flag" id="priority-icon"></svg-loader>
+            </button>
+          </div>
         </div>
         <div class="task-editor-footer">
           <button type="reset" class="secondary-btn cancel-btn">Cancel</button>
@@ -657,6 +661,31 @@
       <input type="file" accept=".csv, .json" />
     </div>
 
+    <div class="priority-selector-container hidden">
+      <ul class="priority-selector">
+        <li class="priority-item" data-priority="1">
+          <svg-loader class="flag"></svg-loader>
+          <h3>Priority 1</h3>
+          <svg-loader class="tic"></svg-loader>
+        </li>
+        <li class="priority-item" data-priority="2">
+          <svg-loader class="flag"></svg-loader>
+          <h3>Priority 2</h3>
+          <svg-loader class="tic"></svg-loader>
+        </li>
+        <li class="priority-item" data-priority="3">
+          <svg-loader class="flag"></svg-loader>
+          <h3>Priority 3</h3>
+          <svg-loader class="tic"></svg-loader>
+        </li>
+        <li class="priority-item" data-priority="4">
+          <svg-loader class="flag"></svg-loader>
+          <h3>Priority 4</h3>
+          <svg-loader class="tic"></svg-loader>
+        </li>
+      </ul>
+    </div>
+
     <template id="task-editor-template">
       <form class="task-editor" id="task-editor">
         <div class="task-editor-container">
@@ -679,7 +708,7 @@
                 id="task-due-date"
                 dueDate
               >
-                <svg-loader class="task-editor-btn-icon" src=""></svg-loader>
+                <svg-loader class="task-editor-btn-icon"></svg-loader>
                 <h4 class="task-editor-btn-text" dueDate-text>Due Date</h4>
               </button>
               <button
@@ -688,7 +717,11 @@
                 id="project-btn"
               ></button>
             </div>
-            <div class="item-action-container"></div>
+            <div class="item-action-container">
+              <button type="button" class="third-btn priority-btn">
+                <svg-loader class="flag" id="priority-icon"></svg-loader>
+              </button>
+            </div>
           </div>
         </div>
         <div class="task-editor-footer">

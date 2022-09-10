@@ -53,7 +53,17 @@
 
 .task-list.completed .task-checkbox {
   background-color: gray;
-  color: var(--white-text);
+  color: #fff;
+}
+
+.task-list.completed .task-checkbox.priority-1 {
+  background-color: var(--priority-1);
+}
+.task-list.completed .task-checkbox.priority-2 {
+  background-color: var(--priority-2);
+}
+.task-list.completed .task-checkbox.priority-3 {
+  background-color: var(--priority-3);
 }
 
 .task-list.completed #tic-icon {

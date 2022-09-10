@@ -32,6 +32,10 @@
   --topbar-height: 44px;
   --sidebar-width: 285px;
   --project-form-header-height: 55px;
+  /* priority color */
+  --priority-1: #d1453b;
+  --priority-2: #eb8909;
+  --priority-3: #246fe0;
 }
 
 *,

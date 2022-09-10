@@ -5,16 +5,23 @@ import {
   quickAddDescriptionInput,
   quickAddDueDate,
   quickAddProject,
-  quickAddSubmitBtn
+  quickAddSubmitBtn,
+  quickAddPriority,
+  quickAddPriorityIcon,
 } from "./elements";
 import { getDueDateInfo } from "../utils/due-date";
 import { createTaskProject } from "../utils/dom";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
 import { getProjectOptions } from "./main-content";
+import activePrioritySelector from "./priority-selector";
+import Icons from "../assets/icons";
+
+const DEFAULT_PRIORITY = 4;
 
 let project;
 let dueDate;
+let priority;
 let submitCb;
 
 quickAddContainer.addEventListener("animationend", (e) => {
@@ -32,6 +39,7 @@ quickAdd.addEventListener("submit", (e) => {
     name: quickAddNameInput.value,
     description: quickAddDescriptionInput.value,
     dueDate,
+    priority
   });
 
   quickAddContainer.classList.add("disappear");
@@ -56,6 +64,13 @@ quickAddProject.addEventListener("click", () =>
   activeProjectPicker(quickAddProject, project, setTaskProject)
 );
 
+quickAddPriority.addEventListener("click", () => {
+  quickAddPriority.classList.add("active");
+  activePrioritySelector(quickAddPriority, priority, setPriority, () => {
+    quickAddPriority.classList.remove("active");
+  });
+});
+
 function activeQuickAdd(next = () => {}) {
   quickAddContainer.classList.remove("hidden", "disappear");
 
@@ -65,6 +80,7 @@ function activeQuickAdd(next = () => {}) {
 
   setTaskProject(project);
   setTaskDueDate(dueDate);
+  setPriority(DEFAULT_PRIORITY);
 }
 
 function closeQuickAdd() {
@@ -88,6 +104,13 @@ function setTaskDueDate(date) {
 
   quickAddDueDate.style.color = color ? `var(${color})` : "";
   quickAddDueDate.lastElementChild.innerText = text;
+}
+
+function setPriority(priorityPar) {
+  priority = priorityPar;
+
+  quickAddPriority.dataset.priority = priorityPar;
+  quickAddPriorityIcon.src = priorityPar === DEFAULT_PRIORITY ? Icons.OutLineFlag : Icons.LinearFlag;
 }
 
 export default activeQuickAdd;

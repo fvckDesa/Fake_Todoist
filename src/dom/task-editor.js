@@ -5,7 +5,9 @@ import {
   taskEditorSubmit,
   taskProject,
   taskDueDate,
-  mainContent
+  mainContent,
+  taskPriority,
+  taskPriorityIcon
 } from "./elements";
 import activeProjectPicker from "./project-picker";
 import activeDueDatePicker from "./due-date-picker";
@@ -13,10 +15,13 @@ import { getDueDateInfo } from "../utils/due-date";
 import { createTaskProject } from "../utils/dom";
 import todoList from "../module/todo-list";
 import { getProjectOptions } from "./main-content";
+import Icons from "../assets/icons";
+import activePrioritySelector from "./priority-selector";
 
 let lastElement;
 let project;
 let dueDate = null;
+let priority;
 let submitCb;
 
 const resizeObserver = new ResizeObserver(formatTaskDescription);
@@ -32,6 +37,10 @@ taskProject.addEventListener("click", () => activeProjectPicker(taskProject, pro
 
 taskDueDate.addEventListener("click", () => activeDueDatePicker(taskDueDate, dueDate, setTaskDueDate));
 
+taskPriority.addEventListener("click", () => activePrioritySelector(taskPriority, priority, setTaskPriority, () => {
+  taskPriority.classList.remove("active");
+}));
+
 taskEditor.addEventListener("submit", (e) => {
   e.preventDefault();
   
@@ -39,6 +48,7 @@ taskEditor.addEventListener("submit", (e) => {
     name: taskNameInput.value,
     description: taskDescriptionInput.value,
     dueDate,
+    priority
   });
 
   resetTaskEditor();
@@ -47,6 +57,10 @@ taskEditor.addEventListener("submit", (e) => {
 taskEditor.addEventListener("reset", () => {
   resetTaskEditor();
   removeTaskEditor();
+});
+
+taskPriority.addEventListener("click", () => {
+  taskPriority.classList.add("active");
 });
 
 function activeTaskEditor(el, taskPar, next = () => {}) {
@@ -68,6 +82,7 @@ function resetTaskEditor() {
   // reset buttons
   setTaskProject(getProjectOptions().project);
   setTaskDueDate(getProjectOptions().dueDate);
+  setTaskPriority(4);
   
   taskEditorSubmit.disabled = true;
 }
@@ -76,7 +91,7 @@ function removeTaskEditor() {
   taskEditor.replaceWith(lastElement);
 }
 
-function setTaskEditor({ name = "", description = "", dueDate = getProjectOptions().dueDate }) {
+function setTaskEditor({ name = "", description = "", dueDate = getProjectOptions().dueDate, priority = 4 }) {
   // set input values
   taskNameInput.value = name;
   taskDescriptionInput.value = description;
@@ -84,6 +99,8 @@ function setTaskEditor({ name = "", description = "", dueDate = getProjectOption
   setTaskProject(project);
   // set due date
   setTaskDueDate(dueDate);
+  // set priority
+  setTaskPriority(priority);
   // disable submit button
   taskEditorSubmit.disabled = !taskNameInput.value;
   // change submit button text
@@ -102,6 +119,13 @@ function setTaskDueDate(date) {
 
   taskDueDate.style.color = color ? `var(${color})` : "";
   taskDueDate.lastElementChild.innerText = text;
+}
+
+function setTaskPriority(priorityPar) {
+  priority = priorityPar;
+
+  taskPriority.dataset.priority = priorityPar;
+  taskPriorityIcon.src = priorityPar === 4 ? Icons.OutLineFlag : Icons.LinearFlag;
 }
 
 function formatTaskDescription() {
