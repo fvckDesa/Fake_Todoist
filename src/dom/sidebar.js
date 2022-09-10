@@ -33,6 +33,7 @@ openProjectForm.addEventListener("click", (e) => {
   activeProjectForm(null, (name, color) => {
     const newProject = todoList.addProject(name, color);
     renderProjects(createProjectElement(newProject));
+    document.querySelector(`[data-id="${newProject.id}"]`).click();
   });
 });
 
