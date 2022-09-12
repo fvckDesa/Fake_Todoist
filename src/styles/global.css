@@ -103,6 +103,11 @@ ul {
   list-style: none;
 }
 
+/* Not available functions */
+.not-available {
+  cursor: not-allowed !important;
+}
+
 /* Buttons */
 button {
   color: var(--text);

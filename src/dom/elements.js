@@ -193,3 +193,5 @@ export const dragOverFileInput = document.querySelector(".drag-over-screen > inp
 export const prioritySelectorContainer = document.querySelector(".priority-selector-container");
 export const prioritySelector = document.querySelector(".priority-selector");
 export const priorityItems = [...document.querySelectorAll(".priority-item")];
+//Custom title
+export const customTitle = document.querySelector(".custom-title");

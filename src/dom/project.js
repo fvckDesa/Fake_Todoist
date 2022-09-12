@@ -9,6 +9,7 @@ function createProjectElement(project) {
     // copy element
     const projectEl = projectTemplate.cloneNode(true).firstElementChild;
     projectEl.setAttribute("data-id", id);
+    projectEl.setAttribute("data-title", name);
     const [projectIcon, projectName, projectNum] = projectEl.children;
     // set parameters
     projectName.textContent = name;

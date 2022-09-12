@@ -8,6 +8,7 @@ import "./dom/sidebar";
 import "./dom/topbar";
 import "./dom/main-content";
 import "./dom/project-form";
+import "./dom/custom-title";
 // start app
 import setIcons from "./dom/set-icon";
 import { renderProjects, createProjectElement } from "./dom/project";

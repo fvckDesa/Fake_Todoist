@@ -9,7 +9,8 @@
       const defaultThemeSettings = { theme: "todoist", autoDarkMode: true };
       // set theme
       const { theme, autoDarkMode } = JSON.parse(localStorage.getItem("settings") + "") || defaultThemeSettings;
-      document.documentElement.classList.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : theme);
+      const setDarkMode = autoDarkMode && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.classList.add(setDarkMode ? "dark" : theme);
     </script>
     <!-- critical CSS -->
     <style>
@@ -25,7 +26,7 @@
         width: 100%;
         height: 100%;
         background-color: var(--bg);
-        z-index: 30;
+        z-index: 100;
         opacity: 1;
         transition: opacity;
       }
@@ -199,9 +200,9 @@
     <header class="top-bar">
       <div class="left-side">
         <button class="sidebar-btn third-btn">
-          <svg-loader id="sidebar-icon" src=""></svg-loader>
+          <svg-loader id="sidebar-icon" src="" data-title="Open/Close menu"></svg-loader>
         </button>
-        <button class="home-btn third-btn">
+        <button class="home-btn third-btn" data-title="Home">
           <svg-loader id="home-icon" src=""></svg-loader>
         </button>
         <div class="search-bar">
@@ -215,30 +216,30 @@
         </div>
       </div>
       <div class="right-side">
-        <button class="quick-add-btn third-btn">
+        <button class="quick-add-btn third-btn" data-title="Add task">
           <svg-loader id="top-bar-add-icon" src=""></svg-loader>
         </button>
-        <button class="theme-btn third-btn">
+        <button class="theme-btn third-btn" data-title="Theme">
           <svg-loader id="top-bar-theme-icon" src=""></svg-loader>
         </button>
-        <button class="general-btn third-btn">
+        <button class="general-btn third-btn" data-title="General">
           <svg-loader id="top-bar-general-icon" src=""></svg-loader>
         </button>
       </div>
     </header>
     <div class="side-bar open">
       <ul class="project-container" id="default-projects">
-        <li class="project current" id="inbox-project">
+        <li class="project current" id="inbox-project" data-title="Inbox">
           <svg-loader id="inbox-icon" class="project-icon" src=""></svg-loader>
           <h3 class="project-name">Inbox</h3>
           <h4 class="project-num" data-num="0"></h4>
         </li>
-        <li class="project" id="today-project">
+        <li class="project" id="today-project" data-title="Today">
           <svg-loader id="today-icon" class="project-icon" src=""></svg-loader>
           <h3 class="project-name">Today</h3>
           <h4 class="project-num" data-num="0"></h4>
         </li>
-        <li class="project">
+        <li class="project not-available" data-title="Upcoming (Not available)">
           <svg-loader
             id="upcoming-icon"
             class="project-icon"
@@ -246,7 +247,7 @@
           ></svg-loader>
           <h3 class="project-name">Upcoming</h3>
         </li>
-        <li class="project">
+        <li class="project not-available" data-title="Filters & Labels (Not available)">
           <svg-loader
             id="filters-labels-icon"
             class="project-icon"
@@ -259,7 +260,7 @@
         <header class="project-header">
           <svg-loader id="arrow-icon" src=""></svg-loader>
           <h3>Projects</h3>
-          <button class="third-btn" id="open-project-form">
+          <button class="third-btn" id="open-project-form" data-title="Add project">
             <svg-loader id="open-project-icon" src=""></svg-loader>
           </button>
         </header>
@@ -270,19 +271,19 @@
       <header class="main-header">
         <div class="main-header-content">
           <h1 class="title">Inbox</h1>
-          <button class="third-btn project-action" id="edit-project">
+          <button class="third-btn project-action" id="edit-project" data-title="Edit project">
             <svg-loader id="edit-project-icon"></svg-loader>
           </button>
-          <button class="third-btn project-action" id="import-project">
+          <button class="third-btn project-action" id="import-project" data-title="Import from template">
             <svg-loader id="import-project-icon"></svg-loader>
           </button>
-          <button class="third-btn project-action" id="export-project">
+          <button class="third-btn project-action" id="export-project" data-title="Export as a template">
             <svg-loader id="export-project-icon"></svg-loader>
           </button>
-          <button class="third-btn project-action" id="show-completed-tasks">
+          <button class="third-btn project-action" id="show-completed-tasks" data-title="Show completed tasks">
             <svg-loader id="show-completed-tasks-icon"></svg-loader>
           </button>
-          <button class="third-btn project-action" id="delete-project">
+          <button class="third-btn project-action" id="delete-project" data-title="Delete project">
             <svg-loader id="delete-project-icon"></svg-loader>
           </button>
         </div>
@@ -686,6 +687,8 @@
       </ul>
     </div>
 
+    <div class="custom-title">test</div>
+
     <template id="task-editor-template">
       <form class="task-editor" id="task-editor">
         <div class="task-editor-container">
@@ -760,16 +763,16 @@
           </div>
         </div>
         <div class="task-action-container">
-          <button class="task-action third-btn">
+          <button class="task-action third-btn" data-title="Edit task">
             <svg-loader src=""></svg-loader>
           </button>
-          <button class="task-action third-btn">
+          <button class="task-action third-btn" data-title="Set due date">
             <svg-loader src=""></svg-loader>
           </button>
-          <button class="task-action third-btn">
+          <button class="task-action third-btn not-available" data-title="Comment (Not available)">
             <svg-loader src=""></svg-loader>
           </button>
-          <button class="task-action third-btn">
+          <button class="task-action third-btn" data-title="Delete task">
             <svg-loader src=""></svg-loader>
           </button>
         </div>
