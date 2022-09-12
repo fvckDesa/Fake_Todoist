@@ -597,3 +597,23 @@
 .dark .date-actions-time-remove {
   color: hsla(0, 0%, 100%, 0.56);
 }
+
+.dark #date-suggestions-icon-today {
+  color: #25b84c;
+}
+
+.dark #date-suggestions-icon-tomorrow {
+  color: #ff9a14;
+}
+
+.dark #date-suggestions-icon-weekend {
+  color: #5297ff;
+}
+
+.dark #date-suggestions-icon-next-week {
+  color: #a970ff;
+}
+
+.dark #date-suggestions-icon-no-date {
+  color: var(--grey);
+}
