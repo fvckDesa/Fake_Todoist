@@ -47,6 +47,19 @@ import {
   prioritySelector3Tic,
   prioritySelector4Tic,
   quickAddPriorityIcon,
+  taskPagePrevIcon,
+  taskPageNextIcon,
+  taskPageDeleteIcon,
+  taskPageCloseIcon,
+  taskDetailProjectIcon,
+  taskDetailProjectArrow,
+  taskDetailDueDateIcon,
+  taskDetailDueDateRemove,
+  taskDetailDueDateUnsetAdd,
+  taskDetailPriorityIcon,
+  taskDetailPriorityArrow,
+  taskPageTicIcon,
+  taskDefaultDescriptionIcon
 } from "./elements";
 
 import NotFound from "../assets/illustrations/not-found.svg";
@@ -99,6 +112,19 @@ function setIcons() {
   prioritySelector3Tic.src = Icons.ColorTic;
   prioritySelector4Tic.src = Icons.ColorTic;
   quickAddPriorityIcon.src = Icons.OutLineFlag;
+  taskPagePrevIcon.src = Icons.ArrowXl;
+  taskPageNextIcon.src = Icons.ArrowXl;
+  taskPageDeleteIcon.src = Icons.GarbageContainer;
+  taskPageCloseIcon.src = Icons.Close;
+  taskDetailProjectIcon.src = Icons.Inbox;
+  taskDetailProjectArrow.src = Icons.Arrow;
+  taskDetailDueDateIcon.src = Icons.DueDate;
+  taskDetailDueDateRemove.src = Icons.CloseXs;
+  taskDetailDueDateUnsetAdd.src = Icons.PlusBold;
+  taskDetailPriorityIcon.src = Icons.OutLineFlag;
+  taskDetailPriorityArrow.src = Icons.Arrow;
+  taskPageTicIcon.src = Icons.TaskTic;
+  taskDefaultDescriptionIcon.src = Icons.Text;
 }
 
 export default setIcons;

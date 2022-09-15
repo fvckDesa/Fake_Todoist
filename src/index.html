@@ -689,6 +689,75 @@
 
     <div class="custom-title">test</div>
 
+    <div class="task-page-container hidden">
+      <div class="task-page">
+        <header>
+          <div class="task-page-project"></div>
+          <div class="task-page-action-container">
+            <button class="third-btn task-page-action" id="prev-task">
+              <svg-loader id="prev-task-icon"></svg-loader>
+            </button>
+            <button class="third-btn task-page-action" id="next-task">
+              <svg-loader id="next-task-icon"></svg-loader>
+            </button>
+            <button class="third-btn task-page-action" id="delete-task">
+              <svg-loader id="delete-task-icon"></svg-loader>
+            </button>
+            <button class="third-btn task-page-action" id="close-task-page">
+              <svg-loader id="close-task-page-icon"></svg-loader>
+            </button>
+          </div>
+        </header>
+        <main>
+          <div class="task">
+            <button class="task-checkbox-btn">
+              <div class="task-checkbox">
+                <svg-loader id="tic-icon"></svg-loader>
+              </div>
+            </button>
+            <div class="task-content">
+              <h1 class="task-name">task name</h1>
+              <h3 class="task-description">task description</h3>
+              <h3 class="task-default-description">
+                <svg-loader id="default-description-icon"></svg-loader>
+                Description
+              </h3>
+            </div>
+          </div>
+          <div class="task-details-sidebar">
+            <div class="task-detail">
+              <h4>Project</h4>
+              <button class="task-detail-btn" id="task-detail-project">
+                <svg-loader id="task-detail-project-icon"></svg-loader>
+                <h4>Inbox</h4>
+                <svg-loader id="task-detail-project-arrow"></svg-loader>
+              </button>
+            </div>
+            <div class="task-detail unset" id="due-date">
+              <h4>Due date</h4>
+              <button class="task-detail-btn" id="task-detail-due-date">
+                <svg-loader id="task-detail-due-date-icon"></svg-loader>
+                <h4>Today</h4>
+                <svg-loader id="task-detail-due-date-remove"></svg-loader>
+              </button>
+              <button class="task-detail-btn unset-btn">
+                <h4>Due date</h4>
+                <svg-loader id="unset-btn-add-icon"></svg-loader>
+              </button>
+            </div>
+            <div class="task-detail">
+              <h4>Priority</h4>
+              <button class="task-detail-btn" id="task-detail-priority">
+                <svg-loader class="flag" id="task-detail-priority-icon"></svg-loader>
+                <h4>P1</h4>
+                <svg-loader id="task-detail-priority-arrow"></svg-loader>
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
     <template id="task-editor-template">
       <form class="task-editor" id="task-editor">
         <div class="task-editor-container">

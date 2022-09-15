@@ -18,7 +18,8 @@ import {
   exportProjectBtn,
   dragOverScreen,
   importProjectContainer,
-  dragOverFileInput
+  dragOverFileInput,
+  taskPageContainer
 } from "./elements.js";
 import Icons from "../assets/icons";
 import todoList from "../module/todo-list";
@@ -252,6 +253,7 @@ function toggleTask(taskEl, { complete, id }) {
 }
 
 function deleteTask(taskEl, project) {
+  taskPageContainer.classList.add("hidden");
   taskEl.remove();
   changeNumTask(project);
 

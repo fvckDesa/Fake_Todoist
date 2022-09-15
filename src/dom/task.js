@@ -8,6 +8,7 @@ import { deleteTask, setProject, setUpdatedTask } from "./main-content";
 import activeInfoPopUp from "./info-pop-up";
 import { getCurrentProject, setTask, toggleTask } from "./main-content.js";
 import { createTaskProject } from "../utils/dom";
+import activeTaskPage from "./task-page";
 
 function createTaskElement(task) {
   let { name, id, dueDate, complete } = task;
@@ -43,7 +44,51 @@ function createTaskElement(task) {
     setUpdatedTask(task, taskEl, project);
   };
 
-  checkboxBtn.addEventListener("click", () => {
+  taskEl.addEventListener("click", () => activeTaskPage(project, task, {
+    project: (newProject) => {
+      todoList.updateTask(
+        id,
+        task,
+        newProject === project ? null : newProject
+      );
+      setUpdatedTask(task, taskEl, project);
+    },
+    prevTask: !taskEl?.previousSibling?.classList.contains("task") ? null : () => {
+      taskEl.previousSibling.click();
+    },
+    nextTask: !taskEl?.nextSibling?.classList.contains("task") ? null : () => {
+      taskEl.nextSibling.click();
+    },
+    deleteTask: () => {
+      activeInfoPopUp(
+        "Delete task?",
+        `Are you sure you want to delete ${name}?`,
+        "Delete",
+        [name],
+        () => {
+          todoList.deleteTask(id);
+          deleteTask(taskEl, project);
+        }
+      );
+    },
+    dueDate: changeDueDateEvent,
+    priority: (priority) => {
+      todoList.updateTask(id, { ...task, priority });
+      setTaskProps(task);
+    },
+    complete: () => {
+      complete = !complete;
+      todoList.updateTask(id, { complete });
+      toggleTask(taskEl, task);
+    },
+    taskContent: (name, description) => {
+      todoList.updateTask(id, { ...task, name, description });
+      setTaskProps(task);
+    }
+  }));
+
+  checkboxBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
     checkboxBtn.classList.add("checked");
     setTimeout(() => {
       complete = !complete;
@@ -53,16 +98,21 @@ function createTaskElement(task) {
     }, 210);
   });
 
-  taskDueDate.addEventListener("click", () => {
+  taskDueDate.addEventListener("click", (e) => {
+    e.stopPropagation();
     activeDueDatePicker(taskDueDate, dueDate, (date) => {
       if (complete) return;
       changeDueDateEvent(date);
     });
   });
 
-  taskProject.addEventListener("click", () => setProject(project));
+  taskProject.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setProject(project)
+  });
   // task actions
-  editTask.addEventListener("click", () => {
+  editTask.addEventListener("click", (e) => {
+    e.stopPropagation();
     activeTaskEditor(taskEl, task, (newProject, taskProps) => {
       setTaskProps(taskProps);
       todoList.updateTask(
@@ -76,7 +126,8 @@ function createTaskElement(task) {
     });
   });
 
-  changeDueDate.addEventListener("click", () => {
+  changeDueDate.addEventListener("click", (e) => {
+    e.stopPropagation();
     changeDueDate.classList.add("active");
 
     activeDueDatePicker(
@@ -90,7 +141,8 @@ function createTaskElement(task) {
     );
   });
 
-  deleteTaskBtn.addEventListener("click", () => {
+  deleteTaskBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
     activeInfoPopUp(
       "Delete task?",
       `Are you sure you want to delete ${name}?`,

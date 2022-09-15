@@ -56,6 +56,20 @@ export const prioritySelector1Tic = document.querySelector("[data-priority=\"1\"
 export const prioritySelector2Tic = document.querySelector("[data-priority=\"2\"] .tic");
 export const prioritySelector3Tic = document.querySelector("[data-priority=\"3\"] .tic");
 export const prioritySelector4Tic = document.querySelector("[data-priority=\"4\"] .tic");
+//Task page icons
+export const taskPagePrevIcon = document.querySelector("#prev-task-icon");
+export const taskPageNextIcon = document.querySelector("#next-task-icon");
+export const taskPageDeleteIcon = document.querySelector("#delete-task-icon");
+export const taskPageCloseIcon = document.querySelector("#close-task-page-icon");
+export const taskPageTicIcon = document.querySelector("#tic-icon");
+export const taskDetailProjectIcon = document.querySelector("#task-detail-project-icon");
+export const taskDetailProjectArrow = document.querySelector("#task-detail-project-arrow");
+export const taskDetailDueDateIcon = document.querySelector("#task-detail-due-date-icon");
+export const taskDetailDueDateUnsetAdd = document.querySelector("#unset-btn-add-icon");
+export const taskDetailDueDateRemove = document.querySelector("#task-detail-due-date-remove");
+export const taskDetailPriorityIcon = document.querySelector("#task-detail-priority-icon");
+export const taskDetailPriorityArrow = document.querySelector("#task-detail-priority-arrow");
+export const taskDefaultDescriptionIcon = document.querySelector("#default-description-icon");
 //Top Bar elements
 export const topbar = document.querySelector('.top-bar');
 export const sidebarBtn = document.querySelector('.sidebar-btn');
@@ -195,3 +209,23 @@ export const prioritySelector = document.querySelector(".priority-selector");
 export const priorityItems = [...document.querySelectorAll(".priority-item")];
 //Custom title
 export const customTitle = document.querySelector(".custom-title");
+//Task page
+export const taskPageContainer = document.querySelector(".task-page-container");
+export const taskPage = document.querySelector(".task-page");
+export const taskPageHeaderProject = document.querySelector(".task-page-project");
+export const taskPagePrevTask = document.querySelector("#prev-task");
+export const taskPageNextTask = document.querySelector("#next-task");
+export const taskPageDeleteTask = document.querySelector("#delete-task");
+export const taskPageClose = document.querySelector("#close-task-page");
+export const taskPageCheckbox = document.querySelector(".task-page .task-checkbox-btn");
+export const taskPageName = document.querySelector(".task-page .task-name");
+export const taskPageDescription = document.querySelector(".task-page .task-description");
+export const taskDetailProject = document.querySelector("#task-detail-project");
+export const taskDetailDueDateContainer = document.querySelector(".task-detail#due-date");
+export const taskDetailDueDate = document.querySelector("#task-detail-due-date");
+export const taskDetailDueDateUnset = document.querySelector(".task-detail-btn.unset-btn");
+export const taskDetailPriority = document.querySelector("#task-detail-priority");
+export const taskPageContent = document.querySelector(".task-page .task-content");
+export const taskPageContentName = document.querySelector(".task-page .task-name");
+export const taskPageContentDescription = document.querySelector(".task-page .task-description");
+export const taskDefaultDescription = document.querySelector(".task-default-description");
