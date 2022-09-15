@@ -1,6 +1,6 @@
 # Fake Todoist
 
-A Copy of Todoist in vanilla js (only front-end)
+A Copy of Todoist in vanilla js (app work only front-end)
 
 ## Install and run
 ```bash
