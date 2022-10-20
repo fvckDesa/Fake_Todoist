@@ -1,26 +1,28 @@
 {
-  "name": "todolist",
+  "name": "fake-todoist",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "gh-deploy": "pnpm build && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fvckDesa/ToDoList.git"
+    "url": "git+https://github.com/fvckDesa/Fake_Todoist.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fvckDesa/ToDoList/issues"
+    "url": "https://github.com/fvckDesa/Fake_Todoist/issues"
   },
-  "homepage": "https://github.com/fvckDesa/ToDoList#readme",
+  "homepage": "https://github.com/fvckDesa/Fake_Todoist#readme",
   "devDependencies": {
     "css-loader": "^6.6.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.5.3",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
